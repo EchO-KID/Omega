@@ -219,8 +219,13 @@ public: virtual void set##funName(varType var)   \
 #define CC_SAFE_RETAIN(p)           do { if(p) { (p)->retain(); } } while(0)
 #define CC_BREAK_IF(cond)           if(cond) break
 
-#define __CCLOGWITHFUNCTION(s, ...) \
-    log("%s : %s",__FUNCTION__, StringUtils::format(s, ##__VA_ARGS__).c_str())
+#define __CCLOGWITHFUNCTION(s, ...) do \
+{ \
+		char szBuf[1024 * 4]; \
+		sprintf(szBuf, "%s", s, ##__VA_ARGS__); \
+		log("%s : %s", __FUNCTION__, szBuf);   \
+} while (0)
+
 
 /// @name Cocos2d debug
 /// @{

@@ -41,9 +41,9 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
 #include "platform/CCGL.h"
+#include "../external/cppformat/format.h"
 
 
-#include "deprecated/CCString.h"
 
 //According to some tests GL_TRIANGLE_STRIP is slower, MUCH slower. Probably I'm doing something very wrong
 
@@ -230,7 +230,7 @@ void TextureAtlas::listenRendererRecreated(EventCustom* event)
 
 std::string TextureAtlas::getDescription() const
 {
-    return StringUtils::format("<TextureAtlas | totalQuads = %d>", static_cast<int>(_totalQuads));
+    return fmt::sprintf("<TextureAtlas | totalQuads = %d>", static_cast<int>(_totalQuads));
 }
 
 

@@ -40,9 +40,9 @@ THE SOFTWARE.
 #include "base/CCEventListenerKeyboard.h"
 #include "base/CCEventAcceleration.h"
 #include "base/CCEventListenerAcceleration.h"
+#include "../external/cppformat/format.h"
 
 
-#include "deprecated/CCString.h"
 
 NS_CC_BEGIN
 
@@ -417,7 +417,7 @@ void Layer::onTouchesCancelled(const std::vector<Touch*>& touches, Event *event)
 
 std::string Layer::getDescription() const
 {
-    return StringUtils::format("<Layer | Tag = %d>", _tag);
+    return fmt::sprintf("<Layer | Tag = %d>", _tag);
 }
 
 __LayerRGBA::__LayerRGBA()
@@ -609,7 +609,7 @@ void LayerColor::onDraw(const Mat4& transform, uint32_t flags)
 
 std::string LayerColor::getDescription() const
 {
-    return StringUtils::format("<LayerColor | Tag = %d>", _tag);
+    return fmt::sprintf("<LayerColor | Tag = %d>", _tag);
 }
 
 //
@@ -816,7 +816,7 @@ void LayerGradient::setCompressedInterpolation(bool compress)
 
 std::string LayerGradient::getDescription() const
 {
-    return StringUtils::format("<LayerGradient | Tag = %d>", _tag);
+    return fmt::sprintf("<LayerGradient | Tag = %d>", _tag);
 }
 
 /// MultiplexLayer
@@ -978,7 +978,7 @@ void LayerMultiplex::switchToAndReleaseMe(int n)
 
 std::string LayerMultiplex::getDescription() const
 {
-    return StringUtils::format("<LayerMultiplex | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
+    return fmt::sprintf("<LayerMultiplex | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
 }
 
 NS_CC_END

@@ -45,8 +45,7 @@ THE SOFTWARE.
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCMaterial.h"
 #include "math/TransformUtils.h"
-#include "deprecated/CCString.h"
-
+#include "../external/cppformat/format.h"
 
 #if CC_NODE_RENDER_SUBPIXEL
 #define RENDER_IN_SUBPIXEL
@@ -224,7 +223,7 @@ void Node::cleanup()
 
 std::string Node::getDescription() const
 {
-    return StringUtils::format("<Node | Tag = %d", _tag);
+    return fmt::sprintf("<Node | Tag = %d", _tag);
 }
 
 // MARK: getters / setters

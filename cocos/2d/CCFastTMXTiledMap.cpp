@@ -26,7 +26,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCFastTMXTiledMap.h"
 #include "2d/CCFastTMXLayer.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 namespace experimental {
@@ -251,7 +251,7 @@ Value TMXTiledMap::getPropertiesForGID(int GID) const
 
 std::string TMXTiledMap::getDescription() const
 {
-    return StringUtils::format("<FastTMXTiledMap | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
+    return fmt::sprintf("<FastTMXTiledMap | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
 }
 
 } //end of namespace experimental

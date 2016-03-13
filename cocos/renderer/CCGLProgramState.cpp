@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "2d/CCCamera.h"
-#include "deprecated/CCString.h"
+
 
 NS_CC_BEGIN
 

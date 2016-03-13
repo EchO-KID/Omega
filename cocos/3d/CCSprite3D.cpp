@@ -46,7 +46,7 @@
 #include "renderer/CCTechnique.h"
 #include "renderer/CCPass.h"
 
-#include "deprecated/CCString.h" // For StringUtils::format
+ // For StringUtils::format
 
 NS_CC_BEGIN
 

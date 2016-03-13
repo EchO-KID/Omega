@@ -38,8 +38,8 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "base/CCDirector.h"
 #include "2d/CCCamera.h"
+#include "../external/cppformat/format.h"
 
-#include "deprecated/CCString.h"
 
 
 NS_CC_BEGIN
@@ -1132,7 +1132,7 @@ std::string Sprite::getDescription() const
         texture_id = _batchNode->getTextureAtlas()->getTexture()->getName();
     else
         texture_id = _texture->getName();
-    return StringUtils::format("<Sprite | Tag = %d, TextureID = %d>", _tag, texture_id );
+    return fmt::sprintf("<Sprite | Tag = %d, TextureID = %d>", _tag, texture_id );
 }
 
 PolygonInfo Sprite::getPolygonInfo() const

@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "base/ccUtils.h"
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 
@@ -614,7 +614,7 @@ Rect GLViewImpl::getScissorRect() const
 
 void GLViewImpl::onGLFWError(int errorID, const char* errorDesc)
 {
-    _glfwError = StringUtils::format("GLFWError #%d Happen, %s", errorID, errorDesc);
+    _glfwError = fmt::sprintf("GLFWError #%d Happen, %s", errorID, errorDesc);
     CCLOGERROR("%s", _glfwError.c_str());
 }
 

@@ -41,8 +41,7 @@ THE SOFTWARE.
 #include "base/CCConfiguration.h"
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventDispatcher.h"
-
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 
@@ -704,7 +703,7 @@ ParticleSystemQuad * ParticleSystemQuad::create() {
 
 std::string ParticleSystemQuad::getDescription() const
 {
-    return StringUtils::format("<ParticleSystemQuad | Tag = %d, Total Particles = %d>", _tag, _totalParticles);
+    return fmt::sprintf("<ParticleSystemQuad | Tag = %d, Total Particles = %d>", _tag, _totalParticles);
 }
 
 NS_CC_END

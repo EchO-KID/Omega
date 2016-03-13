@@ -25,7 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCLabelTTF.h"
 #include "2d/CCLabel.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 
@@ -128,7 +128,7 @@ const std::string& LabelTTF::getString() const
 
 std::string LabelTTF::getDescription() const
 {
-    return StringUtils::format("<LabelTTF | FontName = %s, FontSize = %f, Label = '%s'>", _renderLabel->getSystemFontName().c_str(), _renderLabel->getSystemFontSize(), _renderLabel->getString().c_str());
+    return fmt::sprintf("<LabelTTF | FontName = %s, FontSize = %f, Label = '%s'>", _renderLabel->getSystemFontName().c_str(), _renderLabel->getSystemFontSize(), _renderLabel->getString().c_str());
 }
 
 TextHAlignment LabelTTF::getHorizontalAlignment() const

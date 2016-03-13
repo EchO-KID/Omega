@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "2d/CCTMXXMLParser.h"
 #include "2d/CCTMXLayer.h"
 #include "2d/CCSprite.h"
-#include "deprecated/CCString.h" // For StringUtils::format
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 
@@ -267,7 +267,7 @@ bool TMXTiledMap::getPropertiesForGID(int GID, Value** value)
 
 std::string TMXTiledMap::getDescription() const
 {
-    return StringUtils::format("<TMXTiledMap | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
+    return fmt::sprintf("<TMXTiledMap | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
 }
 
 

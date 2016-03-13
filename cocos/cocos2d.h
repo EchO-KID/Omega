@@ -301,19 +301,20 @@ THE SOFTWARE.
 #include "3d/CCSprite3DMaterial.h"
 #include "3d/CCTerrain.h"
 
+#include "../external/cppformat/format.h"
 
 // Deprecated include
-#include "deprecated/CCArray.h"
-#include "deprecated/CCBool.h"
-#include "deprecated/CCDictionary.h"
-#include "deprecated/CCDouble.h"
-#include "deprecated/CCFloat.h"
-#include "deprecated/CCInteger.h"
-#include "deprecated/CCNotificationCenter.h"
-#include "deprecated/CCSet.h"
-#include "deprecated/CCString.h"
-// CCDeprecated.h must be included at the end
-#include "deprecated/CCDeprecated.h"
+// #include "deprecated/CCArray.h"
+// #include "deprecated/CCBool.h"
+// #include "deprecated/CCDictionary.h"
+// #include "deprecated/CCDouble.h"
+// #include "deprecated/CCFloat.h"
+// #include "deprecated/CCInteger.h"
+// #include "deprecated/CCNotificationCenter.h"
+// #include "deprecated/CCSet.h"
+// 
+// // CCDeprecated.h must be included at the end
+// #include "deprecated/CCDeprecated.h"
 
 
 NS_CC_BEGIN

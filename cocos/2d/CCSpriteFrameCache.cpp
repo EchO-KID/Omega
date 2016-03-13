@@ -42,7 +42,6 @@ THE SOFTWARE.
 #include "renderer/CCTextureCache.h"
 #include "base/CCNinePatchImageParser.h"
 
-#include "deprecated/CCString.h"
 
 
 using namespace std;

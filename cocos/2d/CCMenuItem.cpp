@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCLabelAtlas.h"
 #include "2d/CCLabel.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 #include <stdarg.h>
 
 NS_CC_BEGIN
@@ -150,7 +150,7 @@ void MenuItem::setCallback(const ccMenuCallback& callback)
 
 std::string MenuItem::getDescription() const
 {
-    return StringUtils::format("<MenuItem | tag = %d>", _tag);
+    return fmt::sprintf("<MenuItem | tag = %d>", _tag);
 }
 
 //

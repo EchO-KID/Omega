@@ -32,8 +32,8 @@ http://www.angelcode.com/products/bmfont/ (Free, Windows only)
 
 ****************************************************************************/
 #include "2d/CCLabelBMFont.h"
-#include "deprecated/CCString.h"
 #include "2d/CCSprite.h"
+#include "../external/cppformat/format.h"
 
 #if CC_LABELBMFONT_DEBUG_DRAW
 #include "renderer/CCRenderer.h"
@@ -172,7 +172,7 @@ const std::string& LabelBMFont::getFntFile() const
 
 std::string LabelBMFont::getDescription() const
 {
-    return StringUtils::format("<LabelBMFont | Tag = %d, Label = '%s'>", _tag, _label->getString().c_str());
+    return fmt::sprintf("<LabelBMFont | Tag = %d, Label = '%s'>", _tag, _label->getString().c_str());
 }
 
 void LabelBMFont::setBlendFunc(const BlendFunc &blendFunc)

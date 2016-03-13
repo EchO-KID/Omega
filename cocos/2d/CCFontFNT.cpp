@@ -32,8 +32,8 @@
 #include "base/CCDirector.h"
 #include "base/CCMap.h"
 #include "renderer/CCTextureCache.h"
+#include "../external/cppformat/format.h"
 
-#include "deprecated/CCString.h"
 
 using namespace std;
 NS_CC_BEGIN
@@ -240,7 +240,7 @@ BMFontConfiguration::~BMFontConfiguration()
 
 std::string BMFontConfiguration::description(void) const
 {
-    return StringUtils::format(
+    return fmt::sprintf(
         "<BMFontConfiguration = " CC_FORMAT_PRINTF_SIZE_T " | Glphys:%d Kernings:%d | Image = %s>",
         (size_t)this,
         HASH_COUNT(_fontDefDictionary),

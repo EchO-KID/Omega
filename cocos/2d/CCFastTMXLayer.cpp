@@ -44,7 +44,7 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "renderer/CCVertexIndexBuffer.h"
 #include "base/CCDirector.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 namespace experimental {
@@ -885,7 +885,7 @@ void TMXLayer::setupTileSprite(Sprite* sprite, Vec2 pos, int gid)
 
 std::string TMXLayer::getDescription() const
 {
-    return StringUtils::format("<FastTMXLayer | tag = %d, size = %d,%d>", _tag, (int)_mapTileSize.width, (int)_mapTileSize.height);
+    return fmt::sprintf("<FastTMXLayer | tag = %d, size = %d,%d>", _tag, (int)_mapTileSize.width, (int)_mapTileSize.height);
 }
 
 } //end of namespace experimental

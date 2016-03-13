@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCGLProgram.h"
-#include "deprecated/CCString.h" // For StringUtils::format
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 
@@ -732,7 +732,7 @@ int TMXLayer::getVertexZForPos(const Vec2& pos)
 
 std::string TMXLayer::getDescription() const
 {
-    return StringUtils::format("<TMXLayer | tag = %d, size = %d,%d>", _tag, (int)_mapTileSize.width, (int)_mapTileSize.height);
+    return fmt::sprintf("<TMXLayer | tag = %d, size = %d,%d>", _tag, (int)_mapTileSize.width, (int)_mapTileSize.height);
 }
 
 

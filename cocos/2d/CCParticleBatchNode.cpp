@@ -35,7 +35,6 @@
 #include "renderer/CCQuadCommand.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTextureAtlas.h"
-#include "deprecated/CCString.h"
 
 NS_CC_BEGIN
 

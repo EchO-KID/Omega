@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "2d/CCNode.h"
 #include "base/CCDirector.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 //
@@ -55,7 +55,7 @@ Action::~Action()
 
 std::string Action::description() const
 {
-    return StringUtils::format("<Action | Tag = %d", _tag);
+    return fmt::sprintf("<Action | Tag = %d", _tag);
 }
 
 void Action::startWithTarget(Node *aTarget)

@@ -29,8 +29,7 @@ THE SOFTWARE.
 #include "renderer/CCTextureAtlas.h"
 #include "base/TGAlib.h"
 #include "base/CCDirector.h"
-#include "deprecated/CCString.h"
-
+#include "../external/cppformat/format.h"
 
 NS_CC_BEGIN
 
@@ -143,7 +142,9 @@ void TileMapAtlas::setTile(const Color3B& tile, const Vec2& position)
 
         // FIXME:: this method consumes a lot of memory
         // FIXME:: a tree of something like that shall be implemented
-        std::string key = StringUtils::toString(position.x) + "," + StringUtils::toString(position.y);
+		char szBuf[256];
+		sprintf(szBuf, "%f,%f", position.x, position.y);
+		std::string key = szBuf;
         int num = _posToAtlasIndex[key].asInt();
 
         this->updateAtlasValueAt(position, tile, num);
@@ -244,8 +245,9 @@ void TileMapAtlas::updateAtlasValues()
                 if( value.r != 0 )
                 {
                     this->updateAtlasValueAt(Vec2(x,y), value, total);
-
-                    std::string key = StringUtils::toString(x) + "," + StringUtils::toString(y);
+					char szBuf[256];
+					sprintf(szBuf, "%f,%f", x, y);
+                    std::string key = szBuf;
                     _posToAtlasIndex[key] = total;
 
                     total++;

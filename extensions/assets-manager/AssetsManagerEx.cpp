@@ -23,7 +23,7 @@
  ****************************************************************************/
 #include "AssetsManagerEx.h"
 #include "CCEventListenerAssetsManagerEx.h"
-#include "deprecated/CCString.h"
+
 #include "base/CCDirector.h"
 
 #include <stdio.h>
@@ -34,6 +34,7 @@
 #include "unzip.h"
 #endif
 #include "base/CCAsyncTaskPool.h"
+#include "../external/cppformat/format.h"
 
 using namespace cocos2d;
 using namespace std;
@@ -74,7 +75,10 @@ AssetsManagerEx::AssetsManagerEx(const std::string& manifestUrl, const std::stri
 {
     // Init variables
     _eventDispatcher = Director::getInstance()->getEventDispatcher();
-    std::string pointer = StringUtils::format("%p", this);
+	
+	char szBuf[256];
+	sprintf(szBuf, "%p", this);
+	std::string pointer = szBuf;
     _eventName = EventListenerAssetsManagerEx::LISTENER_ID + pointer;
     _fileUtils = FileUtils::getInstance();
     _updateState = State::UNCHECKED;
@@ -565,7 +569,7 @@ void AssetsManagerEx::startUpdate()
         _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
         this->batchDownload();
         
-        std::string msg = StringUtils::format("Resuming from previous unfinished update, %d files remains to be finished.", _totalToDownload);
+        std::string msg = fmt::sprintf("Resuming from previous unfinished update, %d files remains to be finished.", _totalToDownload);
         dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION, "", msg);
     }
     // Check difference
@@ -621,7 +625,7 @@ void AssetsManagerEx::startUpdate()
             _totalWaitToDownload = _totalToDownload = (int)_downloadUnits.size();
             this->batchDownload();
             
-            std::string msg = StringUtils::format("Start to update %d files from remote package.", _totalToDownload);
+            std::string msg = fmt::sprintf("Start to update %d files from remote package.", _totalToDownload);
             dispatchUpdateEvent(EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION, "", msg);
         }
     }

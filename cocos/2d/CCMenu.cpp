@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/CCEventListenerTouch.h"
 #include "base/CCEventDispatcher.h"
 #include "platform/CCStdC.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 #include <vector>
 
@@ -581,7 +581,7 @@ MenuItem* Menu::getItemForTouch(Touch *touch, const Camera *camera)
 
 std::string Menu::getDescription() const
 {
-    return StringUtils::format("<Menu | Tag = %d>", _tag);
+    return fmt::sprintf("<Menu | Tag = %d>", _tag);
 }
 
 NS_CC_END

@@ -4,9 +4,6 @@
     <Filter Include="physics">
       <UniqueIdentifier>{08593631-5bf5-46aa-9436-62595c4f7bf6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="deprecated">
-      <UniqueIdentifier>{0b1152b1-c732-4560-8629-87843b0fbd7c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2d">
       <UniqueIdentifier>{0965e868-aacd-4d73-9c78-31d3cdaaed52}</UniqueIdentifier>
     </Filter>
@@ -142,6 +139,9 @@
     <Filter Include="navmesh">
       <UniqueIdentifier>{0f3fa25d-9e2b-4a2e-a1df-834b796b3fb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\cppformat">
+      <UniqueIdentifier>{df3eb7c3-4657-4fb1-a459-d46713a2e8ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -161,24 +161,6 @@
     </ClCompile>
     <ClCompile Include="..\..\external\xxhash\xxhash.c">
       <Filter>external\xxhash</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deprecated\CCArray.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deprecated\CCDeprecated.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deprecated\CCDictionary.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deprecated\CCNotificationCenter.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deprecated\CCSet.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="..\deprecated\CCString.cpp">
-      <Filter>deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\cocos2d.cpp" />
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTF.c">
@@ -395,9 +377,6 @@
       <Filter>base</Filter>
     </ClCompile>
     <ClCompile Include="..\base\CCData.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\base\CCDataVisitor.cpp">
       <Filter>base</Filter>
     </ClCompile>
     <ClCompile Include="..\base\CCDirector.cpp">
@@ -1459,7 +1438,6 @@
     <ClCompile Include="..\..\external\clipper\clipper.cpp">
       <Filter>external\clipper</Filter>
     </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.cpp" />
     <ClCompile Include="..\network\CCDownloader.cpp">
       <Filter>network\Source Files</Filter>
     </ClCompile>
@@ -1472,12 +1450,14 @@
     <ClCompile Include="..\network\CCDownloader-curl.cpp">
       <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.cpp" />
     <ClCompile Include="..\platform\VirtualFileSystem.cpp">
       <Filter>platform</Filter>
     </ClCompile>
     <ClCompile Include="..\platform\LeakDump.cpp">
       <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\cppformat\format.cc">
+      <Filter>external\cppformat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1498,36 +1478,6 @@
     </ClInclude>
     <ClInclude Include="..\..\external\xxhash\xxhash.h">
       <Filter>external\xxhash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCArray.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCBool.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCDeprecated.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCDictionary.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCDouble.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCFloat.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCInteger.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCNotificationCenter.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCSet.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCString.h">
-      <Filter>deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\cocos2d.h" />
     <ClInclude Include="..\..\external\ConvertUTF\ConvertUTF.h">
@@ -1744,9 +1694,6 @@
       <Filter>base</Filter>
     </ClInclude>
     <ClInclude Include="..\base\CCData.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\base\CCDataVisitor.h">
       <Filter>base</Filter>
     </ClInclude>
     <ClInclude Include="..\base\CCDirector.h">
@@ -2922,7 +2869,6 @@
     <ClInclude Include="..\..\external\clipper\clipper.hpp">
       <Filter>external\clipper</Filter>
     </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\GameNode3DReader\GameNode3DReader.h" />
     <ClInclude Include="..\network\CCDownloader.h">
       <Filter>network\Header Files</Filter>
     </ClInclude>
@@ -2941,12 +2887,14 @@
     <ClInclude Include="..\network\CCDownloader-curl.h">
       <Filter>network\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\editor-support\cocostudio\WidgetReader\Light3DReader\Light3DReader.h" />
     <ClInclude Include="..\platform\VirtualFileSystem.h">
       <Filter>platform</Filter>
     </ClInclude>
     <ClInclude Include="..\platform\LeakDump.h">
       <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\cppformat\format.h">
+      <Filter>external\cppformat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

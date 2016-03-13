@@ -32,7 +32,7 @@
 #include "math/Mat4.h"
 #include "base/ccUTF8.h"
 #include "base/CCData.h"
-#include "deprecated/CCString.h"
+
 
 
 USING_NS_CC;

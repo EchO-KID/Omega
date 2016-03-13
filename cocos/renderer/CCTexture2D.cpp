@@ -46,7 +46,7 @@ THE SOFTWARE.
 #include "renderer/ccGLStateCache.h"
 #include "renderer/CCGLProgramCache.h"
 #include "base/CCNinePatchImageParser.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
@@ -711,7 +711,7 @@ bool Texture2D::updateWithData(const void *data,int offsetX,int offsetY,int widt
 
 std::string Texture2D::getDescription() const
 {
-    return StringUtils::format("<Texture2D | Name = %u | Dimensions = %ld x %ld | Coordinates = (%.2f, %.2f)>", _name, (long)_pixelsWide, (long)_pixelsHigh, _maxS, _maxT);
+    return fmt::sprintf("<Texture2D | Name = %u | Dimensions = %ld x %ld | Coordinates = (%.2f, %.2f)>", _name, (long)_pixelsWide, (long)_pixelsHigh, _maxS, _maxT);
 }
 
 // implementation Texture2D (Image)

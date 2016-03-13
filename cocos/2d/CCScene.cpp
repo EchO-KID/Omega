@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "base/CCEventListenerCustom.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCFrameBuffer.h"
-#include "deprecated/CCString.h"
+#include "../external/cppformat/format.h"
 
 #if CC_USE_PHYSICS
 #include "physics/CCPhysicsWorld.h"
@@ -150,7 +150,7 @@ Scene* Scene::createWithSize(const Size& size)
 
 std::string Scene::getDescription() const
 {
-    return StringUtils::format("<Scene | tag = %d>", _tag);
+    return fmt::sprintf("<Scene | tag = %d>", _tag);
 }
 
 void Scene::onProjectionChanged(EventCustom* event)

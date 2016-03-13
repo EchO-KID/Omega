@@ -39,9 +39,9 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "base/ccUtils.h"
 
-#include "deprecated/CCString.h"
-#include "base/CCNinePatchImageParser.h"
 
+#include "base/CCNinePatchImageParser.h"
+#include "../external/cppformat/format.h"
 
 
 using namespace std;
@@ -87,7 +87,7 @@ void TextureCache::purgeSharedTextureCache()
 
 std::string TextureCache::getDescription() const
 {
-    return StringUtils::format("<TextureCache | Number of textures = %d>", static_cast<int>(_textures.size()));
+    return fmt::sprintf("<TextureCache | Number of textures = %d>", static_cast<int>(_textures.size()));
 }
 
 struct TextureCache::AsyncStruct

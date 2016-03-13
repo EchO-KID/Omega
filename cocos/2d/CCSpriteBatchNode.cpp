@@ -32,8 +32,8 @@ THE SOFTWARE.
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCQuadCommand.h"
-
-#include "deprecated/CCString.h" // For StringUtils::format
+#include "../external/cppformat/format.h"
+ // For StringUtils::format
 
 
 NS_CC_BEGIN
@@ -687,7 +687,7 @@ SpriteBatchNode * SpriteBatchNode::addSpriteWithoutQuad(Sprite*child, int z, int
 
 std::string SpriteBatchNode::getDescription() const
 {
-    return StringUtils::format("<SpriteBatchNode | tag = %d>", _tag);
+    return fmt::sprintf("<SpriteBatchNode | tag = %d>", _tag);
 }
 
 NS_CC_END
