@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/ZipUtils.h"
 #include "base/base64.h"
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 using namespace std;
 
@@ -130,7 +130,7 @@ void TMXMapInfo::internalInit(const std::string& tmxFileName, const std::string&
 {
     if (!tmxFileName.empty())
     {
-        _TMXFileName = FileUtils::getInstance()->fullPathForFilename(tmxFileName);
+        _TMXFileName = VirtualFileSystem::getInstance()->fullPathForFilename(tmxFileName);
     }
     
     if (!resourcePath.empty())
@@ -205,7 +205,7 @@ bool TMXMapInfo::parseXMLFile(const std::string& xmlFilename)
     
     parser.setDelegator(this);
 
-    return parser.parse(FileUtils::getInstance()->fullPathForFilename(xmlFilename).c_str());
+    return parser.parse(VirtualFileSystem::getInstance()->fullPathForFilename(xmlFilename).c_str());
 }
 
 // the XML parser calls here with all the elements
@@ -276,7 +276,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
             {
                 externalTilesetFilename = _resources + "/" + externalTilesetFilename;
             }
-            externalTilesetFilename = FileUtils::getInstance()->fullPathForFilename(externalTilesetFilename.c_str());
+            externalTilesetFilename = VirtualFileSystem::getInstance()->fullPathForFilename(externalTilesetFilename.c_str());
             
             _currentFirstGID = attributeDict["firstgid"].asInt();
             if (_currentFirstGID < 0)

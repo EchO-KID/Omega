@@ -24,7 +24,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCUserDefault.h"
 #include "platform/CCCommon.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "tinyxml2.h"
 #include "base/base64.h"
 #include "base/ccUtils.h"
@@ -60,7 +60,8 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLEle
          tinyxml2::XMLDocument* xmlDoc = new tinyxml2::XMLDocument();
         *doc = xmlDoc;
 
-        std::string xmlBuffer = FileUtils::getInstance()->getStringFromFile(UserDefault::getInstance()->getXMLFilePath());
+		Data data = VirtualFileSystem::getInstance()->getFileData(UserDefault::getInstance()->getXMLFilePath(), true);
+		std::string xmlBuffer((const char*)data.getBytes());
 
         if (xmlBuffer.empty())
         {
@@ -132,7 +133,7 @@ static void setValueForKey(const char* pKey, const char* pValue)
     // save file and free doc
     if (doc)
     {
-        doc->SaveFile(FileUtils::getInstance()->getSuitableFOpen(UserDefault::getInstance()->getXMLFilePath()).c_str());
+        doc->SaveFile(VirtualFileSystem::getInstance()->getSuitableFOpen(UserDefault::getInstance()->getXMLFilePath()).c_str());
         delete doc;
     }
 }
@@ -451,14 +452,14 @@ void UserDefault::purgeSharedUserDefault()
 
 bool UserDefault::isXMLFileExist()
 {
-    return FileUtils::getInstance()->isFileExist(_filePath);
+    return VirtualFileSystem::getInstance()->isFileExist(_filePath);
 }
 
 void UserDefault::initXMLFilePath()
 {
     if (! _isFilePathInitialized)
     {
-        _filePath += FileUtils::getInstance()->getWritablePath() + XML_FILE_NAME;
+        _filePath += VirtualFileSystem::getInstance()->getWritablePath() + XML_FILE_NAME;
         _isFilePathInitialized = true;
     }    
 }
@@ -484,7 +485,7 @@ bool UserDefault::createXMLFile()
         return false;  
     }  
     pDoc->LinkEndChild(pRootEle);  
-    bRet = tinyxml2::XML_SUCCESS == pDoc->SaveFile(FileUtils::getInstance()->getSuitableFOpen(_filePath).c_str());
+    bRet = tinyxml2::XML_SUCCESS == pDoc->SaveFile(VirtualFileSystem::getInstance()->getSuitableFOpen(_filePath).c_str());
 
     if(pDoc)
     {
@@ -529,7 +530,7 @@ void UserDefault::deleteValueForKey(const char* key)
     if (doc)
     {
         doc->DeleteNode(node);
-        doc->SaveFile(FileUtils::getInstance()->getSuitableFOpen(UserDefault::getInstance()->getXMLFilePath()).c_str());
+        doc->SaveFile(VirtualFileSystem::getInstance()->getSuitableFOpen(UserDefault::getInstance()->getXMLFilePath()).c_str());
         delete doc;
     }
 

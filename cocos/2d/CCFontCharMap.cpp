@@ -25,7 +25,7 @@
 
 #include "2d/CCFontCharMap.h"
 #include "2d/CCFontAtlas.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCDirector.h"
 #include "renderer/CCTextureCache.h"
 
@@ -33,10 +33,10 @@ NS_CC_BEGIN
 
 FontCharMap * FontCharMap::create(const std::string& plistFile)
 {
-    std::string pathStr = FileUtils::getInstance()->fullPathForFilename(plistFile);
+    std::string pathStr = VirtualFileSystem::getInstance()->fullPathForFilename(plistFile);
     std::string relPathStr = pathStr.substr(0, pathStr.find_last_of("/"))+"/";
 
-    ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(pathStr.c_str());
+    ValueMap dict = VirtualFileSystem::getInstance()->getValueMapFromFile(pathStr.c_str());
 
     CCASSERT(dict["version"].asInt() == 1, "Unsupported version. Upgrade cocos2d version");
 

@@ -61,11 +61,6 @@ public:
      */
     static void destroyInstance();
 
-    /** @deprecated Use getInstance() instead */
-    CC_DEPRECATED_ATTRIBUTE static Configuration *sharedConfiguration();
-
-    /** @deprecated Use destroyInstance() instead */
-    CC_DEPRECATED_ATTRIBUTE static void purgeConfiguration();
 
 public:
     /** Destructor
@@ -207,12 +202,6 @@ public:
 	/** Gathers OpenGL / GPU information.
      */
 	void gatherGPUInfo();
-
-	/** Loads a config file. If the keys are already present, then they are going to be replaced. Otherwise the new keys are added.
-     * 
-     * @param filename Config file name.
-     */
-	void loadConfigFile(const std::string& filename);
     
     static const char* CONFIG_FILE_LOADED;
 

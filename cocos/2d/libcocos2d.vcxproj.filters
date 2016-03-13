@@ -61,9 +61,6 @@
     <Filter Include="extension">
       <UniqueIdentifier>{976bf662-699e-482e-b5db-a20d4abab137}</UniqueIdentifier>
     </Filter>
-    <Filter Include="extension\AssetsManager">
-      <UniqueIdentifier>{ad47c713-2196-4c8f-9205-2a2a7ecc0b80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="extension\GUI">
       <UniqueIdentifier>{b27aba95-51a2-413c-8570-0aff9adf2b6b}</UniqueIdentifier>
     </Filter>
@@ -556,9 +553,6 @@
     <ClCompile Include="..\math\Vec4.cpp">
       <Filter>math</Filter>
     </ClCompile>
-    <ClCompile Include="..\platform\CCFileUtils.cpp">
-      <Filter>platform</Filter>
-    </ClCompile>
     <ClCompile Include="..\platform\CCImage.cpp">
       <Filter>platform</Filter>
     </ClCompile>
@@ -663,9 +657,6 @@
     </ClCompile>
     <ClCompile Include="..\3d\CCMotionStreak3D.cpp">
       <Filter>3d</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\extensions\assets-manager\AssetsManager.cpp">
-      <Filter>extension\AssetsManager</Filter>
     </ClCompile>
     <ClCompile Include="..\..\extensions\GUI\CCScrollView\CCScrollView.cpp">
       <Filter>extension\GUI\CCScrollView</Filter>
@@ -829,9 +820,6 @@
     <ClCompile Include="..\platform\win32\CCDevice-win32.cpp">
       <Filter>platform\win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\platform\win32\CCFileUtils-win32.cpp">
-      <Filter>platform\win32</Filter>
-    </ClCompile>
     <ClCompile Include="..\platform\win32\CCStdC-win32.cpp">
       <Filter>platform\win32</Filter>
     </ClCompile>
@@ -840,18 +828,6 @@
     </ClCompile>
     <ClCompile Include="..\ui\UIEditBox\UIEditBoxImpl-win32.cpp">
       <Filter>ui\UIWidgets\EditBox</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\extensions\assets-manager\AssetsManagerEx.cpp">
-      <Filter>extension\AssetsManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.cpp">
-      <Filter>extension\AssetsManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\extensions\assets-manager\CCEventListenerAssetsManagerEx.cpp">
-      <Filter>extension\AssetsManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\extensions\assets-manager\Manifest.cpp">
-      <Filter>extension\AssetsManager</Filter>
     </ClCompile>
     <ClCompile Include="..\ui\UIWebView.cpp">
       <Filter>ui\UIWidgets</Filter>
@@ -1438,17 +1414,11 @@
     <ClCompile Include="..\..\external\clipper\clipper.cpp">
       <Filter>external\clipper</Filter>
     </ClCompile>
-    <ClCompile Include="..\network\CCDownloader.cpp">
-      <Filter>network\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CCCameraBackgroundBrush.cpp">
       <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="..\renderer\CCTextureCube.cpp">
       <Filter>renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\network\CCDownloader-curl.cpp">
-      <Filter>network</Filter>
     </ClCompile>
     <ClCompile Include="..\platform\VirtualFileSystem.cpp">
       <Filter>platform</Filter>
@@ -1458,6 +1428,9 @@
     </ClCompile>
     <ClCompile Include="..\..\external\cppformat\format.cc">
       <Filter>external\cppformat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win32\VirtualFileSystem-win32.cpp">
+      <Filter>platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1921,9 +1894,6 @@
     <ClInclude Include="..\platform\CCDevice.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\platform\CCFileUtils.h">
-      <Filter>platform</Filter>
-    </ClInclude>
     <ClInclude Include="..\platform\CCImage.h">
       <Filter>platform</Filter>
     </ClInclude>
@@ -2043,9 +2013,6 @@
     </ClInclude>
     <ClInclude Include="..\3d\cocos3d.h">
       <Filter>3d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\extensions\assets-manager\AssetsManager.h">
-      <Filter>extension\AssetsManager</Filter>
     </ClInclude>
     <ClInclude Include="..\..\extensions\GUI\CCScrollView\CCScrollView.h">
       <Filter>extension\GUI\CCScrollView</Filter>
@@ -2221,9 +2188,6 @@
     <ClInclude Include="..\platform\win32\CCApplication-win32.h">
       <Filter>platform\win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\platform\win32\CCFileUtils-win32.h">
-      <Filter>platform\win32</Filter>
-    </ClInclude>
     <ClInclude Include="..\platform\win32\CCGL-win32.h">
       <Filter>platform\win32</Filter>
     </ClInclude>
@@ -2238,18 +2202,6 @@
     </ClInclude>
     <ClInclude Include="..\ui\UIEditBox\UIEditBoxImpl-win32.h">
       <Filter>ui\UIWidgets\EditBox</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\extensions\assets-manager\AssetsManagerEx.h">
-      <Filter>extension\AssetsManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.h">
-      <Filter>extension\AssetsManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\extensions\assets-manager\CCEventListenerAssetsManagerEx.h">
-      <Filter>extension\AssetsManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\extensions\assets-manager\Manifest.h">
-      <Filter>extension\AssetsManager</Filter>
     </ClInclude>
     <ClInclude Include="..\ui\UIWebView-inl.h">
       <Filter>ui\UIWidgets</Filter>
@@ -2869,23 +2821,11 @@
     <ClInclude Include="..\..\external\clipper\clipper.hpp">
       <Filter>external\clipper</Filter>
     </ClInclude>
-    <ClInclude Include="..\network\CCDownloader.h">
-      <Filter>network\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\network\CCDownloaderImpl.h">
-      <Filter>network\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\network\CCIDownloaderImpl.h">
-      <Filter>network\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CCCameraBackgroundBrush.h">
       <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="..\renderer\CCTextureCube.h">
       <Filter>renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\network\CCDownloader-curl.h">
-      <Filter>network\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\platform\VirtualFileSystem.h">
       <Filter>platform</Filter>
@@ -2895,6 +2835,9 @@
     </ClInclude>
     <ClInclude Include="..\..\external\cppformat\format.h">
       <Filter>external\cppformat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win32\VirtualFileSystem-win32.h">
+      <Filter>platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

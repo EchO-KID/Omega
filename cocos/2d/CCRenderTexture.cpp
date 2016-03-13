@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCRenderTexture.h"
 
 #include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCEventType.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
@@ -438,7 +438,7 @@ bool RenderTexture::saveToFile(const std::string& fileName, Image::Format format
     
     _saveFileCallback = callback;
     
-    std::string fullpath = FileUtils::getInstance()->getWritablePath() + fileName;
+    std::string fullpath = VirtualFileSystem::getInstance()->getWritablePath() + fileName;
     _saveToFileCommand.init(_globalZOrder);
     _saveToFileCommand.func = CC_CALLBACK_0(RenderTexture::onSaveToFile, this, fullpath, isRGBA);
     

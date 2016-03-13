@@ -38,7 +38,7 @@
 
 #include "base/CCData.h"
 #include "base/ccMacros.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include <map>
 
 // FIXME: Other platforms should use upstream minizip like mingw-w64  
@@ -320,7 +320,7 @@ int ZipUtils::inflateGZipFile(const char *path, unsigned char **out)
 bool ZipUtils::isCCZFile(const char *path)
 {
     // load file into memory
-    Data compressedData = FileUtils::getInstance()->getDataFromFile(path);
+    Data compressedData = VirtualFileSystem::getInstance()->getFileData(path);
 
     if (compressedData.isNull())
     {
@@ -346,7 +346,7 @@ bool ZipUtils::isCCZBuffer(const unsigned char *buffer, ssize_t len)
 bool ZipUtils::isGZipFile(const char *path)
 {
     // load file into memory
-    Data compressedData = FileUtils::getInstance()->getDataFromFile(path);
+    Data compressedData = VirtualFileSystem::getInstance()->getFileData(path);
 
     if (compressedData.isNull())
     {
@@ -463,7 +463,7 @@ int ZipUtils::inflateCCZFile(const char *path, unsigned char **out)
     CCASSERT(out, "Invalid pointer for buffer!");
     
     // load file into memory
-    Data compressedData = FileUtils::getInstance()->getDataFromFile(path);
+	Data compressedData = VirtualFileSystem::getInstance()->getFileData(path);
     
     if (compressedData.isNull())
     {

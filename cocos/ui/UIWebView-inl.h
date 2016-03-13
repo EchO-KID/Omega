@@ -27,7 +27,7 @@
 #include "UIWebView.h"
 #include "platform/CCGLView.h"
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 namespace experimental{

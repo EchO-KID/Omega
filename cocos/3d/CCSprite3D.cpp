@@ -37,7 +37,7 @@
 #include "2d/CCCamera.h"
 #include "base/ccMacros.h"
 #include "platform/CCPlatformMacros.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCGLProgramState.h"
@@ -230,9 +230,9 @@ bool Sprite3D::loadFromCache(const std::string& path)
 
 bool Sprite3D::loadFromFile(const std::string& path, NodeDatas* nodedatas, MeshDatas* meshdatas,  MaterialDatas* materialdatas)
 {
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(path);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(path);
     
-    std::string ext = FileUtils::getInstance()->getFileExtension(path);
+    std::string ext = VirtualFileSystem::getInstance()->getFileExtension(path);
     if (ext == ".obj")
     {
         return Bundle3D::loadObj(*meshdatas, *materialdatas, *nodedatas, fullPath);

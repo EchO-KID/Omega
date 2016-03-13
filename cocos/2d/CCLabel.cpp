@@ -32,7 +32,7 @@
 #include "2d/CCDrawNode.h"
 #include "2d/CCCamera.h"
 #include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccGLStateCache.h"
 #include "base/CCDirector.h"
@@ -165,7 +165,7 @@ Label* Label::create()
 
 Label* Label::create(const std::string& text, const std::string& font, float fontSize, const Size& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
 {
-    if (FileUtils::getInstance()->isFileExist(font))
+    if (VirtualFileSystem::getInstance()->isFileExist(font))
     {
         return createWithTTF(text,font,fontSize,dimensions,hAlignment,vAlignment);
     } 
@@ -199,7 +199,7 @@ Label* Label::createWithTTF(const std::string& text, const std::string& fontFile
 {
     auto ret = new (std::nothrow) Label(hAlignment,vAlignment);
 
-    if (ret && FileUtils::getInstance()->isFileExist(fontFile))
+    if (ret && VirtualFileSystem::getInstance()->isFileExist(fontFile))
     {
         TTFConfig ttfConfig(fontFile.c_str(),fontSize,GlyphCollection::DYNAMIC);
         if (ret->setTTFConfig(ttfConfig))
@@ -221,7 +221,7 @@ Label* Label::createWithTTF(const TTFConfig& ttfConfig, const std::string& text,
 {
     auto ret = new (std::nothrow) Label(hAlignment);
 
-    if (ret && FileUtils::getInstance()->isFileExist(ttfConfig.fontFilePath) && ret->setTTFConfig(ttfConfig))
+    if (ret && VirtualFileSystem::getInstance()->isFileExist(ttfConfig.fontFilePath) && ret->setTTFConfig(ttfConfig))
     {
         ret->setMaxLineWidth(maxLineWidth);
         ret->setString(text);

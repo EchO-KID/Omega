@@ -63,7 +63,7 @@
 #include "platform/CCPlatformConfig.h"
 #include "base/CCConfiguration.h"
 #include "2d/CCScene.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCTextureCache.h"
 #include "base/base64.h"
 #include "base/ccUtils.h"
@@ -160,9 +160,9 @@ static void printSceneGraphBoot(int fd)
     sendPrompt(fd);
 }
 
-static void printFileUtils(int fd)
+static void printVirtualFileSystem(int fd)
 {
-    FileUtils* fu = FileUtils::getInstance();
+    VirtualFileSystem* fu = VirtualFileSystem::getInstance();
 
     mydprintf(fd, "\nSearch Paths:\n");
     auto& list = fu->getSearchPaths();
@@ -334,7 +334,7 @@ Console::Console()
             }
         } },
         { "exit", "Close connection to the console", std::bind(&Console::commandExit, this, std::placeholders::_1, std::placeholders::_2) },
-        { "fileutils", "Flush or print the FileUtils info. Args: [flush | ] ", std::bind(&Console::commandFileUtils, this, std::placeholders::_1, std::placeholders::_2) },
+        { "VirtualFileSystem", "Flush or print the VirtualFileSystem info. Args: [flush | ] ", std::bind(&Console::commandVirtualFileSystem, this, std::placeholders::_1, std::placeholders::_2) },
         { "fps", "Turn on / off the FPS. Args: [on | off] ", [](int fd, const std::string& args) {
             if( args.compare("on")==0 || args.compare("off")==0) {
                 bool state = (args.compare("on") == 0);
@@ -525,17 +525,17 @@ void Console::commandSceneGraph(int fd, const std::string &args)
     sched->performFunctionInCocosThread( std::bind(&printSceneGraphBoot, fd) );
 }
 
-void Console::commandFileUtils(int fd, const std::string &args)
+void Console::commandVirtualFileSystem(int fd, const std::string &args)
 {
     Scheduler *sched = Director::getInstance()->getScheduler();
 
     if( args.compare("flush") == 0 )
     {
-        FileUtils::getInstance()->purgeCachedEntries();
+        VirtualFileSystem::getInstance()->purgeCachedEntries();
     }
     else if( args.empty())
     {
-        sched->performFunctionInCocosThread( std::bind(&printFileUtils, fd) );
+        sched->performFunctionInCocosThread( std::bind(&printVirtualFileSystem, fd) );
     }
     else
     {
@@ -901,10 +901,10 @@ void Console::commandUpload(int fd)
     }
     *ptr = 0;
 
-    static std::string writablePath = FileUtils::getInstance()->getWritablePath();
+    static std::string writablePath = VirtualFileSystem::getInstance()->getWritablePath();
     std::string filepath = writablePath + std::string(buf);
 
-    FILE* fp = fopen(FileUtils::getInstance()->getSuitableFOpen(filepath).c_str(), "wb");
+    FILE* fp = fopen(VirtualFileSystem::getInstance()->getSuitableFOpen(filepath).c_str(), "wb");
     if(!fp)
     {
         const char err[] = "can't create file!\n";

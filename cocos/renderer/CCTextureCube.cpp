@@ -24,7 +24,7 @@
 
 #include "renderer/CCTextureCube.h"
 #include "platform/CCImage.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 #include "renderer/ccGLStateCache.h"
 
@@ -125,7 +125,7 @@ Image* createImage(const std::string& path)
     // MUTEX:
     // Needed since addImageAsync calls this method from a different thread
 
-    std::string fullpath = FileUtils::getInstance()->fullPathForFilename(path);
+    std::string fullpath = VirtualFileSystem::getInstance()->fullPathForFilename(path);
     if (fullpath.size() == 0)
     {
         return nullptr;

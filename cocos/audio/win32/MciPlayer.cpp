@@ -1,6 +1,6 @@
 #include "MciPlayer.h"
 #include <tchar.h>
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 #define WIN_CLASS_NAME        "CocosDenshionCallbackWnd"
 #define BREAK_IF(cond)      if (cond) break;
@@ -81,7 +81,7 @@ void MciPlayer::Open(const char* pFileName, UINT uId)
 //         BREAK_IF(! pBuf);
 //         MultiByteToWideChar(CP_ACP, 0, pFileName, nLen + 1, pBuf, nLen + 1);
 
-        strExt = cocos2d::FileUtils::getInstance()->getFileExtension(pFileName);
+        strExt = cocos2d::VirtualFileSystem::getInstance()->getFileExtension(pFileName);
 
         Close();
 

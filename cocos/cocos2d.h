@@ -190,7 +190,7 @@ THE SOFTWARE.
 // platform
 #include "platform/CCCommon.h"
 #include "platform/CCDevice.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCImage.h"
 #include "platform/CCPlatformConfig.h"
 #include "platform/CCPlatformMacros.h"

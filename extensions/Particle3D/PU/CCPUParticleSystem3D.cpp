@@ -36,7 +36,7 @@
 #include "extensions/Particle3D/PU/CCPUObserver.h"
 #include "extensions/Particle3D/PU/CCPUObserverManager.h"
 #include "extensions/Particle3D/PU/CCPUBehaviour.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -274,7 +274,7 @@ PUParticleSystem3D* PUParticleSystem3D::create( const std::string &filePath )
 
 bool PUParticleSystem3D::initWithFilePath( const std::string &filePath )
 {
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filePath);
     convertToUnixStylePath(fullPath);
     std::string::size_type pos = fullPath.find_last_of("/");
     std::string materialFolder = "materials";
@@ -300,10 +300,10 @@ bool PUParticleSystem3D::initWithFilePath( const std::string &filePath )
 
 bool PUParticleSystem3D::initWithFilePathAndMaterialPath( const std::string &filePath, const std::string &materialPath )
 {
-    std::string matfullPath = FileUtils::getInstance()->fullPathForFilename(materialPath);
+    std::string matfullPath = VirtualFileSystem::getInstance()->fullPathForFilename(materialPath);
     convertToUnixStylePath(matfullPath);
     PUMaterialCache::Instance()->loadMaterials(matfullPath);
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filePath);
     convertToUnixStylePath(fullPath);
     if (!initSystem(fullPath)){
         return false;
@@ -829,7 +829,7 @@ bool PUParticleSystem3D::initSystem( const std::string &filePath )
     auto list = PUScriptCompiler::Instance()->compile(filePath, isFirstCompile);
     if (list == nullptr || list->empty()) return false;
     PUTranslateManager::Instance()->translateParticleSystem(this, list);
-    //std::string  data = FileUtils::getInstance()->getStringFromFile(filePath);
+    //std::string  data = VirtualFileSystem::getInstance()->getStringFromFile(filePath);
     return true;
 }
 

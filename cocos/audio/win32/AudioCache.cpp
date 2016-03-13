@@ -30,7 +30,7 @@
 #include <algorithm>
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "mpg123.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
@@ -99,7 +99,7 @@ void AudioCache::readDataTask()
          {
              vf = new OggVorbis_File;
              int openCode;
-             if (openCode = ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_fileFullPath).c_str(), vf)){
+             if (openCode = ov_fopen(VirtualFileSystem::getInstance()->getSuitableFOpen(_fileFullPath).c_str(), vf)){
                  log("Input does not appear to be an Ogg bitstream: %s. Code: 0x%x\n", _fileFullPath.c_str(), openCode);
                  goto ExitThread;
              }

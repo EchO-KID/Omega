@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "CCBundleReader.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 

@@ -120,7 +120,7 @@ protected:
     void commandHelp(int fd, const std::string &args);
     void commandExit(int fd, const std::string &args);
     void commandSceneGraph(int fd, const std::string &args);
-    void commandFileUtils(int fd, const std::string &args);
+    void commandVirtualFileSystem(int fd, const std::string &args);
     void commandConfig(int fd, const std::string &args);
     void commandTextures(int fd, const std::string &args);
     void commandResolution(int fd, const std::string &args);

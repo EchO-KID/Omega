@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "UIRichText.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "2d/CCLabel.h"
 #include "2d/CCSprite.h"
 #include "base/ccUTF8.h"
@@ -192,7 +192,7 @@ void RichText::formatText()
                     case RichElement::Type::TEXT:
                     {
                         RichElementText* elmtText = static_cast<RichElementText*>(element);
-                        if (FileUtils::getInstance()->isFileExist(elmtText->_fontName))
+                        if (VirtualFileSystem::getInstance()->isFileExist(elmtText->_fontName))
                         {
                             elementRenderer = Label::createWithTTF(elmtText->_text.c_str(), elmtText->_fontName, elmtText->_fontSize);
                         }
@@ -261,7 +261,7 @@ void RichText::formatText()
     
 void RichText::handleTextRenderer(const std::string& text, const std::string& fontName, float fontSize, const Color3B &color, GLubyte opacity)
 {
-    auto fileExist = FileUtils::getInstance()->isFileExist(fontName);
+    auto fileExist = VirtualFileSystem::getInstance()->isFileExist(fontName);
     Label* textRenderer = nullptr;
     if (fileExist)
     {

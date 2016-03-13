@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "ui/UIText.h"
 #include "2d/CCLabel.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -154,7 +154,7 @@ float Text::getFontSize()const
 
 void Text::setFontName(const std::string& name)
 {
-    if(FileUtils::getInstance()->isFileExist(name))
+    if(VirtualFileSystem::getInstance()->isFileExist(name))
     {
         TTFConfig config = _labelRenderer->getTTFConfig();
         config.fontFilePath = name;

@@ -22,13 +22,13 @@ Copyright (c) 2013-2014 Chukong Technologies Inc.
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_ANDROID_H__
-#define __CC_FILEUTILS_ANDROID_H__
+#ifndef __CC_VIRTUALFILESYSTEM_ANDROID_H__
+#define __CC_VIRTUALFILESYSTEM_ANDROID_H__
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCPlatformMacros.h"
 #include "base/ccTypes.h"
 #include <string>
@@ -44,48 +44,31 @@ NS_CC_BEGIN
  */
 
 //! @brief  Helper class to handle file operations
-class CC_DLL FileUtilsAndroid : public FileUtils
+class CC_DLL VirtualFileSystemAndroid : public VirtualFileSystem
 {
-    friend class FileUtils;
+    friend class VirtualFileSystem;
 public:
-    FileUtilsAndroid();
+    VirtualFileSystemAndroid();
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~FileUtilsAndroid();
-
-    static void setassetmanager(AAssetManager* a);
-    static AAssetManager* getAssetManager() { return assetmanager; }
+    virtual ~VirtualFileSystemAndroid();
 
     /* override functions */
     bool init();
 
-    virtual std::string getNewFilename(const std::string &filename) const override;
-
-    /** @deprecated Please use FileUtils::getDataFromFile or FileUtils::getStringFromFile instead. */
-    CC_DEPRECATED_ATTRIBUTE virtual unsigned char* getFileData(const std::string& filename, const char* mode, ssize_t * size) override;
-
-    /**
-     *  Gets string from a file.
-     */
-    virtual std::string getStringFromFile(const std::string& filename) override;
-    
-    /**
-     *  Creates binary data from a file.
-     *  @return A data object.
-     */
-    virtual Data getDataFromFile(const std::string& filename) override;
 
     virtual std::string getWritablePath() const;
     virtual bool isAbsolutePath(const std::string& strPath) const;
+
+    Data getFileData(const std::string& filename, bool forString);
     
 private:
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;
     virtual bool isDirectoryExistInternal(const std::string& dirPath) const override;
-    Data getData(const std::string& filename, bool forString);
+    
 
-    static AAssetManager* assetmanager;
 };
 
 // end of platform group
@@ -95,4 +78,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#endif // __CC_FILEUTILS_ANDROID_H__
+#endif // __CC_VirtualFileSystem_ANDROID_H__

@@ -26,124 +26,62 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
-#include "CCFileUtils-android.h"
+#include "VirtualFileSystem-android.h"
 #include "platform/CCCommon.h"
+#include "platform/LeakDump.h"
 #include "jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
-#include "android/asset_manager.h"
-#include "android/asset_manager_jni.h"
-#include "jni/CocosPlayClient.h"
 #include <stdlib.h>
 #include <sys/stat.h>
 
-#define  LOG_TAG    "CCFileUtils-android.cpp"
+#define  LOG_TAG    "VirtualFileSystem-android.cpp"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 
 using namespace std;
 
 NS_CC_BEGIN
 
-AAssetManager* FileUtilsAndroid::assetmanager = nullptr;
+AAssetManager* VirtualFileSystemAndroid::assetmanager = nullptr;
 
-void FileUtilsAndroid::setassetmanager(AAssetManager* a) {
+void VirtualFileSystemAndroid::setassetmanager(AAssetManager* a) {
     if (nullptr == a) {
         LOGD("setassetmanager : received unexpected nullptr parameter");
         return;
     }
 
-    cocos2d::FileUtilsAndroid::assetmanager = a;
+    cocos2d::VirtualFileSystemAndroid::assetmanager = a;
 }
 
-FileUtils* FileUtils::getInstance()
+
+VirtualFileSystem* VirtualFileSystem::getInstance()
 {
-    if (s_sharedFileUtils == nullptr)
+    if (VirtualFileSystem::ms_instance == nullptr)
     {
-        s_sharedFileUtils = new FileUtilsAndroid();
-        if(!s_sharedFileUtils->init())
+        VirtualFileSystem::ms_instance = New VirtualFileSystemAndroid();
+        if (!VirtualFileSystem::ms_instance->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsAndroid");
+            Delete VirtualFileSystem::ms_instance;
+            VirtualFileSystem::ms_instance = nullptr;
+          CCLOG("ERROR: Could not init CCVirtualFileSystemWin32");
         }
     }
-    return s_sharedFileUtils;
+    return VirtualFileSystem::ms_instance;
 }
 
-FileUtilsAndroid::FileUtilsAndroid()
+VirtualFileSystemAndroid::VirtualFileSystemAndroid()
 {
 }
 
-FileUtilsAndroid::~FileUtilsAndroid()
+VirtualFileSystemAndroid::~VirtualFileSystemAndroid()
 {
 }
 
-bool FileUtilsAndroid::init()
+bool VirtualFileSystemAndroid::init()
 {
-    cocosplay::lazyInit();
-    if (cocosplay::isEnabled() && !cocosplay::isDemo())
-    {
-        _defaultResRootPath = cocosplay::getGameRoot();
-    }
-    else
-    {
-        _defaultResRootPath = "assets/";
-    }
-
-    return FileUtils::init();
+    _defaultResRootPath = "assets/";
+    return VirtualFileSystem::init();
 }
 
-std::string FileUtilsAndroid::getNewFilename(const std::string &filename) const
-{
-    std::string newFileName = FileUtils::getNewFilename(filename);
-    // ../xxx do not fix this path
-    auto pos = newFileName.find("../");
-    if (pos == std::string::npos || pos == 0)
-    {
-        return newFileName;
-    }
-
-    std::vector<std::string> v(3);
-    v.resize(0);
-    auto change = false;
-    size_t size = newFileName.size();
-    size_t idx = 0;
-    bool noexit = true;
-    while (noexit)
-    {
-        pos = newFileName.find('/', idx);
-        std::string tmp;
-        if (pos == std::string::npos)
-        {
-            tmp = newFileName.substr(idx, size - idx);
-            noexit = false;
-        }else
-        {
-            tmp = newFileName.substr(idx, pos - idx + 1);
-        }
-        auto t = v.size();
-        if (t > 0 && v[t-1].compare("../") != 0 &&
-             (tmp.compare("../") == 0 || tmp.compare("..") == 0))
-        {
-            v.pop_back();
-            change = true;
-        }else
-        {
-            v.push_back(tmp);
-        }
-        idx = pos + 1;
-    }
-
-    if (change)
-    {
-        newFileName.clear();
-        for (auto &s : v)
-        {
-            newFileName.append(s);
-        }
-    }
-    return newFileName;
-}
-
-bool FileUtilsAndroid::isFileExistInternal(const std::string& strFilePath) const
+bool VirtualFileSystemAndroid::isFileExistInternal(const std::string& strFilePath) const
 {
     if (strFilePath.empty())
     {
@@ -165,8 +103,8 @@ bool FileUtilsAndroid::isFileExistInternal(const std::string& strFilePath) const
         // Found "assets/" at the beginning of the path and we don't want it
         if (strFilePath.find(_defaultResRootPath) == 0) s += strlen("assets/");
 
-        if (FileUtilsAndroid::assetmanager) {
-            AAsset* aa = AAssetManager_open(FileUtilsAndroid::assetmanager, s, AASSET_MODE_UNKNOWN);
+        if (VirtualFileSystemAndroid::assetmanager) {
+            AAsset* aa = AAssetManager_open(VirtualFileSystemAndroid::assetmanager, s, AASSET_MODE_UNKNOWN);
             if (aa)
             {
                 bFound = true;
@@ -188,7 +126,7 @@ bool FileUtilsAndroid::isFileExistInternal(const std::string& strFilePath) const
     return bFound;
 }
 
-bool FileUtilsAndroid::isDirectoryExistInternal(const std::string& dirPath) const
+bool VirtualFileSystemAndroid::isDirectoryExistInternal(const std::string& dirPath) const
 {
     if (dirPath.empty())
     {
@@ -229,9 +167,9 @@ bool FileUtilsAndroid::isDirectoryExistInternal(const std::string& dirPath) cons
     {
         s += lenOfAssets;
     }
-    if (FileUtilsAndroid::assetmanager)
+    if (VirtualFileSystemAndroid::assetmanager)
     {
-        AAssetDir* aa = AAssetManager_openDir(FileUtilsAndroid::assetmanager, s);
+        AAssetDir* aa = AAssetManager_openDir(VirtualFileSystemAndroid::assetmanager, s);
         if (aa && AAssetDir_getNextFileName(aa))
         {
             AAssetDir_close(aa);
@@ -241,8 +179,11 @@ bool FileUtilsAndroid::isDirectoryExistInternal(const std::string& dirPath) cons
     return false;
 }
 
-bool FileUtilsAndroid::isAbsolutePath(const std::string& strPath) const
+bool VirtualFileSystemAndroid::isAbsolutePath(const std::string& strPath) const
 {
+    if ( VirtualFileSystem::isAbsolutePath(strPath) )
+        return true;
+
     // On Android, there are two situations for full path.
     // 1) Files in APK, e.g. assets/path/path/file.png
     // 2) Files not in APK, e.g. /data/data/org.cocos2dx.hellocpp/cache/path/path/file.png, or /sdcard/path/path/file.png.
@@ -254,7 +195,7 @@ bool FileUtilsAndroid::isAbsolutePath(const std::string& strPath) const
     return false;
 }
 
-Data FileUtilsAndroid::getData(const std::string& filename, bool forString)
+Data VirtualFileSystemAndroid::getData(const std::string& filename, bool forString)
 {
     if (filename.empty())
     {
@@ -362,111 +303,8 @@ Data FileUtilsAndroid::getData(const std::string& filename, bool forString)
     return ret;
 }
 
-std::string FileUtilsAndroid::getStringFromFile(const std::string& filename)
-{
-    Data data = getData(filename, true);
-    if (data.isNull())
-        return "";
 
-    std::string ret((const char*)data.getBytes());
-    return ret;
-}
-
-Data FileUtilsAndroid::getDataFromFile(const std::string& filename)
-{
-    return getData(filename, false);
-}
-
-unsigned char* FileUtilsAndroid::getFileData(const std::string& filename, const char* mode, ssize_t * size)
-{
-    unsigned char * data = 0;
-
-    if ( filename.empty() || (! mode) )
-    {
-        return 0;
-    }
-
-    string fullPath = fullPathForFilename(filename);
-    cocosplay::updateAssets(fullPath);
-
-    if (fullPath[0] != '/')
-    {
-        string relativePath = string();
-
-        size_t position = fullPath.find("assets/");
-        if (0 == position) {
-            // "assets/" is at the beginning of the path and we don't want it
-            relativePath += fullPath.substr(strlen("assets/"));
-        } else {
-            relativePath += fullPath;
-        }
-        LOGD("relative path = %s", relativePath.c_str());
-
-        if (nullptr == FileUtilsAndroid::assetmanager) {
-            LOGD("... FileUtilsAndroid::assetmanager is nullptr");
-            return nullptr;
-        }
-
-        // read asset data
-        AAsset* asset =
-            AAssetManager_open(FileUtilsAndroid::assetmanager,
-                               relativePath.c_str(),
-                               AASSET_MODE_UNKNOWN);
-        if (nullptr == asset) {
-            LOGD("asset is nullptr");
-            return nullptr;
-        }
-
-        off_t fileSize = AAsset_getLength(asset);
-
-        data = (unsigned char*) malloc(fileSize);
-
-        int bytesread = AAsset_read(asset, (void*)data, fileSize);
-        if (size)
-        {
-            *size = bytesread;
-        }
-
-        AAsset_close(asset);
-    }
-    else
-    {
-        do
-        {
-            // read rrom other path than user set it
-            //CCLOG("GETTING FILE ABSOLUTE DATA: %s", filename);
-            FILE *fp = fopen(fullPath.c_str(), mode);
-            CC_BREAK_IF(!fp);
-
-            long fileSize;
-            fseek(fp,0,SEEK_END);
-            fileSize = ftell(fp);
-            fseek(fp,0,SEEK_SET);
-            data = (unsigned char*) malloc(fileSize);
-            fileSize = fread(data,sizeof(unsigned char), fileSize,fp);
-            fclose(fp);
-
-            if (size)
-            {
-                *size = fileSize;
-            }
-        } while (0);
-    }
-
-    if (! data)
-    {
-        std::string msg = "Get data from file(";
-        msg.append(filename).append(") failed!");
-        CCLOG("%s", msg.c_str());
-    }
-    else
-    {
-        cocosplay::notifyFileLoaded(fullPath);
-    }
-    return data;
-}
-
-string FileUtilsAndroid::getWritablePath() const
+string VirtualFileSystemAndroid::getWritablePath() const
 {
     // Fix for Nexus 10 (Android 4.2 multi-user environment)
     // the path is retrieved through Java Context.getCacheDir() method

@@ -29,7 +29,7 @@
 #include <errno.h>
 #include <curl/curl.h>
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -385,7 +385,7 @@ void HttpClient::enableCookies(const char* cookieFile)
     }
     else
     {
-        _cookieFilename = (FileUtils::getInstance()->getWritablePath() + "cookieFile.txt");
+        _cookieFilename = (VirtualFileSystem::getInstance()->getWritablePath() + "cookieFile.txt");
     }
 }
     

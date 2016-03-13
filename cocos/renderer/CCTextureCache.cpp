@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "base/ccMacros.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/ccUtils.h"
 
 
@@ -131,7 +131,7 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
 {
     Texture2D *texture = nullptr;
 
-    std::string fullpath = FileUtils::getInstance()->fullPathForFilename(path);
+    std::string fullpath = VirtualFileSystem::getInstance()->fullPathForFilename(path);
 
     auto it = _textures.find(fullpath);
     if( it != _textures.end() )
@@ -144,7 +144,7 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
     }
 
     // check if file exists
-    if ( fullpath.empty() || ! FileUtils::getInstance()->isFileExist( fullpath ) ) {
+    if ( fullpath.empty() || ! VirtualFileSystem::getInstance()->isFileExist( fullpath ) ) {
         if (callback) callback(nullptr);
         return;
     }
@@ -182,7 +182,7 @@ void TextureCache::unbindImageAsync(const std::string& filename)
     {
         return;
     }
-    std::string fullpath = FileUtils::getInstance()->fullPathForFilename(filename);
+    std::string fullpath = VirtualFileSystem::getInstance()->fullPathForFilename(filename);
     for (auto it = _asyncStructQueue.begin(); it != _asyncStructQueue.end(); ++it)
     {
         if ((*it)->filename == fullpath)
@@ -323,7 +323,7 @@ Texture2D * TextureCache::addImage(const std::string &path)
     // MUTEX:
     // Needed since addImageAsync calls this method from a different thread
 
-    std::string fullpath = FileUtils::getInstance()->fullPathForFilename(path);
+    std::string fullpath = VirtualFileSystem::getInstance()->fullPathForFilename(path);
     if (fullpath.size() == 0)
     {
         return nullptr;
@@ -424,7 +424,7 @@ bool TextureCache::reloadTexture(const std::string& fileName)
     Texture2D * texture = nullptr;
     Image * image = nullptr;
 
-    std::string fullpath = FileUtils::getInstance()->fullPathForFilename(fileName);
+    std::string fullpath = VirtualFileSystem::getInstance()->fullPathForFilename(fileName);
     if (fullpath.size() == 0)
     {
         return false;
@@ -507,7 +507,7 @@ void TextureCache::removeTextureForKey(const std::string &textureKeyName)
     auto it = _textures.find(key);
 
     if( it == _textures.end() ) {
-        key = FileUtils::getInstance()->fullPathForFilename(textureKeyName);
+        key = VirtualFileSystem::getInstance()->fullPathForFilename(textureKeyName);
         it = _textures.find(key);
     }
 
@@ -523,7 +523,7 @@ Texture2D* TextureCache::getTextureForKey(const std::string &textureKeyName) con
     auto it = _textures.find(key);
 
     if( it == _textures.end() ) {
-        key = FileUtils::getInstance()->fullPathForFilename(textureKeyName);
+        key = VirtualFileSystem::getInstance()->fullPathForFilename(textureKeyName);
         it = _textures.find(key);
     }
 
@@ -757,7 +757,7 @@ void VolatileTextureMgr::reloadAllTextures()
             {
                 Image* image = new (std::nothrow) Image();
                 
-                Data data = FileUtils::getInstance()->getDataFromFile(vt->_fileName);
+				Data data = VirtualFileSystem::getInstance()->getFileData(vt->_fileName);
                 
                 if (image && image->initWithImageData(data.getBytes(), data.getSize()))
                 {

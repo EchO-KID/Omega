@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "3d/CCSprite3DMaterial.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramCache.h"
@@ -196,7 +196,7 @@ Sprite3DMaterial* Sprite3DMaterial::createBuiltInMaterial(MaterialType type, boo
 
 Sprite3DMaterial* Sprite3DMaterial::createWithFilename(const std::string& path)
 {
-    auto validfilename = FileUtils::getInstance()->fullPathForFilename(path);
+    auto validfilename = VirtualFileSystem::getInstance()->fullPathForFilename(path);
     if (validfilename.size() > 0) {
         auto it = _materials.find(validfilename);
         if (it != _materials.end())

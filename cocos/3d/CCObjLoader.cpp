@@ -23,6 +23,7 @@
 // version 0.9.1 : Add initial .mtl load support
 // version 0.9.0 : Initial
 //
+#include "CCObjLoader.h"
 
 #include <cstdlib>
 #include <cstring>
@@ -35,10 +36,9 @@
 #include <map>
 #include <fstream>
 #include <sstream>
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/ccUtils.h"
-
-#include "CCObjLoader.h"
+#include "base/CCData.h"
 
 namespace tinyobj {
     
@@ -639,15 +639,17 @@ namespace tinyobj {
         } else {
             filepath = matId;
         }
-        
-        std::istringstream matIStream(cocos2d::FileUtils::getInstance()->getStringFromFile(filepath));
-        std::string err = LoadMtl(matMap, materials, matIStream);
-        if (!matIStream) {
-            std::stringstream ss;
-            ss << "WARN: Material file [ " << filepath << " ] not found. Created a default material.";
-            err += ss.str();
-        }
-        return err;
+       
+		cocos2d::Data data = cocos2d::VirtualFileSystem::getInstance()->getFileData(filepath, true);
+		std::string strData((const char*)data.getBytes());
+		std::istringstream matIStream(strData);
+       std::string err = LoadMtl(matMap, materials, matIStream);
+       if (!matIStream) {
+           std::stringstream ss;
+           ss << "WARN: Material file [ " << filepath << " ] not found. Created a default material.";
+           err += ss.str();
+       }
+       return err;
     }
     
     std::string LoadObj(std::vector<shape_t> &shapes,
@@ -658,7 +660,10 @@ namespace tinyobj {
         
         std::stringstream err;
         
-        std::istringstream ifs(cocos2d::FileUtils::getInstance()->getStringFromFile(filename));
+		cocos2d::Data data = cocos2d::VirtualFileSystem::getInstance()->getFileData(filename, true);
+		std::string strData((const char*)data.getBytes());
+
+		std::istringstream ifs(strData);
         if (!ifs) {
             err << "Cannot open file [" << filename << "]" << std::endl;
             return err.str();

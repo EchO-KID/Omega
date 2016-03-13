@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "TGAlib.h"
 #include "base/CCData.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -274,7 +274,7 @@ tImageTGA* tgaLoadBuffer(unsigned char* buffer, long size)
 // this is the function to call when we want to load an image
 tImageTGA * tgaLoad(const char *filename)
 {
-    Data data = FileUtils::getInstance()->getDataFromFile(filename);
+	Data data = VirtualFileSystem::getInstance()->getFileData(filename);
 
     if (!data.isNull())
     {

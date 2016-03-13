@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "3d/CCObjLoader.h"
 
 #include "base/ccMacros.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCGLProgram.h"
 #include "CCBundleReader.h"
 #include "base/CCData.h"
@@ -182,7 +182,7 @@ bool Bundle3D::load(const std::string& path)
     getModelRelativePath(path);
 
     bool ret = false;
-    std::string ext = FileUtils::getInstance()->getFileExtension(path);
+    std::string ext = VirtualFileSystem::getInstance()->getFileExtension(path);
     if (ext == ".c3t")
     {
         _isBinary = false;
@@ -1038,7 +1038,7 @@ bool Bundle3D::loadJson(const std::string& path)
 {
     clear();
 
-    Data data = FileUtils::getInstance()->getDataFromFile(path);
+    Data data = VirtualFileSystem::getInstance()->getFileData(path);
     ssize_t size = data.getSize();
 
     // json need null-terminated string.
@@ -1069,7 +1069,7 @@ bool Bundle3D::loadBinary(const std::string& path)
     // get file data
     CC_SAFE_DELETE(_binaryBuffer);
     _binaryBuffer = new (std::nothrow) Data();
-    *_binaryBuffer = FileUtils::getInstance()->getDataFromFile(path);
+    *_binaryBuffer = VirtualFileSystem::getInstance()->getFileData(path);
     if (_binaryBuffer->isNull())
     {
         clear();
@@ -2150,7 +2150,7 @@ std::vector<Vec3> Bundle3D::getTrianglesList(const std::string& path)
         return trianglesList;
     
     auto bundle = Bundle3D::createBundle();
-    std::string ext = FileUtils::getInstance()->getFileExtension(path);
+    std::string ext = VirtualFileSystem::getInstance()->getFileExtension(path);
     MeshDatas meshs;
     if (ext == ".obj")
     {

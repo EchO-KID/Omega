@@ -27,7 +27,7 @@ THE SOFTWARE.
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
 #include "platform/CCDevice.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCStdC.h"
 
 NS_CC_BEGIN
@@ -113,9 +113,9 @@ public:
             if (fontName.c_str())
             {
                 // create font from ttf file
-                if (FileUtils::getInstance()->getFileExtension(fontName) == ".ttf")
+                if (VirtualFileSystem::getInstance()->getFileExtension(fontName) == ".ttf")
                 {
-                    fontPath = FileUtils::getInstance()->fullPathForFilename(fontName.c_str());
+                    fontPath = VirtualFileSystem::getInstance()->fullPathForFilename(fontName.c_str());
                     int nFindPos = fontName.rfind("/");
                     fontName = &fontName[nFindPos+1];
                     nFindPos = fontName.rfind(".");

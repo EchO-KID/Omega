@@ -25,7 +25,7 @@
 #include "3d/CCAnimate3D.h"
 #include "3d/CCSprite3D.h"
 #include "3d/CCSkeleton3D.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCConfiguration.h"
 #include "base/CCEventCustom.h"
 #include "base/CCDirector.h"

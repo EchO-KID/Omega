@@ -283,7 +283,7 @@ void SimpleAudioEngine::setEffectsVolume(float volume)
 
 static std::string _FullPath(const char * szPath)
 {
-    return FileUtils::getInstance()->fullPathForFilename(szPath);
+    return VirtualFileSystem::getInstance()->fullPathForFilename(szPath);
 }
 
 unsigned int _Hash(const char *key)

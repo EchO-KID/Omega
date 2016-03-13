@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/uthash.h"
 #include "renderer/ccGLStateCache.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "../external/cppformat/format.h"
 
 
@@ -276,9 +276,12 @@ bool GLProgram::initWithFilenames(const std::string& vShaderFilename, const std:
 
 bool GLProgram::initWithFilenames(const std::string& vShaderFilename, const std::string& fShaderFilename, const std::string& compileTimeDefines)
 {
-    auto fileUtils = FileUtils::getInstance();
-    std::string vertexSource = fileUtils->getStringFromFile(FileUtils::getInstance()->fullPathForFilename(vShaderFilename));
-    std::string fragmentSource = fileUtils->getStringFromFile(FileUtils::getInstance()->fullPathForFilename(fShaderFilename));
+    auto VirtualFileSystem = VirtualFileSystem::getInstance();
+	Data data = VirtualFileSystem->getFileData(VirtualFileSystem::getInstance()->fullPathForFilename(vShaderFilename), true);
+	std::string vertexSource((const char*)data.getBytes());
+
+	data = VirtualFileSystem->getFileData(VirtualFileSystem::getInstance()->fullPathForFilename(vShaderFilename), true);
+	std::string fragmentSource((const char*)data.getBytes());
 
     return initWithByteArrays(vertexSource.c_str(), fragmentSource.c_str(), compileTimeDefines);
 }

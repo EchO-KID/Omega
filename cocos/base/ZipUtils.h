@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformDefine.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "platform/android/CCFileUtils-android.h"
+#include "platform/android/CCVirtualFileSystem-android.h"
 #elif(CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 // for import ssize_t on win32 platform
 #include "platform/CCStdC.h"

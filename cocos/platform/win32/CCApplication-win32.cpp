@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "platform/CCApplication.h"
 #include "base/CCDirector.h"
 #include <algorithm>
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include <shellapi.h>
 /**
 @brief    This function change the PVRFrame show/hide setting in register.
@@ -234,10 +234,10 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         _resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
+    VirtualFileSystem* pVirtualFileSystem = VirtualFileSystem::getInstance();
+    std::vector<std::string> searchPaths = pVirtualFileSystem->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), _resourceRootPath);
-    pFileUtils->setSearchPaths(searchPaths);
+    pVirtualFileSystem->setSearchPaths(searchPaths);
 }
 
 const std::string& Application::getResourceRootPath(void)

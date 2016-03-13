@@ -26,8 +26,9 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 
-#include "CCFileUtils-win32.h"
+#include "VirtualFileSystem-win32.h"
 #include "platform/CCCommon.h"
+#include "platform/LeakDump.h"
 #include <Shlobj.h>
 #include <cstdlib>
 #include <regex>
@@ -149,33 +150,33 @@ static void _checkPath()
     }
 }
 
-FileUtils* FileUtils::getInstance()
+VirtualFileSystem* VirtualFileSystem::getInstance()
 {
-    if (s_sharedFileUtils == nullptr)
+	if (VirtualFileSystem::ms_instance == nullptr)
     {
-        s_sharedFileUtils = new FileUtilsWin32();
-        if(!s_sharedFileUtils->init())
+		VirtualFileSystem::ms_instance = New VirtualFileSystemWin32();
+		if (!VirtualFileSystem::ms_instance->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsWin32");
+			Delete VirtualFileSystem::ms_instance;
+			VirtualFileSystem::ms_instance = nullptr;
+          CCLOG("ERROR: Could not init CCVirtualFileSystemWin32");
         }
     }
-    return s_sharedFileUtils;
+	return VirtualFileSystem::ms_instance;
 }
 
-FileUtilsWin32::FileUtilsWin32()
+VirtualFileSystemWin32::VirtualFileSystemWin32()
 {
 }
 
-bool FileUtilsWin32::init()
+bool VirtualFileSystemWin32::init()
 {
     _checkPath();
     _defaultResRootPath = s_resourcePath;
-    return FileUtils::init();
+    return VirtualFileSystem::init();
 }
 
-bool FileUtilsWin32::isDirectoryExistInternal(const std::string& dirPath) const
+bool VirtualFileSystemWin32::isDirectoryExistInternal(const std::string& dirPath) const
 {
     unsigned long fAttrib = GetFileAttributes(StringUtf8ToWideChar(dirPath).c_str());
     if (fAttrib != INVALID_FILE_ATTRIBUTES &&
@@ -186,12 +187,12 @@ bool FileUtilsWin32::isDirectoryExistInternal(const std::string& dirPath) const
     return false;
 }
 
-std::string FileUtilsWin32::getSuitableFOpen(const std::string& filenameUtf8) const
+std::string VirtualFileSystemWin32::getSuitableFOpen(const std::string& filenameUtf8) const
 {
     return UTF8StringToMultiByte(filenameUtf8);
 }
 
-long FileUtilsWin32::getFileSize(const std::string &filepath)
+long VirtualFileSystemWin32::getFileSize(const std::string &filepath)
 {
     WIN32_FILE_ATTRIBUTE_DATA fad;
     if (!GetFileAttributesEx(StringUtf8ToWideChar(filepath).c_str(), GetFileExInfoStandard, &fad))
@@ -204,7 +205,7 @@ long FileUtilsWin32::getFileSize(const std::string &filepath)
     return (long)size.QuadPart;
 }
 
-bool FileUtilsWin32::isFileExistInternal(const std::string& strFilePath) const
+bool VirtualFileSystemWin32::isFileExistInternal(const std::string& strFilePath) const
 {
     if (strFilePath.empty())
     {
@@ -223,8 +224,12 @@ bool FileUtilsWin32::isFileExistInternal(const std::string& strFilePath) const
     return true;
 }
 
-bool FileUtilsWin32::isAbsolutePath(const std::string& strPath) const
+bool VirtualFileSystemWin32::isAbsolutePath(const std::string& strPath) const
 {
+	if (VirtualFileSystem::isAbsolutePath(strPath))
+		return true;
+
+
     if (   (strPath.length() > 2
         && ( (strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z') )
         && strPath[1] == ':') || (strPath[0] == '/' && strPath[1] == '/'))
@@ -291,7 +296,7 @@ static Data getData(const std::string& filename, bool forString)
     do
     {
         // read the file from hardware
-        std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filename);
+        std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filename);
 
         // check if the filename uses correct case characters
         checkFileName(fullPath, filename);
@@ -349,7 +354,7 @@ static Data getData(const std::string& filename, bool forString)
     return ret;
 }
 
-std::string FileUtilsWin32::getStringFromFile(const std::string& filename)
+std::string VirtualFileSystemWin32::getStringFromFile(const std::string& filename)
 {
     Data data = getData(filename, true);
     if (data.isNull())
@@ -361,73 +366,29 @@ std::string FileUtilsWin32::getStringFromFile(const std::string& filename)
     return ret;
 }
 
-Data FileUtilsWin32::getDataFromFile(const std::string& filename)
+Data VirtualFileSystemWin32::getDataFromFile(const std::string& filename)
 {
     return getData(filename, false);
 }
 
-unsigned char* FileUtilsWin32::getFileData(const std::string& filename, const char* mode, ssize_t* size)
-{
-    unsigned char * pBuffer = nullptr;
-    *size = 0;
-    do
-    {
-        // read the file from hardware
-        std::string fullPath = fullPathForFilename(filename);
-
-         // check if the filename uses correct case characters
-        checkFileName(fullPath, filename);
-
-        HANDLE fileHandle = ::CreateFile(StringUtf8ToWideChar(fullPath).c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, NULL, nullptr);
-        CC_BREAK_IF(fileHandle == INVALID_HANDLE_VALUE);
-
-        *size = ::GetFileSize(fileHandle, nullptr);
-
-        pBuffer = (unsigned char*) malloc(*size);
-        DWORD sizeRead = 0;
-        BOOL successed = FALSE;
-        successed = ::ReadFile(fileHandle, pBuffer, *size, &sizeRead, nullptr);
-        ::CloseHandle(fileHandle);
-
-        if (!successed)
-        {
-            free(pBuffer);
-            pBuffer = nullptr;
-        }
-    } while (0);
-
-    if (! pBuffer)
-    {
-        std::string msg = "Get data from file(";
-        // Gets error code.
-        DWORD errorCode = ::GetLastError();
-        char errorCodeBuffer[20] = {0};
-        snprintf(errorCodeBuffer, sizeof(errorCodeBuffer), "%d", errorCode);
-
-        msg = msg + filename + ") failed, error code is " + errorCodeBuffer;
-        CCLOG("%s", msg.c_str());
-    }
-    return pBuffer;
-}
-
-std::string FileUtilsWin32::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const
+std::string VirtualFileSystemWin32::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const
 {
     std::string unixFileName = convertPathFormatToUnixStyle(filename);
     std::string unixResolutionDirectory = convertPathFormatToUnixStyle(resolutionDirectory);
     std::string unixSearchPath = convertPathFormatToUnixStyle(searchPath);
 
-    return FileUtils::getPathForFilename(unixFileName, unixResolutionDirectory, unixSearchPath);
+    return VirtualFileSystem::getPathForFilename(unixFileName, unixResolutionDirectory, unixSearchPath);
 }
 
-std::string FileUtilsWin32::getFullPathForDirectoryAndFilename(const std::string& strDirectory, const std::string& strFilename) const
+std::string VirtualFileSystemWin32::getFullPathForDirectoryAndFilename(const std::string& strDirectory, const std::string& strFilename) const
 {
     std::string unixDirectory = convertPathFormatToUnixStyle(strDirectory);
     std::string unixFilename = convertPathFormatToUnixStyle(strFilename);
 
-    return FileUtils::getFullPathForDirectoryAndFilename(unixDirectory, unixFilename);
+    return VirtualFileSystem::getFullPathForDirectoryAndFilename(unixDirectory, unixFilename);
 }
 
-string FileUtilsWin32::getWritablePath() const
+string VirtualFileSystemWin32::getWritablePath() const
 {
     if (_writablePath.length())
     {
@@ -480,7 +441,7 @@ string FileUtilsWin32::getWritablePath() const
     return convertPathFormatToUnixStyle(StringWideCharToUtf8(retPath));
 }
 
-bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
+bool VirtualFileSystemWin32::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
 {
     CCASSERT(!oldfullpath.empty(), "Invalid path");
     CCASSERT(!newfullpath.empty(), "Invalid path");
@@ -488,7 +449,7 @@ bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::strin
     std::wstring _wNew = StringUtf8ToWideChar(newfullpath);
     std::wstring _wOld = StringUtf8ToWideChar(oldfullpath);
 
-    if (FileUtils::getInstance()->isFileExist(newfullpath))
+    if (VirtualFileSystem::getInstance()->isFileExist(newfullpath))
     {
         if (!DeleteFile(_wNew.c_str()))
         {
@@ -507,7 +468,7 @@ bool FileUtilsWin32::renameFile(const std::string &oldfullpath, const std::strin
     }
 }
 
-bool FileUtilsWin32::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
+bool VirtualFileSystemWin32::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
     CCASSERT(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
@@ -520,64 +481,8 @@ bool FileUtilsWin32::renameFile(const std::string &path, const std::string &oldn
     return renameFile(_old, _new);
 }
 
-bool FileUtilsWin32::createDirectory(const std::string& dirPath)
-{
-    CCASSERT(!dirPath.empty(), "Invalid path");
 
-    if (isDirectoryExist(dirPath))
-        return true;
-
-    std::wstring path = StringUtf8ToWideChar(dirPath);
-
-    // Split the path
-    size_t start = 0;
-    size_t found = path.find_first_of(L"/\\", start);
-    std::wstring subpath;
-    std::vector<std::wstring> dirs;
-
-    if (found != std::wstring::npos)
-    {
-        while (true)
-        {
-            subpath = path.substr(start, found - start + 1);
-            if (!subpath.empty())
-                dirs.push_back(subpath);
-            start = found + 1;
-            found = path.find_first_of(L"/\\", start);
-            if (found == std::wstring::npos)
-            {
-                if (start < path.length())
-                {
-                    dirs.push_back(path.substr(start));
-                }
-                break;
-            }
-        }
-    }
-
-    if ((GetFileAttributes(path.c_str())) == INVALID_FILE_ATTRIBUTES)
-    {
-        subpath = L"";
-        for (unsigned int i = 0; i < dirs.size(); ++i)
-        {
-            subpath += dirs[i];
-
-            std::string utf8Path = StringWideCharToUtf8(subpath);
-            if (!isDirectoryExist(utf8Path))
-            {
-                BOOL ret = CreateDirectory(subpath.c_str(), NULL);
-                if (!ret && ERROR_ALREADY_EXISTS != GetLastError())
-                {
-                    CCLOGERROR("Fail create directory %s !Error code is 0x%x", utf8Path.c_str(), GetLastError());
-                    return false;
-                }
-            }
-        }
-    }
-    return true;
-}
-
-bool FileUtilsWin32::removeFile(const std::string &filepath)
+bool VirtualFileSystemWin32::removeFile(const std::string &filepath)
 {
     std::regex pat("\\/");
     std::string win32path = std::regex_replace(filepath, pat, "\\");
@@ -593,44 +498,6 @@ bool FileUtilsWin32::removeFile(const std::string &filepath)
     }
 }
 
-bool FileUtilsWin32::removeDirectory(const std::string& dirPath)
-{
-    std::wstring wpath = StringUtf8ToWideChar(dirPath);
-    std::wstring files = wpath + L"*.*";
-    WIN32_FIND_DATA wfd;
-    HANDLE  search = FindFirstFileEx(files.c_str(), FindExInfoStandard, &wfd, FindExSearchNameMatch, NULL, 0);
-    bool ret = true;
-    if (search != INVALID_HANDLE_VALUE)
-    {
-        BOOL find = true;
-        while (find)
-        {
-            // Need check string . and .. for delete folders and files begin name.
-            std::wstring fileName = wfd.cFileName;
-            if (fileName != L"." && fileName != L"..")
-            {
-                std::wstring temp = wpath + wfd.cFileName;
-                if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-                {
-                    temp += '/';
-                    ret = ret && this->removeDirectory(StringWideCharToUtf8(temp));
-                }
-                else
-                {
-                    SetFileAttributes(temp.c_str(), FILE_ATTRIBUTE_NORMAL);
-                    ret = ret && DeleteFile(temp.c_str());
-                }
-            }
-            find = FindNextFile(search, &wfd);
-        }
-        FindClose(search);
-    }
-    if (ret && RemoveDirectory(wpath.c_str()))
-    {
-        return true;
-    }
-    return false;
-}
 
 NS_CC_END
 

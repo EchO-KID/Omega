@@ -33,7 +33,7 @@ THE SOFTWARE.
 
 #include "2d/CCDrawingPrimitives.h"
 #include "2d/CCSpriteFrameCache.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 #include "2d/CCActionManager.h"
 #include "2d/CCFontFNT.h"
@@ -661,7 +661,7 @@ void Director::purgeCachedData(void)
         // There should be no test textures left in the cache
         log("%s\n", _textureCache->getCachedTextureInfo().c_str());
     }
-    FileUtils::getInstance()->purgeCachedEntries();
+    VirtualFileSystem::getInstance()->purgeCachedEntries();
 }
 
 float Director::getZEye(void) const
@@ -976,7 +976,7 @@ void Director::reset()
     SpriteFrameCache::destroyInstance();
     GLProgramCache::destroyInstance();
     GLProgramStateCache::destroyInstance();
-    FileUtils::destroyInstance();
+    VirtualFileSystem::destroyInstance();
     AsyncTaskPool::destoryInstance();
     
     // cocos2d-x specific data structures
@@ -1189,7 +1189,7 @@ void Director::createStatsLabel()
         CC_SAFE_RELEASE_NULL(_drawnBatchesLabel);
         CC_SAFE_RELEASE_NULL(_drawnVerticesLabel);
         _textureCache->removeTextureForKey("/cc_fps_images");
-        FileUtils::getInstance()->purgeCachedEntries();
+        VirtualFileSystem::getInstance()->purgeCachedEntries();
     }
 
     Texture2D::PixelFormat currentFormat = Texture2D::getDefaultAlphaPixelFormat();

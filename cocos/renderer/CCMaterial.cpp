@@ -36,7 +36,7 @@
 #include "renderer/CCGLProgramState.h"
 #include "base/CCProperties.h"
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
@@ -51,7 +51,7 @@ static bool isValidUniform(const char* name);
 
 Material* Material::createWithFilename(const std::string& filepath)
 {
-    auto validfilename = FileUtils::getInstance()->fullPathForFilename(filepath);
+    auto validfilename = VirtualFileSystem::getInstance()->fullPathForFilename(filepath);
     if (validfilename.size() > 0) {
         auto mat = new (std::nothrow) Material();
         if (mat && mat->initWithFile(validfilename))
@@ -105,7 +105,7 @@ bool Material::initWithGLProgramState(cocos2d::GLProgramState *state)
 
 bool Material::initWithFile(const std::string& validfilename)
 {
-    Data data = FileUtils::getInstance()->getDataFromFile(validfilename);
+    Data data = VirtualFileSystem::getInstance()->getFileData(validfilename);
     char* bytes = (char*)data.getBytes();
     bytes[data.getSize()-1]='\0';
 

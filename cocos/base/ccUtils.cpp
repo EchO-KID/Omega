@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCRenderer.h"
 #include "platform/CCImage.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -110,14 +110,14 @@ void onCaptureScreen(const std::function<void(bool, const std::string&)>& afterC
         if (image)
         {
             image->initWithRawData(flippedBuffer.get(), width * height * 4, width, height, 8);
-            if (FileUtils::getInstance()->isAbsolutePath(filename))
+            if (VirtualFileSystem::getInstance()->isAbsolutePath(filename))
             {
                 outputFile = filename;
             }
             else
             {
                 CCASSERT(filename.find("/") == std::string::npos, "The existence of a relative path is not guaranteed!");
-                outputFile = FileUtils::getInstance()->getWritablePath() + filename;
+                outputFile = VirtualFileSystem::getInstance()->getWritablePath() + filename;
             }
 
             // Save image in AsyncTaskPool::TaskType::TASK_IO thread, and call afterCaptured in mainThread

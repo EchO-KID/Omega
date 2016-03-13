@@ -27,7 +27,7 @@
 #include <set>
 #include "base/uthash.h"
 #include "2d/CCFontAtlas.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCConfiguration.h"
 #include "base/CCDirector.h"
 #include "base/CCMap.h"
@@ -272,7 +272,7 @@ void BMFontConfiguration::purgeFontDefDictionary()
 
 std::set<unsigned int>* BMFontConfiguration::parseConfigFile(const std::string& controlFile)
 {
-    Data data = FileUtils::getInstance()->getDataFromFile(controlFile);
+    Data data = VirtualFileSystem::getInstance()->getFileData(controlFile);
     CCASSERT((!data.isNull()), "BMFontConfiguration::parseConfigFile | Open file error.");
 
     if (memcmp("BMF", data.getBytes(), 3) == 0) {
@@ -434,7 +434,7 @@ std::set<unsigned int>* BMFontConfiguration::parseBinaryConfigFile(unsigned char
             const char *value = (const char *)pData;
             CCASSERT(strlen(value) < blockSize, "Block size should be less then string");
 
-            _atlasName = FileUtils::getInstance()->fullPathFromRelativeFile(value, controlFile);
+            _atlasName = VirtualFileSystem::getInstance()->fullPathFromRelativeFile(value, controlFile);
         }
 		else if (blockId == 4)
 		{
@@ -529,7 +529,7 @@ void BMFontConfiguration::parseImageFileName(const char* line, const std::string
     // file 
     char fileName[255];
     sscanf(strchr(line,'"') + 1, "%[^\"]", fileName);
-    _atlasName = FileUtils::getInstance()->fullPathFromRelativeFile(fileName, fntFile);
+    _atlasName = VirtualFileSystem::getInstance()->fullPathFromRelativeFile(fileName, fntFile);
 }
 
 void BMFontConfiguration::parseInfoArguments(const char* line)

@@ -26,13 +26,13 @@
 #include "CCPUMaterialManager.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUTranslateManager.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCPlatformMacros.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #include <io.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "android/CCFileUtils-android.h"
+#include "android/CCVirtualFileSystem-android.h"
 #include <android/asset_manager.h>
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 #include <ftw.h>
@@ -116,7 +116,7 @@ int iterPath(const char *fpath, const struct stat *sb, int typeflag)
 {
     if(typeflag == FTW_F)
     {
-        if (FileUtils::getInstance()->getFileExtension(fpath) == ".material")
+        if (VirtualFileSystem::getInstance()->getFileExtension(fpath) == ".material")
             PUMaterialCache::Instance()->loadMaterials(fpath);
     }
     return 0;
@@ -146,12 +146,12 @@ bool PUMaterialCache::loadMaterialsFromSearchPaths( const std::string &fileFolde
         // "assets/" is at the beginning of the path and we don't want it
         relativePath = fileFolder.substr(pos + strlen("assets/"));
     }
-    AAssetDir *dir = AAssetManager_openDir(FileUtilsAndroid::getAssetManager(), relativePath.c_str());
+    AAssetDir *dir = AAssetManager_openDir(VirtualFileSystemAndroid::getAssetManager(), relativePath.c_str());
     const char *fileName = nullptr;
     std::string seg("/");
     while ((fileName = AAssetDir_getNextFileName(dir)) != nullptr)
     {
-        if (FileUtils::getInstance()->getFileExtension(fileName) == ".material")
+        if (VirtualFileSystem::getInstance()->getFileExtension(fileName) == ".material")
         {
             std::string fullpath = fileFolder + seg + std::string(fileName);
             loadMaterials(fullpath);
@@ -178,7 +178,7 @@ bool PUMaterialCache::loadMaterialsFromSearchPaths( const std::string &fileFolde
             continue;
         }
 
-        if (FileUtils::getInstance()->getFileExtension(file->d_name) == ".material")
+        if (VirtualFileSystem::getInstance()->getFileExtension(file->d_name) == ".material")
         {
             std::string fullpath = fileFolder + "/" + file->d_name;
             CCLOG("%s", fullpath.c_str());

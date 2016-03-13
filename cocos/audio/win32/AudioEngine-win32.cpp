@@ -37,7 +37,7 @@
 #include "audio/include/AudioEngine.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "mpg123.h"
 
 using namespace cocos2d;
@@ -122,7 +122,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
 
         AudioCache::FileFormat fileFormat = AudioCache::FileFormat::UNKNOWN;
 
-        std::string fileExtension = FileUtils::getInstance()->getFileExtension(filePath);
+        std::string fileExtension = VirtualFileSystem::getInstance()->getFileExtension(filePath);
         if (fileExtension == ".ogg")
         {
             fileFormat = AudioCache::FileFormat::OGG;
@@ -154,7 +154,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
         audioCache = &_audioCaches[filePath];
         audioCache->_fileFormat = fileFormat;
 
-        audioCache->_fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+        audioCache->_fileFullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filePath);
         AudioEngine::addTask(std::bind(&AudioCache::readDataTask, audioCache));
     } while (false);
 

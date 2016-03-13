@@ -26,7 +26,7 @@
 
 #include <vector> // because its based on windows 8 build :P
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "tinyxml2.h"
 
 
@@ -116,7 +116,7 @@ bool SAXParser::parse(const char* xmlData, size_t dataLength)
 bool SAXParser::parse(const std::string& filename)
 {
     bool ret = false;
-    Data data = FileUtils::getInstance()->getDataFromFile(filename);
+    Data data = VirtualFileSystem::getInstance()->getFileData(filename);
     if (!data.isNull())
     {
         ret = parse((const char*)data.getBytes(), data.getSize());

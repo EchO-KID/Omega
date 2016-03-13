@@ -81,12 +81,12 @@ extern "C"
 #include "base/ccMacros.h"
 #include "CCCommon.h"
 #include "CCStdC.h"
-#include "CCFileUtils.h"
+#include "VirtualFileSystem.h"
 #include "base/CCConfiguration.h"
 #include "base/ccUtils.h"
 #include "base/ZipUtils.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "android/CCFileUtils-android.h"
+#include "android/CCVirtualFileSystem-android.h"
 #endif
 
 #define CC_GL_ATC_RGB_AMD                                          0x8C92
@@ -484,9 +484,9 @@ Image::~Image()
 bool Image::initWithImageFile(const std::string& path)
 {
     bool ret = false;
-    _filePath = FileUtils::getInstance()->fullPathForFilename(path);
+    _filePath = VirtualFileSystem::getInstance()->fullPathForFilename(path);
 
-    Data data = FileUtils::getInstance()->getDataFromFile(_filePath);
+    Data data = VirtualFileSystem::getInstance()->getFileData(_filePath);
 
     if (!data.isNull())
     {
@@ -501,7 +501,7 @@ bool Image::initWithImageFileThreadSafe(const std::string& fullpath)
     bool ret = false;
     _filePath = fullpath;
 
-    Data data = FileUtils::getInstance()->getDataFromFile(fullpath);
+	Data data = VirtualFileSystem::getInstance()->getFileData(fullpath);
 
     if (!data.isNull())
     {
@@ -1819,7 +1819,7 @@ bool Image::initWithTGAData(tImageTGA* tgaData)
     
     if (ret)
     {
-        if (FileUtils::getInstance()->getFileExtension(_filePath) != ".tga")
+        if (VirtualFileSystem::getInstance()->getFileExtension(_filePath) != ".tga")
         {
                     CCLOG("Image WARNING: the image file suffix is not tga, but parsed as a tga image file. FILE: %s", _filePath.c_str());
         }
@@ -2191,7 +2191,7 @@ bool Image::saveToFile(const std::string& filename, bool isToRGB)
         return false;
     }
 
-    std::string fileExtension = FileUtils::getInstance()->getFileExtension(filename);
+    std::string fileExtension = VirtualFileSystem::getInstance()->getFileExtension(filename);
 
     if (fileExtension == ".png")
     {
@@ -2223,7 +2223,7 @@ bool Image::saveImageToPNG(const std::string& filePath, bool isToRGB)
         png_colorp palette;
         png_bytep *row_pointers;
 
-        fp = fopen(FileUtils::getInstance()->getSuitableFOpen(filePath).c_str(), "wb");
+        fp = fopen(VirtualFileSystem::getInstance()->getSuitableFOpen(filePath).c_str(), "wb");
         CC_BREAK_IF(nullptr == fp);
 
         png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
@@ -2379,7 +2379,7 @@ bool Image::saveImageToJPG(const std::string& filePath)
         /* Now we can initialize the JPEG compression object. */
         jpeg_create_compress(&cinfo);
 
-        CC_BREAK_IF((outfile = fopen(FileUtils::getInstance()->getSuitableFOpen(filePath).c_str(), "wb")) == nullptr);
+        CC_BREAK_IF((outfile = fopen(VirtualFileSystem::getInstance()->getSuitableFOpen(filePath).c_str(), "wb")) == nullptr);
         
         jpeg_stdio_dest(&cinfo, outfile);
 

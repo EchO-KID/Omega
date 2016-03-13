@@ -26,7 +26,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCLabelAtlas.h"
 #include "renderer/CCTextureAtlas.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCDirector.h"
 #include "renderer/CCTextureCache.h"
 #include "../external/cppformat/format.h"
@@ -105,10 +105,10 @@ LabelAtlas* LabelAtlas::create(const std::string& string, const std::string& fnt
 
 bool LabelAtlas::initWithString(const std::string& theString, const std::string& fntFile)
 {
-    std::string pathStr = FileUtils::getInstance()->fullPathForFilename(fntFile);
+    std::string pathStr = VirtualFileSystem::getInstance()->fullPathForFilename(fntFile);
     std::string relPathStr = pathStr.substr(0, pathStr.find_last_of("/"))+"/";
     
-    ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(pathStr.c_str());
+    ValueMap dict = VirtualFileSystem::getInstance()->getValueMapFromFile(pathStr.c_str());
 
     CCASSERT(dict["version"].asInt() == 1, "Unsupported version. Upgrade cocos2d version");
 

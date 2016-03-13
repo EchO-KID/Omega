@@ -24,7 +24,7 @@
 #include "navmesh/CCNavMesh.h"
 #if CC_USE_NAVMESH
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCRenderer.h"
 #include "recast/Detour/DetourCommon.h"
 #include "recast/DebugUtils/DetourDebugDraw.h"
@@ -150,7 +150,7 @@ bool NavMesh::read()
 
 bool NavMesh::loadNavMeshFile()
 {
-    auto data = FileUtils::getInstance()->getDataFromFile(_navFilePath);
+    auto data = VirtualFileSystem::getInstance()->getFileData(_navFilePath);
     if (data.isNull()) return false;
 
     // Read header.
@@ -230,7 +230,7 @@ bool NavMesh::loadNavMeshFile()
 bool NavMesh::loadGeomFile()
 {
     unsigned char* buf = 0;
-    auto data = FileUtils::getInstance()->getDataFromFile(_geomFilePath);
+    auto data = VirtualFileSystem::getInstance()->getFileData(_geomFilePath);
     if (data.isNull()) return false;
     buf = data.getBytes();
     _geomData = new GeomData;

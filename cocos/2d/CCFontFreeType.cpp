@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "CCFontAtlas.h"
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -131,7 +131,7 @@ bool FontFreeType::createFontObject(const std::string &fontName, float fontSize)
     else
     {
         s_cacheFontData[fontName].referenceCount = 1;
-        s_cacheFontData[fontName].data = FileUtils::getInstance()->getDataFromFile(fontName);    
+        s_cacheFontData[fontName].data = VirtualFileSystem::getInstance()->getFileData(fontName);    
 
         if (s_cacheFontData[fontName].data.isNull())
         {

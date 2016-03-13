@@ -25,7 +25,7 @@
 
 #include "CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUTranslateManager.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 NS_CC_BEGIN
 
 // ObjectAbstractNode
@@ -227,12 +227,14 @@ const PUAbstractNodeList* PUScriptCompiler::compile(const std::string &file, boo
         return &iter->second;
     }
 
-    std::string data = FileUtils::getInstance()->getStringFromFile(file);
+    Data data = VirtualFileSystem::getInstance()->getFileData(file, true);
+	std::string ret((const char*)data.getBytes());
+
     PUScriptLexer lexer;
     PUScriptParser parser;
     PUScriptTokenList tokenList;
     PUConcreteNodeList creteNodeList;
-    lexer.openLexer(data, file, tokenList);
+	lexer.openLexer(ret, file, tokenList);
     parser.parse(creteNodeList, tokenList);
     bool state = compile(creteNodeList, file);
 

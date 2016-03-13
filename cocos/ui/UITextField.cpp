@@ -23,7 +23,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UITextField.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "ui/UIHelper.h"
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
@@ -489,7 +489,7 @@ int TextField::getFontSize()const
 
 void TextField::setFontName(const std::string& name)
 {
-    if(FileUtils::getInstance()->isFileExist(name))
+    if(VirtualFileSystem::getInstance()->isFileExist(name))
     {
         TTFConfig config = _textFieldRenderer->getTTFConfig();
         config.fontFilePath = name;

@@ -26,7 +26,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCAnimationCache.h"
 #include "2d/CCSpriteFrameCache.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 using namespace std;
 
@@ -202,7 +202,7 @@ void AnimationCache::addAnimationsWithDictionary(const ValueMap& dictionary,cons
         const ValueVector& spritesheets = properties.at("spritesheets").asValueVector();
 
         for(const auto &value : spritesheets) {
-            std::string path = FileUtils::getInstance()->fullPathFromRelativeFile(value.asString(),plist);
+            std::string path = VirtualFileSystem::getInstance()->fullPathFromRelativeFile(value.asString(),plist);
             SpriteFrameCache::getInstance()->addSpriteFramesWithFile(path);
         }
     }
@@ -224,8 +224,8 @@ void AnimationCache::addAnimationsWithFile(const std::string& plist)
 {
     CCASSERT( plist.size()>0, "Invalid texture file name");
 
-    std::string path = FileUtils::getInstance()->fullPathForFilename(plist);
-    ValueMap dict =  FileUtils::getInstance()->getValueMapFromFile(path);
+    std::string path = VirtualFileSystem::getInstance()->fullPathForFilename(plist);
+    ValueMap dict =  VirtualFileSystem::getInstance()->getValueMapFromFile(path);
 
     CCASSERT( !dict.empty(), "CCAnimationCache: File could not be found");
 

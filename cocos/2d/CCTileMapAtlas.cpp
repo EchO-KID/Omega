@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCTileMapAtlas.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "renderer/CCTextureAtlas.h"
 #include "base/TGAlib.h"
 #include "base/CCDirector.h"
@@ -106,7 +106,7 @@ void TileMapAtlas::calculateItemsToRender()
 
 void TileMapAtlas::loadTGAfile(const std::string& file)
 {
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(file);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(file);
 
     //    //Find the path of the file
     //    NSBundle *mainBndl = [Director sharedDirector].loadingBundle;

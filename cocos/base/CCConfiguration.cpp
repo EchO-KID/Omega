@@ -25,7 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "base/CCConfiguration.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCEventCustom.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
@@ -169,18 +169,6 @@ void Configuration::destroyInstance()
     CC_SAFE_RELEASE_NULL(s_sharedConfiguration);
 }
 
-// FIXME: deprecated
-Configuration* Configuration::sharedConfiguration()
-{
-    return Configuration::getInstance();
-}
-
-// FIXME: deprecated
-void Configuration::purgeConfiguration()
-{
-    Configuration::destroyInstance();
-}
-
 
 bool Configuration::checkForGLExtension(const std::string &searchName) const
 {
@@ -295,86 +283,5 @@ void Configuration::setValue(const std::string& key, const Value& value)
 	_valueDict[key] = value;
 }
 
-
-//
-// load file
-//
-void Configuration::loadConfigFile(const std::string& filename)
-{
-	ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(filename);
-	CCASSERT(!dict.empty(), "cannot create dictionary");
-
-	// search for metadata
-	bool validMetadata = false;
-	auto metadataIter = dict.find("metadata");
-	if (metadataIter != dict.cend() && metadataIter->second.getType() == Value::Type::MAP)
-    {
-        
-		const auto& metadata = metadataIter->second.asValueMap();
-        auto formatIter = metadata.find("format");
-        
-		if (formatIter != metadata.cend())
-        {
-			int format = formatIter->second.asInt();
-
-			// Support format: 1
-			if (format == 1)
-            {
-				validMetadata = true;
-			}
-		}
-	}
-
-	if (! validMetadata)
-    {
-		CCLOG("Invalid config format for file: %s", filename.c_str());
-		return;
-	}
-
-	auto dataIter = dict.find("data");
-	if (dataIter == dict.cend() || dataIter->second.getType() != Value::Type::MAP)
-    {
-		CCLOG("Expected 'data' dict, but not found. Config file: %s", filename.c_str());
-		return;
-	}
-
-	// Add all keys in the existing dictionary
-    
-	const auto& dataMap = dataIter->second.asValueMap();
-    for (auto dataMapIter = dataMap.cbegin(); dataMapIter != dataMap.cend(); ++dataMapIter)
-    {
-        if (_valueDict.find(dataMapIter->first) == _valueDict.cend())
-            _valueDict[dataMapIter->first] = dataMapIter->second;
-        else
-            CCLOG("Key already present. Ignoring '%s'",dataMapIter->first.c_str());
-    }
-    
-    //light info
-    std::string name = "cocos2d.x.3d.max_dir_light_in_shader";
-	if (_valueDict.find(name) != _valueDict.end())
-        _maxDirLightInShader = _valueDict[name].asInt();
-    else
-        _valueDict[name] = Value(_maxDirLightInShader);
-    
-    name = "cocos2d.x.3d.max_point_light_in_shader";
-	if (_valueDict.find(name) != _valueDict.end())
-        _maxPointLightInShader = _valueDict[name].asInt();
-    else
-        _valueDict[name] = Value(_maxPointLightInShader);
-    
-    name = "cocos2d.x.3d.max_spot_light_in_shader";
-	if (_valueDict.find(name) != _valueDict.end())
-        _maxSpotLightInShader = _valueDict[name].asInt();
-    else
-        _valueDict[name] = Value(_maxSpotLightInShader);
-    
-    name = "cocos2d.x.3d.animate_quality";
-    if (_valueDict.find(name) != _valueDict.end())
-        _animate3DQuality = (Animate3DQuality)_valueDict[name].asInt();
-    else
-        _valueDict[name] = Value((int)_animate3DQuality);
-    
-    Director::getInstance()->getEventDispatcher()->dispatchEvent(_loadedEvent);
-}
 
 NS_CC_END

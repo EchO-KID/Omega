@@ -25,7 +25,7 @@
 #include <string.h>
 
 #include "platform/CCPlatformMacros.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"
 #include "math/Vec4.h"
@@ -102,7 +102,7 @@ Properties* Properties::createNonRefCounted(const std::string& url)
 
     // data will be released automatically when 'data' goes out of scope
     // so we pass data as weak pointer
-    auto data = FileUtils::getInstance()->getDataFromFile(fileString);
+    Data data = VirtualFileSystem::getInstance()->getFileData(fileString);
     ssize_t dataIdx = 0;
     Properties* properties = new (std::nothrow) Properties(&data, &dataIdx);
     properties->resolveInheritance();
@@ -979,7 +979,7 @@ bool Properties::getPath(const char* name, std::string* path) const
     const char* valueString = getString(name);
     if (valueString)
     {
-        if (FileUtils::getInstance()->isFileExist(valueString))
+        if (VirtualFileSystem::getInstance()->isFileExist(valueString))
         {
             path->assign(valueString);
             return true;
@@ -995,7 +995,7 @@ bool Properties::getPath(const char* name, std::string* path) const
                 {
                     std::string relativePath = *dirPath;
                     relativePath.append(valueString);
-                    if (FileUtils::getInstance()->isFileExist(relativePath.c_str()))
+                    if (VirtualFileSystem::getInstance()->isFileExist(relativePath.c_str()))
                     {
                         path->assign(relativePath);
                         return true;

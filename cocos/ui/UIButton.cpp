@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCLabel.h"
 #include "2d/CCSprite.h"
 #include "2d/CCActionInterval.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "ui/UIHelper.h"
 #include <algorithm>
 
@@ -848,7 +848,7 @@ void Button::setTitleFontName(const std::string& fontName)
     {
         this->createTitleRenderer();
     }
-    if(FileUtils::getInstance()->isFileExist(fontName))
+    if(VirtualFileSystem::getInstance()->isFileExist(fontName))
     {
         std::string lowerCasedFontName = fontName;
         std::transform(lowerCasedFontName.begin(), lowerCasedFontName.end(), lowerCasedFontName.begin(), ::tolower);

@@ -52,7 +52,7 @@ THE SOFTWARE.
 #include "base/ZipUtils.h"
 #include "base/CCDirector.h"
 #include "renderer/CCTextureCache.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 using namespace std;
 
@@ -267,8 +267,8 @@ bool ParticleSystem::init()
 bool ParticleSystem::initWithFile(const std::string& plistFile)
 {
     bool ret = false;
-    _plistFile = FileUtils::getInstance()->fullPathForFilename(plistFile);
-    ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(_plistFile);
+    _plistFile = VirtualFileSystem::getInstance()->fullPathForFilename(plistFile);
+    ValueMap dict = VirtualFileSystem::getInstance()->getValueMapFromFile(_plistFile);
 
     CCASSERT( !dict.empty(), "Particles: file not found");
     
@@ -474,11 +474,7 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
                 if (!textureName.empty())
                 {
                     // set not pop-up message box when load image failed
-                    bool notify = FileUtils::getInstance()->isPopupNotify();
-                    FileUtils::getInstance()->setPopupNotify(false);
                     tex = Director::getInstance()->getTextureCache()->addImage(textureName);
-                    // reset the value of UIImage notify
-                    FileUtils::getInstance()->setPopupNotify(notify);
                 }
                 
                 if (tex)

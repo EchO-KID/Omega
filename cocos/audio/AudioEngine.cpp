@@ -29,7 +29,7 @@
 #include "audio/include/AudioEngine.h"
 #include <condition_variable>
 #include <queue>
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/ccUtils.h"
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
@@ -191,7 +191,7 @@ int AudioEngine::play2d(const std::string& filePath, bool loop, float volume, co
             break;
         }
 
-        if ( !FileUtils::getInstance()->isFileExist(filePath)){
+        if ( !VirtualFileSystem::getInstance()->isFileExist(filePath)){
             break;
         }
 
@@ -517,7 +517,7 @@ void AudioEngine::preload(const std::string& filePath, std::function<void(bool i
 
     if (_audioEngineImpl)
     {
-        if (!FileUtils::getInstance()->isFileExist(filePath)){
+        if (!VirtualFileSystem::getInstance()->isFileExist(filePath)){
             if (callback)
             {
                 callback(false);
