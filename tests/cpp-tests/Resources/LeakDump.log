@@ -1,0 +1,6 @@
+Memory leak dump
+
+
+Total leaks:0, 0 bytes
+Total allocations:103160, 5863736 bytes
+Not monitored allocations:52040, 4843693 bytes
