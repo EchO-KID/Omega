@@ -62,9 +62,10 @@ public:
     virtual std::string getWritablePath() const;
     virtual bool isAbsolutePath(const std::string& strPath) const;
 
-    Data getFileData(const std::string& filename, bool forString);
+    
     
 private:
+    Data getDataFromRealFile(const std::string& filename, bool forString);
     virtual bool isFileExistInternal(const std::string& strFilePath) const override;
     virtual bool isDirectoryExistInternal(const std::string& dirPath) const override;
     

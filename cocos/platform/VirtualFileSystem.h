@@ -17,7 +17,7 @@ class CC_DLL VirtualFileSystem
 public:
 	static VirtualFileSystem* getInstance();
 	static void destroyInstance();
-
+	~VirtualFileSystem();
 	bool init();
 
 	ValueMap getValueMapFromFile(const std::string& file);
@@ -41,10 +41,14 @@ public:
 	virtual bool isAbsolutePath(const std::string& path) const;            //! 存在于zip即绝对路径。
 	std::string fullPathForFilename(const std::string &filename) const;    //! 要判断是否在zip里面
 		
-	bool addZipFile(const std::string& zipPath);            //! initialise virtual file system with zip file.
+	bool addZipFile(const std::string& zipPath, const std::string& pattern);            //! initialise virtual file system with zip file.
+	void clearAllZipFile(void);
 	Data getFileData(const std::string& path, bool forString=false);	            //! 未实现
 
 protected:
+	bool isFileExistInZipFile(const std::string& path) const;
+	Data getFileDataFromZipFile(const std::string& path, bool bForString);
+	virtual Data getDataFromRealFile(const std::string& filename, bool forString);
 	std::string getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const;
 	std::string getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const;
 	/**

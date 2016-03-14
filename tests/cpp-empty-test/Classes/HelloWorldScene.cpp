@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "AppMacros.h"
+#include "VirtualFileSystem.h"
 
 USING_NS_CC;
 

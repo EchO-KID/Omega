@@ -195,7 +195,7 @@ bool VirtualFileSystemAndroid::isAbsolutePath(const std::string& strPath) const
     return false;
 }
 
-Data VirtualFileSystemAndroid::getData(const std::string& filename, bool forString)
+Data VirtualFileSystemAndroid::getDataFromRealFile(const std::string& filename, bool forString)
 {
     if (filename.empty())
     {

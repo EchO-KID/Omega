@@ -68,9 +68,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
         director->setContentScaleFactor(MIN(smallResource.size.height/designResolutionSize.height, smallResource.size.width/designResolutionSize.width));
     }
+
     
     // set searching path
     VirtualFileSystem::getInstance()->setSearchPaths(searchPath);
+	VirtualFileSystem::getInstance()->addZipFile("res.zip.xor", "omega");
 	
     // turn on display FPS
     director->setDisplayStats(true);

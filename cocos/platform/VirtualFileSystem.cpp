@@ -288,6 +288,8 @@ public:
 
 
 VirtualFileSystem* VirtualFileSystem::ms_instance;
+static std::vector<unzFile> s_zipfileLst;
+static std::vector<Data*> s_zipDataList;
 
 //VirtualFileSystem* VirtualFileSystem::getInstance()
 //{
@@ -300,6 +302,11 @@ VirtualFileSystem* VirtualFileSystem::ms_instance;
 void VirtualFileSystem::destroyInstance()
 {
 	Delete VirtualFileSystem::ms_instance;
+}
+
+VirtualFileSystem::~VirtualFileSystem()
+{
+	clearAllZipFile();
 }
 
 bool VirtualFileSystem::init()
@@ -487,13 +494,156 @@ std::string VirtualFileSystem::fullPathForFilename(const std::string &filename) 
 	return "";
 }
 
-bool VirtualFileSystem::addZipFile(const std::string& zipPath)
+/*
+* get_next_byte
+* Non null in argument sets the array, length is required.
+* A null in argument gets the next byte from the array (end to beginning)
+*/
+unsigned char get_next_byte(unsigned char* in, int length)
 {
-	
+	static unsigned char* bytes = NULL;
+	static int count = 0;
+	static int ocount;
+
+	if (!in)
+	{
+		if (!count)
+			count = ocount;
+		return bytes[count--];
+	}
+	else
+	{
+		bytes = in;
+		count = ocount = length - 1;
+		return (unsigned char)0;
+	}
+}
+
+/*
+* xor_bytes
+* Takes the byte array arr of length alen and xors it with the pattern of length plen
+*/
+void xor_bytes(unsigned char* arr, int alen, unsigned char* pattern, int plen)
+{
+	unsigned char cur;
+	get_next_byte(pattern, plen);
+	int i;
+
+	for (i = 0; i < alen; i++)
+	{
+		cur = get_next_byte(NULL, 0);
+		arr[i] ^= cur;
+	}
+}
+
+bool VirtualFileSystem::addZipFile(const std::string& zipPath, const std::string& pattern)
+{
+	Data&& data = getDataFromRealFile(zipPath, false);
+	if (data.isNull())
+		return false;
+
+	xor_bytes(data.getBytes(), data.getSize(), (unsigned char*)pattern.c_str(), pattern.length());
+
+	unzFile file = unzOpenBuffer(data.getBytes(), data.getSize());
+	if (file)
+	{
+		s_zipfileLst.push_back(file);
+
+		Data* pData = New Data();
+		
+		pData->fastSet(data.getBytes(), data.getSize());
+		data.fastSet(nullptr, 0);
+		s_zipDataList.push_back(pData);
+	}
+		
+}
+
+void VirtualFileSystem::clearAllZipFile(void)
+{
+	for (std::vector<unzFile>::iterator iter = s_zipfileLst.begin(); iter != s_zipfileLst.end(); ++iter)
+	{
+		unzClose(*iter);
+	}
+	for (std::vector<Data*>::iterator iter = s_zipDataList.begin(); iter != s_zipDataList.end(); ++iter)
+	{
+		Delete (*iter);
+	}
+
+	s_zipfileLst.clear();
+	s_zipDataList.clear();
+}
+
+Data VirtualFileSystem::getFileData(const std::string& path, bool forString)
+{
+	Data data = getFileDataFromZipFile(path, forString);
+	if (0 == data.getSize())
+		return getDataFromRealFile(path, forString);
+	else
+		return data;
+}
+
+bool VirtualFileSystem::isFileExistInZipFile(const std::string& path) const
+{
+	for (std::vector<unzFile>::iterator iter = s_zipfileLst.begin(); iter != s_zipfileLst.end(); ++iter)
+	{
+		unzFile file = *iter;
+#ifdef MINIZIP_FROM_SYSTEM
+		int ret = unzLocateFile(file, filename.c_str(), NULL);
+#else
+		int ret = unzLocateFile(file, path.c_str(), 1);
+#endif
+		if (UNZ_OK == ret)
+			return true;
+	}
 	return false;
 }
 
-Data VirtualFileSystem::getFileData(const std::string& filename, bool forString)
+Data VirtualFileSystem::getFileDataFromZipFile(const std::string& path, bool bForString)
+{
+	Data retData = Data::Null;
+	unsigned char * buffer = nullptr;
+	unzFile file = nullptr;
+	ssize_t size = 0;
+	for (std::vector<unzFile>::iterator iter = s_zipfileLst.begin(); iter != s_zipfileLst.end(); ++iter)
+	{
+		file = *iter;
+
+		// FIXME: Other platforms should use upstream minizip like mingw-w64
+#ifdef MINIZIP_FROM_SYSTEM
+		int ret = unzLocateFile(file, filename.c_str(), NULL);
+#else
+		int ret = unzLocateFile(file, path.c_str(), 1);
+#endif
+		if (UNZ_OK != ret)
+			continue;
+
+		char filePathA[260];
+		unz_file_info fileInfo;
+		ret = unzGetCurrentFileInfo(file, &fileInfo, filePathA, sizeof(filePathA), nullptr, 0, nullptr, 0);
+		if (UNZ_OK != ret)
+			continue;
+
+		ret = unzOpenCurrentFile(file);
+		if (UNZ_OK != ret)
+			continue;
+
+		const size_t bufferSize = bForString ? (fileInfo.uncompressed_size + 1) : fileInfo.uncompressed_size;
+		buffer = (unsigned char*)malloc(bufferSize);
+		memset(buffer, 0, bufferSize);
+
+		int CC_UNUSED readedSize = unzReadCurrentFile(file, buffer, static_cast<unsigned>(fileInfo.uncompressed_size));
+		CCASSERT(readedSize == 0 || readedSize == (int)fileInfo.uncompressed_size, "the file size is wrong");
+
+		size = fileInfo.uncompressed_size;
+		unzCloseCurrentFile(file);
+
+		retData.fastSet(buffer, bufferSize);
+	}
+
+	return retData;
+}
+
+Data VirtualFileSystem::getDataFromRealFile(const std::string& filename, bool forString)
 {
 	if (filename.empty())
 	{
@@ -550,14 +700,6 @@ Data VirtualFileSystem::getFileData(const std::string& filename, bool forString)
 	}
 
 	return ret;
-
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-
-#else
-	
-#endif
-
 }
 
 std::string VirtualFileSystem::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const
@@ -592,7 +734,7 @@ std::string VirtualFileSystem::getFullPathForDirectoryAndFilename(const std::str
 	ret += filename;
 
 	// if the file doesn't exist, return an empty string
-	if (!isFileExistInternal(ret)) {
+	if (!isFileExistInternal(ret) && !isFileExistInZipFile(ret) ) {
 		ret = "";
 	}
 	return ret;
