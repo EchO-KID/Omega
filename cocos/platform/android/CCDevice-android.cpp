@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "jni/DPIJni.h"
 #include "jni/Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 #include "jni/JniHelper.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -94,9 +94,9 @@ public:
                return false;
            }
 
-           // Do a full lookup for the font path using FileUtils in case the given font name is a relative path to a font file asset,
+           // Do a full lookup for the font path using VirtualFileSystem in case the given font name is a relative path to a font file asset,
            // or the path has been mapped to a different location in the app package:
-           std::string fullPathOrFontName = FileUtils::getInstance()->fullPathForFilename(textDefinition._fontName);
+           std::string fullPathOrFontName = VirtualFileSystem::getInstance()->fullPathForFilename(textDefinition._fontName);
             
            // If the path name returned includes the 'assets' dir then that needs to be removed, because the android.content.Context
            // requires this portion of the path to be omitted for assets inside the app package.

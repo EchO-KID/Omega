@@ -32,7 +32,7 @@
 #include "jni/JniHelper.h"
 #include "base/CCDirector.h"
 #include "base/CCEventListenerKeyboard.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "ui/UIHelper.h"
 
 //-----------------------------------------------------------------------------------------------------------
@@ -195,7 +195,7 @@ VideoPlayer::~VideoPlayer()
 
 void VideoPlayer::setFileName(const std::string& fileName)
 {
-    _videoURL = FileUtils::getInstance()->fullPathForFilename(fileName);
+    _videoURL = VirtualFileSystem::getInstance()->fullPathForFilename(fileName);
     _videoSource = VideoPlayer::Source::FILENAME;
     setVideoURLJNI(_videoPlayerIndex, (int)Source::FILENAME,_videoURL);
 }

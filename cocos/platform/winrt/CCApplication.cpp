@@ -33,7 +33,7 @@ using namespace Windows::Foundation;
 #endif
 #include "base/CCDirector.h"
 #include <algorithm>
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "CCWinRTUtils.h"
 #include "platform/CCApplication.h"
 
@@ -255,10 +255,10 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         m_resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
+    VirtualFileSystem* pVirtualFileSystem = VirtualFileSystem::getInstance();
+    std::vector<std::string> searchPaths = pVirtualFileSystem->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), m_resourceRootPath);
-    pFileUtils->setSearchPaths(searchPaths);
+    pVirtualFileSystem->setSearchPaths(searchPaths);
 }
 
 const std::string& Application::getResourceRootPath(void)

@@ -22,13 +22,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#ifndef __CC_FILEUTILS_LINUX_H__
-#define __CC_FILEUTILS_LINUX_H__
+#ifndef __CC_VirtualFileSystem_LINUX_H__
+#define __CC_VirtualFileSystem_LINUX_H__
 
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCPlatformMacros.h"
 #include "base/ccTypes.h"
 #include <string>
@@ -42,10 +42,10 @@ NS_CC_BEGIN
  */
 
 //! @brief  Helper class to handle file operations
-class CC_DLL FileUtilsLinux : public FileUtils
+class CC_DLL VirtualFileSystemLinux : public VirtualFileSystem
 {
-    friend class FileUtils;
-    FileUtilsLinux();
+    friend class VirtualFileSystem;
+    VirtualFileSystemLinux();
     std::string _writablePath;
 public:
     /* override functions */
@@ -62,4 +62,4 @@ NS_CC_END
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#endif    // __CC_FILEUTILS_LINUX_H__
+#endif    // __CC_VirtualFileSystem_LINUX_H__

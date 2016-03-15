@@ -22,7 +22,7 @@
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 
 #include "AudioEngine-winrt.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
@@ -58,7 +58,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
         if (it == _audioCaches.end()) {
             FileFormat fileFormat = FileFormat::UNKNOWN;
 
-            std::string fileExtension = FileUtils::getInstance()->getFileExtension(filePath);
+            std::string fileExtension = VirtualFileSystem::getInstance()->getFileExtension(filePath);
 
             if (fileExtension == ".wav")
             {
@@ -81,7 +81,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
             audioCache = &_audioCaches[filePath];
             audioCache->_fileFormat = fileFormat;
 
-            std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+            std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filePath);
             audioCache->_fileFullPath = fullPath;
             AudioEngine::addTask(std::bind(&AudioCache::readDataTask, audioCache));
         }

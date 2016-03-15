@@ -59,7 +59,7 @@ void SimpleAudioEngine::end() {
 void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath,
 		bool bLoop) {
 	// Changing file path to full path
-	std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+	std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 	oAudioPlayer->playBackgroundMusic(fullPath.c_str(), bLoop);
 }
 
@@ -89,7 +89,7 @@ bool SimpleAudioEngine::isBackgroundMusicPlaying() {
 
 void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) {
 	// Changing file path to full path
-	std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+	std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 	return oAudioPlayer->preloadBackgroundMusic(fullPath.c_str());
 }
 
@@ -100,7 +100,7 @@ void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath) {
 unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop,
                                            float pitch, float pan, float gain) {
     // Changing file path to full path
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
     return oAudioPlayer->playEffect(fullPath.c_str(), bLoop, pitch, pan, gain);
 }
 
@@ -110,13 +110,13 @@ void SimpleAudioEngine::stopEffect(unsigned int nSoundId) {
 
 void SimpleAudioEngine::preloadEffect(const char* pszFilePath) {
 	// Changing file path to full path
-	std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+	std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 	return oAudioPlayer->preloadEffect(fullPath.c_str());
 }
 
 void SimpleAudioEngine::unloadEffect(const char* pszFilePath) {
 	// Changing file path to full path
-	std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+	std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 	return oAudioPlayer->unloadEffect(fullPath.c_str());
 }
 

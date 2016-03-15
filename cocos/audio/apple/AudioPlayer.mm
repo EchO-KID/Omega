@@ -29,7 +29,7 @@
 
 #include "AudioPlayer.h"
 #include "AudioCache.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #import <AudioToolbox/ExtendedAudioFile.h>
 
 using namespace cocos2d;

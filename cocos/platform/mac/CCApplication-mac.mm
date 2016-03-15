@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include <algorithm>
 
 #import "platform/CCApplication.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "math/CCGeometry.h"
 #include "base/CCDirector.h"
 
@@ -197,10 +197,10 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         _resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
+    VirtualFileSystem* pVirtualFileSystem = VirtualFileSystem::getInstance();
+    std::vector<std::string> searchPaths = pVirtualFileSystem->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), _resourceRootPath);
-    pFileUtils->setSearchPaths(searchPaths);
+    pVirtualFileSystem->setSearchPaths(searchPaths);
 }
 
 const std::string& Application::getResourceRootPath(void)

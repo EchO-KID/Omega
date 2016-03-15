@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <string.h>
 #include "base/CCDirector.h"
 #include "../CCApplication.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include <jni.h>
 #include "base/ccUTF8.h"
 

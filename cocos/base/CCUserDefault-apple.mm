@@ -35,7 +35,7 @@
 #import "platform/CCPlatformConfig.h"
 #import "platform/CCPlatformMacros.h"
 #import "base64.h"
-#import "platform/CCFileUtils.h"
+#import "platform/VirtualFileSystem.h"
 
 #define XML_FILE_NAME "UserDefault.xml"
 
@@ -78,7 +78,7 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLDoc
  		tinyxml2::XMLDocument* xmlDoc = new tinyxml2::XMLDocument();
 		*doc = xmlDoc;
 
-        std::string xmlBuffer = FileUtils::getInstance()->getStringFromFile(UserDefault::getInstance()->getXMLFilePath());
+        std::string xmlBuffer = VirtualFileSystem::getInstance()->getStringFromFile(UserDefault::getInstance()->getXMLFilePath());
 
 		if (xmlBuffer.empty())
 		{
@@ -506,7 +506,7 @@ void UserDefault::purgeSharedUserDefault()
 
 bool UserDefault::isXMLFileExist()
 {
-    return FileUtils::getInstance()->isFileExist(_filePath);
+    return VirtualFileSystem::getInstance()->isFileExist(_filePath);
 }
 
 void UserDefault::initXMLFilePath()

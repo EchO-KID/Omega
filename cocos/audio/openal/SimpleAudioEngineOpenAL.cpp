@@ -225,7 +225,7 @@ void SimpleAudioEngine::end()
 void SimpleAudioEngine::preloadBackgroundMusic(const char* pszFilePath)
 {
     // Changing file path to full path
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 
     BackgroundMusicsMap::const_iterator it = s_backgroundMusics.find(fullPath);
     if (it == s_backgroundMusics.end())
@@ -266,7 +266,7 @@ void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
         stopBackgroundMusic(false);
 
     // Changing file path to full path
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 
     BackgroundMusicsMap::const_iterator it = s_backgroundMusics.find(fullPath);
     if (it == s_backgroundMusics.end())
@@ -415,7 +415,7 @@ void SimpleAudioEngine::setEffectsVolume(float volume)
 unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop,
                                            float pitch, float pan, float gain)
 {
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 
     EffectsMap::iterator iter = s_effects.find(fullPath);
 
@@ -459,7 +459,7 @@ void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
 void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
 {
     // Changing file path to full path
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 
     EffectsMap::iterator iter = s_effects.find(fullPath);
 
@@ -511,7 +511,7 @@ void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
 void SimpleAudioEngine::unloadEffect(const char* pszFilePath)
 {
     // Changing file path to full path
-    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(pszFilePath);
+    std::string fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(pszFilePath);
 
     EffectsMap::iterator iter = s_effects.find(fullPath);
 

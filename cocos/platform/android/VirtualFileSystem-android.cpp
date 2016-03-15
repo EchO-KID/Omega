@@ -61,7 +61,7 @@ VirtualFileSystem* VirtualFileSystem::getInstance()
         {
             Delete VirtualFileSystem::ms_instance;
             VirtualFileSystem::ms_instance = nullptr;
-          CCLOG("ERROR: Could not init CCVirtualFileSystemWin32");
+          CCLOG("ERROR: Could not init VirtualFileSystemWin32");
         }
     }
     return VirtualFileSystem::ms_instance;
@@ -88,10 +88,7 @@ bool VirtualFileSystemAndroid::isFileExistInternal(const std::string& strFilePat
         return false;
     }
 
-    if (cocosplay::isEnabled() && !cocosplay::isDemo())
-    {
-        return cocosplay::fileExists(strFilePath);
-    }
+
 
     bool bFound = false;
 
@@ -138,16 +135,6 @@ bool VirtualFileSystemAndroid::isDirectoryExistInternal(const std::string& dirPa
     int lenOfAssets = 7;
 
     std::string tmpStr;
-    if (cocosplay::isEnabled() && !cocosplay::isDemo())
-    {
-        // redirect assets/*** path to cocosplay resource dir
-        tmpStr.append(_defaultResRootPath);
-        if ('/' != tmpStr[tmpStr.length() - 1])
-        {
-            tmpStr += '/';
-        }
-        tmpStr.append(s + lenOfAssets);
-    }
 
     // find absolute path in flash memory
     if (s[0] == '/')
@@ -205,7 +192,7 @@ Data VirtualFileSystemAndroid::getDataFromRealFile(const std::string& filename, 
     unsigned char* data = nullptr;
     ssize_t size = 0;
     string fullPath = fullPathForFilename(filename);
-    cocosplay::updateAssets(fullPath);
+
 
     if (fullPath[0] != '/')
     {
@@ -220,14 +207,14 @@ Data VirtualFileSystemAndroid::getDataFromRealFile(const std::string& filename, 
         }
         CCLOGINFO("relative path = %s", relativePath.c_str());
 
-        if (nullptr == FileUtilsAndroid::assetmanager) {
-            LOGD("... FileUtilsAndroid::assetmanager is nullptr");
+        if (nullptr == VirtualFileSystemAndroid::assetmanager) {
+            LOGD("... VirtualFileSystemAndroid::assetmanager is nullptr");
             return Data::Null;
         }
 
         // read asset data
         AAsset* asset =
-            AAssetManager_open(FileUtilsAndroid::assetmanager,
+            AAssetManager_open(VirtualFileSystemAndroid::assetmanager,
                                relativePath.c_str(),
                                AASSET_MODE_UNKNOWN);
         if (nullptr == asset) {
@@ -297,7 +284,6 @@ Data VirtualFileSystemAndroid::getDataFromRealFile(const std::string& filename, 
     else
     {
         ret.fastSet(data, size);
-        cocosplay::notifyFileLoaded(fullPath);
     }
 
     return ret;

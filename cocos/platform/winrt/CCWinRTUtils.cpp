@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include <sstream>
 #include "base/ccMacros.h"
 #include "platform/CCPlatformMacros.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCUserDefault.h"
 
 using namespace Windows::UI::Xaml;
@@ -361,15 +361,15 @@ std::string computeHashForFile(const std::string& filePath)
 bool createMappedCacheFile(const std::string& srcFilePath, std::string& cacheFilePath, std::string ext)
 {
     bool ret = false;
-    auto folderPath = FileUtils::getInstance()->getWritablePath();
+    auto folderPath = VirtualFileSystem::getInstance()->getWritablePath();
     cacheFilePath = folderPath + computeHashForFile(srcFilePath) + ext;
     std::string prevFile = UserDefault::getInstance()->getStringForKey(srcFilePath.c_str());
 
     if (prevFile == cacheFilePath) {
-        ret = FileUtils::getInstance()->isFileExist(cacheFilePath);
+        ret = VirtualFileSystem::getInstance()->isFileExist(cacheFilePath);
     }
     else {
-        FileUtils::getInstance()->removeFile(prevFile);
+        VirtualFileSystem::getInstance()->removeFile(prevFile);
     }
 
     UserDefault::getInstance()->setStringForKey(srcFilePath.c_str(), cacheFilePath);
@@ -381,7 +381,7 @@ void destroyMappedCacheFile(const std::string& key)
     std::string value = UserDefault::getInstance()->getStringForKey(key.c_str());
     
     if (!value.empty()) {
-        FileUtils::getInstance()->removeFile(value);
+        VirtualFileSystem::getInstance()->removeFile(value);
     }
 
     UserDefault::getInstance()->setStringForKey(key.c_str(), "");

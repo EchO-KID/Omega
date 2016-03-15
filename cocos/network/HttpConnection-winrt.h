@@ -50,7 +50,7 @@ using namespace Microsoft::WRL::Details;
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 

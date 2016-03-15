@@ -25,7 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #import <Foundation/Foundation.h>
 
-#include "CCFileUtils-apple.h"
+#include "VirtualFileSystem-apple.h"
 
 #include <ftw.h>
 
@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "deprecated/CCString.h"
 #include "deprecated/CCDictionary.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCSAXParser.h"
 
 NS_CC_BEGIN
@@ -303,41 +303,41 @@ static void addObjectToNSDict(const std::string& key, const Value& value, NSMuta
     }
 }
 
-FileUtilsApple::FileUtilsApple() {
+VirtualFileSystemApple::VirtualFileSystemApple() {
     _bundle = [NSBundle mainBundle];
 }
 
 
-void FileUtilsApple::setBundle(NSBundle* bundle) {
+void VirtualFileSystemApple::setBundle(NSBundle* bundle) {
     _bundle = bundle;
 }
 
-NSBundle* FileUtilsApple::getBundle() const {
+NSBundle* VirtualFileSystemApple::getBundle() const {
     return _bundle;
 }
 
 
-#pragma mark - FileUtils
+#pragma mark - VirtualFileSystem
 
 static NSFileManager* s_fileManager = [NSFileManager defaultManager];
 
-FileUtils* FileUtils::getInstance()
+VirtualFileSystem* VirtualFileSystem::getInstance()
 {
-    if (s_sharedFileUtils == nullptr)
+    if (s_sharedVirtualFileSystem == nullptr)
     {
-        s_sharedFileUtils = new (std::nothrow) FileUtilsApple();
-        if(!s_sharedFileUtils->init())
+        s_sharedVirtualFileSystem = new (std::nothrow) VirtualFileSystemApple();
+        if(!s_sharedVirtualFileSystem->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = nullptr;
-          CCLOG("ERROR: Could not init CCFileUtilsApple");
+          delete s_sharedVirtualFileSystem;
+          s_sharedVirtualFileSystem = nullptr;
+          CCLOG("ERROR: Could not init VirtualFileSystemApple");
         }
     }
-    return s_sharedFileUtils;
+    return s_sharedVirtualFileSystem;
 }
 
 
-std::string FileUtilsApple::getWritablePath() const
+std::string VirtualFileSystemApple::getWritablePath() const
 {
     if (_writablePath.length())
     {
@@ -352,7 +352,7 @@ std::string FileUtilsApple::getWritablePath() const
     return strRet;
 }
 
-bool FileUtilsApple::isFileExistInternal(const std::string& filePath) const
+bool VirtualFileSystemApple::isFileExistInternal(const std::string& filePath) const
 {
     if (filePath.empty())
     {
@@ -405,7 +405,7 @@ static int unlink_cb(const char *fpath, const struct stat *sb, int typeflag, str
     return ret;
 }
 
-bool FileUtilsApple::removeDirectory(const std::string& path)
+bool VirtualFileSystemApple::removeDirectory(const std::string& path)
 {
     if (path.size() > 0 && path[path.size() - 1] != '/')
     {
@@ -419,7 +419,7 @@ bool FileUtilsApple::removeDirectory(const std::string& path)
         return true;
 }
 
-std::string FileUtilsApple::getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const
+std::string VirtualFileSystemApple::getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const
 {
     if (directory[0] != '/')
     {
@@ -441,7 +441,7 @@ std::string FileUtilsApple::getFullPathForDirectoryAndFilename(const std::string
     return "";
 }
 
-ValueMap FileUtilsApple::getValueMapFromFile(const std::string& filename)
+ValueMap VirtualFileSystemApple::getValueMapFromFile(const std::string& filename)
 {
     std::string fullPath = fullPathForFilename(filename);
     NSString* path = [NSString stringWithUTF8String:fullPath.c_str()];
@@ -460,7 +460,7 @@ ValueMap FileUtilsApple::getValueMapFromFile(const std::string& filename)
     return ret;
 }
 
-ValueMap FileUtilsApple::getValueMapFromData(const char* filedata, int filesize)
+ValueMap VirtualFileSystemApple::getValueMapFromData(const char* filedata, int filesize)
 {
     NSData* file = [NSData dataWithBytes:filedata length:filesize];
     NSPropertyListFormat format;
@@ -480,12 +480,12 @@ ValueMap FileUtilsApple::getValueMapFromData(const char* filedata, int filesize)
     return ret;
 }
 
-bool FileUtilsApple::writeToFile(ValueMap& dict, const std::string &fullPath)
+bool VirtualFileSystemApple::writeToFile(ValueMap& dict, const std::string &fullPath)
 {
     return writeValueMapToFile(dict, fullPath);
 }
 
-bool FileUtils::writeValueMapToFile(ValueMap& dict, const std::string& fullPath)
+bool VirtualFileSystem::writeValueMapToFile(ValueMap& dict, const std::string& fullPath)
 {
     
     //CCLOG("iOS||Mac Dictionary %d write to file %s", dict->_ID, fullPath.c_str());
@@ -503,7 +503,7 @@ bool FileUtils::writeValueMapToFile(ValueMap& dict, const std::string& fullPath)
     return true;
 }
 
-bool FileUtils::writeValueVectorToFile(ValueVector vecData, const std::string& fullPath)
+bool VirtualFileSystem::writeValueVectorToFile(ValueVector vecData, const std::string& fullPath)
 {
     NSString* path = [NSString stringWithUTF8String:fullPath.c_str()];
     NSMutableArray* array = [NSMutableArray array];
@@ -517,7 +517,7 @@ bool FileUtils::writeValueVectorToFile(ValueVector vecData, const std::string& f
     
     return true;
 }
-ValueVector FileUtilsApple::getValueVectorFromFile(const std::string& filename)
+ValueVector VirtualFileSystemApple::getValueVectorFromFile(const std::string& filename)
 {
     //    NSString* pPath = [NSString stringWithUTF8String:pFileName];
     //    NSString* pathExtension= [pPath pathExtension];

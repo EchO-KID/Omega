@@ -96,6 +96,7 @@ platform/CCGLView.cpp \
 platform/CCImage.cpp \
 platform/CCSAXParser.cpp \
 platform/CCThread.cpp \
+platform/LeakDump.cpp \
 $(MATHNEONFILE) \
 math/CCAffineTransform.cpp \
 math/CCGeometry.cpp \

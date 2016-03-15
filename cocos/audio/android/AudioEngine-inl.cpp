@@ -115,21 +115,21 @@ bool AudioPlayer::init(SLEngineItf engineEngine, SLObjectItf outputMixObject,con
                 relativePath += fileFullPath;
             }
 
-            // auto asset = AAssetManager_open(cocos2d::VirtualFileSystemAndroid::getAssetManager(), relativePath.c_str(), AASSET_MODE_UNKNOWN);
+            auto asset = AAssetManager_open(cocos2d::VirtualFileSystemAndroid::getAssetManager(), relativePath.c_str(), AASSET_MODE_UNKNOWN);
 
-            // // open asset as file descriptor
-            // off_t start, length;
-            // _assetFd = AAsset_openFileDescriptor(asset, &start, &length);
-            // if (_assetFd <= 0){
-            //     AAsset_close(asset);
-            //     break;
-            // }
-            // AAsset_close(asset);
+            // open asset as file descriptor
+            off_t start, length;
+            _assetFd = AAsset_openFileDescriptor(asset, &start, &length);
+            if (_assetFd <= 0){
+                AAsset_close(asset);
+                break;
+            }
+            AAsset_close(asset);
 
-            // // configure audio source
-            // loc_fd = {SL_DATALOCATOR_ANDROIDFD, _assetFd, start, length};
+            // configure audio source
+            loc_fd = {SL_DATALOCATOR_ANDROIDFD, _assetFd, start, length};
 
-            // audioSrc.pLocator = &loc_fd;
+            audioSrc.pLocator = &loc_fd;
         }
         else{
             loc_uri = {SL_DATALOCATOR_URI , (SLchar*)fileFullPath.c_str()};

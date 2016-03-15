@@ -31,7 +31,7 @@
 #include "base/CCDirector.h"
 #include "platform/CCGLView.h"
 #include "platform/ios/CCEAGLView-ios.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "ui/UIWebView.h"
 
 static std::string getFixedBaseUrl(const std::string& baseUrl)
@@ -309,7 +309,7 @@ void WebViewImpl::loadURL(const std::string &url) {
 }
 
 void WebViewImpl::loadFile(const std::string &fileName) {
-    auto fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename(fileName);
+    auto fullPath = cocos2d::VirtualFileSystem::getInstance()->fullPathForFilename(fileName);
     [_uiWebViewWrapper loadFile:fullPath];
 }
 

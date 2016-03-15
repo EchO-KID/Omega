@@ -23,7 +23,7 @@
 
 #include "CCFreeTypeFont.h"
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 #include <dwrite.h>
 #include <map>
@@ -604,14 +604,14 @@ unsigned char* CCFreeTypeFont::loadFont(const char *pFontName, ssize_t *size)
         path += ".ttf";
     }
 
-	std::string fullpath  = FileUtils::getInstance()->fullPathForFilename(path.c_str());
+	std::string fullpath  = VirtualFileSystem::getInstance()->fullPathForFilename(path.c_str());
 
     if (fullpath == "")
     {
         return nullptr;
     }
 
-	return FileUtils::getInstance()->getFileData(fullpath.c_str(), "rb", size);
+	return VirtualFileSystem::getInstance()->getFileData(fullpath.c_str(), "rb", size);
 }
 
 unsigned char* CCFreeTypeFont::loadSystemFont(const char *pFontName, ssize_t *size) 

@@ -35,7 +35,7 @@
 #include "UIWebView.h"
 #include "platform/CCGLView.h"
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "ui/UIHelper.h"
 
 #define CLASS_NAME "org/cocos2dx/lib/Cocos2dxWebViewHelper"
@@ -317,7 +317,7 @@ void setWebViewVisibleJNI(const int index, const bool visible) {
 std::string getUrlStringByFileName(const std::string &fileName) {
     // LOGD("error: %s,%d",__func__,__LINE__);
     const std::string basePath("file:///android_asset/");
-    std::string fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename(fileName);
+    std::string fullPath = cocos2d::VirtualFileSystem::getInstance()->fullPathForFilename(fileName);
     const std::string assetsPath("assets/");
 
     std::string urlString;

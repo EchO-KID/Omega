@@ -12,8 +12,6 @@ set(COCOS_NETWORK_SRC
     network/HttpClient.cpp
     network/SocketIO.cpp
     network/WebSocket.cpp
-    network/CCDownloader.cpp
-    network/CCDownloader-curl.cpp
 )
 
 if(MSVC)

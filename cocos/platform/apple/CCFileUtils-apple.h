@@ -23,13 +23,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_APPLE_H__
-#define __CC_FILEUTILS_APPLE_H__
+#ifndef __CC_VirtualFileSystem_APPLE_H__
+#define __CC_VirtualFileSystem_APPLE_H__
 
 #include <string>
 #include <vector>
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCPlatformMacros.h"
 #include "base/ccTypes.h"
 
@@ -41,10 +41,10 @@ NS_CC_BEGIN
  */
 
 //! @brief  Helper class to handle file operations
-class CC_DLL FileUtilsApple : public FileUtils
+class CC_DLL VirtualFileSystemApple : public VirtualFileSystem
 {
 public:
-    FileUtilsApple();
+    VirtualFileSystemApple();
     /* override functions */
     virtual std::string getWritablePath() const override;
     virtual std::string getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename) const override;
@@ -68,5 +68,5 @@ private:
 
 NS_CC_END
 
-#endif    // __CC_FILEUTILS_APPLE_H__
+#endif    // __CC_VirtualFileSystem_APPLE_H__
 

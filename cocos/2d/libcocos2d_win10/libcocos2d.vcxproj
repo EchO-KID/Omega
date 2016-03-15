@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|ARM">
@@ -579,7 +579,7 @@
     <ClCompile Include="..\..\physics\CCPhysicsJoint.cpp" />
     <ClCompile Include="..\..\physics\CCPhysicsShape.cpp" />
     <ClCompile Include="..\..\physics\CCPhysicsWorld.cpp" />
-    <ClCompile Include="..\..\platform\CCFileUtils.cpp" />
+    <ClCompile Include="..\..\platform\VirtualFileSystem.cpp" />
     <ClCompile Include="..\..\platform\CCGLView.cpp" />
     <ClCompile Include="..\..\platform\CCImage.cpp" />
     <ClCompile Include="..\..\platform\CCSAXParser.cpp" />
@@ -587,7 +587,7 @@
     <ClCompile Include="..\..\platform\winrt\CCApplication.cpp" />
     <ClCompile Include="..\..\platform\winrt\CCCommon.cpp" />
     <ClCompile Include="..\..\platform\winrt\CCDevice.cpp" />
-    <ClCompile Include="..\..\platform\winrt\CCFileUtilsWinRT.cpp" />
+    <ClCompile Include="..\..\platform\winrt\VirtualFileSystemWinRT.cpp" />
     <ClCompile Include="..\..\platform\winrt\CCFreeTypeFont.cpp" />
     <ClCompile Include="..\..\platform\winrt\CCGLViewImpl-winrt.cpp" />
     <ClCompile Include="..\..\platform\winrt\CCPrecompiledShaders.cpp" />
@@ -1208,7 +1208,7 @@
     <ClInclude Include="..\..\platform\CCApplicationProtocol.h" />
     <ClInclude Include="..\..\platform\CCCommon.h" />
     <ClInclude Include="..\..\platform\CCDevice.h" />
-    <ClInclude Include="..\..\platform\CCFileUtils.h" />
+    <ClInclude Include="..\..\platform\VirtualFileSystem.h" />
     <ClInclude Include="..\..\platform\CCGL.h" />
     <ClInclude Include="..\..\platform\CCGLView.h" />
     <ClInclude Include="..\..\platform\CCImage.h" />
@@ -1219,7 +1219,7 @@
     <ClInclude Include="..\..\platform\CCStdC.h" />
     <ClInclude Include="..\..\platform\CCThread.h" />
     <ClInclude Include="..\..\platform\winrt\CCApplication.h" />
-    <ClInclude Include="..\..\platform\winrt\CCFileUtilsWinRT.h" />
+    <ClInclude Include="..\..\platform\winrt\VirtualFileSystemWinRT.h" />
     <ClInclude Include="..\..\platform\winrt\CCFreeTypeFont.h" />
     <ClInclude Include="..\..\platform\winrt\CCGL.h" />
     <ClInclude Include="..\..\platform\winrt\CCGLViewImpl-winrt.h" />

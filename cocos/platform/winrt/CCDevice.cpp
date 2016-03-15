@@ -27,7 +27,7 @@ THE SOFTWARE.
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 
 #include "platform/CCDevice.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/winrt/CCFreeTypeFont.h"
 #include "platform/winrt/CCWinRTUtils.h"
 #include "platform/CCStdC.h"

@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformConfig.h"
 #if CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 
-#include "CCFileUtils-linux.h"
+#include "VirtualFileSystem-linux.h"
 #include "CCApplication-linux.h"
 #include "platform/CCCommon.h"
 #include "base/ccMacros.h"
@@ -45,25 +45,25 @@ using namespace std;
 
 NS_CC_BEGIN
 
-FileUtils* FileUtils::getInstance()
+VirtualFileSystem* VirtualFileSystem::getInstance()
 {
-    if (s_sharedFileUtils == NULL)
+    if (s_sharedVirtualFileSystem == NULL)
     {
-        s_sharedFileUtils = new FileUtilsLinux();
-        if(!s_sharedFileUtils->init())
+        s_sharedVirtualFileSystem = new VirtualFileSystemLinux();
+        if(!s_sharedVirtualFileSystem->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = NULL;
-          CCLOG("ERROR: Could not init CCFileUtilsLinux");
+          delete s_sharedVirtualFileSystem;
+          s_sharedVirtualFileSystem = NULL;
+          CCLOG("ERROR: Could not init VirtualFileSystemLinux");
         }
     }
-    return s_sharedFileUtils;
+    return s_sharedVirtualFileSystem;
 }
 
-FileUtilsLinux::FileUtilsLinux()
+VirtualFileSystemLinux::VirtualFileSystemLinux()
 {}
 
-bool FileUtilsLinux::init()
+bool VirtualFileSystemLinux::init()
 {
     // get application path
     char fullpath[256] = {0};
@@ -91,10 +91,10 @@ bool FileUtilsLinux::init()
     _writablePath += appPath.substr(appPath.find_last_of("/"));
     _writablePath += "/";
 
-    return FileUtils::init();
+    return VirtualFileSystem::init();
 }
 
-string FileUtilsLinux::getWritablePath() const
+string VirtualFileSystemLinux::getWritablePath() const
 {
     struct stat st;
     stat(_writablePath.c_str(), &st);
@@ -105,7 +105,7 @@ string FileUtilsLinux::getWritablePath() const
     return _writablePath;
 }
 
-bool FileUtilsLinux::isFileExistInternal(const std::string& strFilePath) const
+bool VirtualFileSystemLinux::isFileExistInternal(const std::string& strFilePath) const
 {
     if (strFilePath.empty())
     {

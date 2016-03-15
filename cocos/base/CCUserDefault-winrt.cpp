@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 #include "base/base64.h"
 #include "base/ccUtils.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #include "CCWinRTUtils.h"
@@ -302,7 +302,7 @@ void UserDefault::purgeSharedUserDefault()
 
 bool UserDefault::isXMLFileExist()
 {
-    //return FileUtils::getInstance()->isFileExist(_filePath);
+    //return VirtualFileSystem::getInstance()->isFileExist(_filePath);
     return true;
 }
 
@@ -310,7 +310,7 @@ void UserDefault::initXMLFilePath()
 {
     if (! _isFilePathInitialized)
     {
-        _filePath += FileUtils::getInstance()->getWritablePath() + XML_FILE_NAME;
+        _filePath += VirtualFileSystem::getInstance()->getWritablePath() + XML_FILE_NAME;
         _isFilePathInitialized = true;
     }
 }

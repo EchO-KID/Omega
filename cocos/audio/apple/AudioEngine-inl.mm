@@ -31,7 +31,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 #include "audio/include/AudioEngine.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 #include "base/ccUtils.h"
@@ -198,7 +198,7 @@ AudioCache* AudioEngineImpl::preload(const std::string& filePath, std::function<
     auto it = _audioCaches.find(filePath);
     if (it == _audioCaches.end()) {
         audioCache = &_audioCaches[filePath];
-        audioCache->_fileFullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
+        audioCache->_fileFullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filePath);
         
         AudioEngine::addTask(std::bind(&AudioCache::readDataTask, audioCache));
     }

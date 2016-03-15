@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -480,7 +480,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCApplicationProtocol.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCCommon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCDevice.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCFileUtils.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\VirtualFileSystem.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCGL.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCGLView.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCImage.h" />
@@ -491,7 +491,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCStdC.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCThread.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCApplication.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCFileUtilsWinRT.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\VirtualFileSystemWinRT.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCFreeTypeFont.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCGL.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCGLViewImpl-winrt.h" />
@@ -1080,7 +1080,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\physics\CCPhysicsJoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\physics\CCPhysicsShape.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\physics\CCPhysicsWorld.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCFileUtils.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\VirtualFileSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCGLView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCImage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\CCSAXParser.cpp" />
@@ -1088,7 +1088,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCApplication.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCCommon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCDevice.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCFileUtilsWinRT.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\VirtualFileSystemWinRT.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCFreeTypeFont.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCGLViewImpl-winrt.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\platform\winrt\CCPrecompiledShaders.cpp" />

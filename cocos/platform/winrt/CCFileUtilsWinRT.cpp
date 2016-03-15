@@ -22,7 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
-#include "CCFileUtilsWinRT.h"
+#include "VirtualFileSystemWinRT.h"
 #include <regex>
 #include "CCWinRTUtils.h"
 #include "platform/CCCommon.h"
@@ -78,58 +78,58 @@ static void _checkPath()
     if (s_pszResourcePath.empty())
     {
         // TODO: needs to be tested
-        s_pszResourcePath = convertPathFormatToUnixStyle(CCFileUtilsWinRT::getAppPath() + '\\' + "Assets\\Resources" + '\\');
+        s_pszResourcePath = convertPathFormatToUnixStyle(VirtualFileSystemWinRT::getAppPath() + '\\' + "Assets\\Resources" + '\\');
     }
 }
 
-FileUtils* FileUtils::getInstance()
+VirtualFileSystem* VirtualFileSystem::getInstance()
 {
-    if (s_sharedFileUtils == NULL)
+    if (s_sharedVirtualFileSystem == NULL)
     {
-        s_sharedFileUtils = new CCFileUtilsWinRT();
-        if(!s_sharedFileUtils->init())
+        s_sharedVirtualFileSystem = new VirtualFileSystemWinRT();
+        if(!s_sharedVirtualFileSystem->init())
         {
-          delete s_sharedFileUtils;
-          s_sharedFileUtils = NULL;
-          CCLOG("ERROR: Could not init CCFileUtilsWinRT");
+          delete s_sharedVirtualFileSystem;
+          s_sharedVirtualFileSystem = NULL;
+          CCLOG("ERROR: Could not init VirtualFileSystemWinRT");
         }
     }
-    return s_sharedFileUtils;
+    return s_sharedVirtualFileSystem;
 }
 
-CCFileUtilsWinRT::CCFileUtilsWinRT()
+VirtualFileSystemWinRT::VirtualFileSystemWinRT()
 {
 }
 
-bool CCFileUtilsWinRT::init()
+bool VirtualFileSystemWinRT::init()
 {
     _checkPath();
     _defaultResRootPath = s_pszResourcePath;
-    return FileUtils::init();
+    return VirtualFileSystem::init();
 }
 
-std::string CCFileUtilsWinRT::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const
+std::string VirtualFileSystemWinRT::getPathForFilename(const std::string& filename, const std::string& resolutionDirectory, const std::string& searchPath) const
 {
     std::string unixFileName = convertPathFormatToUnixStyle(filename);
     std::string unixResolutionDirectory = convertPathFormatToUnixStyle(resolutionDirectory);
     std::string unixSearchPath = convertPathFormatToUnixStyle(searchPath);
 
-    return FileUtils::getPathForFilename(unixFileName, unixResolutionDirectory, unixSearchPath);
+    return VirtualFileSystem::getPathForFilename(unixFileName, unixResolutionDirectory, unixSearchPath);
 }
 
-std::string CCFileUtilsWinRT::getFullPathForDirectoryAndFilename(const std::string& strDirectory, const std::string& strFilename) const
+std::string VirtualFileSystemWinRT::getFullPathForDirectoryAndFilename(const std::string& strDirectory, const std::string& strFilename) const
 {
     std::string unixDirectory = convertPathFormatToUnixStyle(strDirectory);
     std::string unixFilename = convertPathFormatToUnixStyle(strFilename);
-    return FileUtils::getFullPathForDirectoryAndFilename(unixDirectory, unixFilename);
+    return VirtualFileSystem::getFullPathForDirectoryAndFilename(unixDirectory, unixFilename);
 }
 
-std::string CCFileUtilsWinRT::getSuitableFOpen(const std::string& filenameUtf8) const
+std::string VirtualFileSystemWinRT::getSuitableFOpen(const std::string& filenameUtf8) const
 {
     return UTF8StringToMultiByte(filenameUtf8);
 }
 
-bool CCFileUtilsWinRT::isFileExistInternal(const std::string& strFilePath) const
+bool VirtualFileSystemWinRT::isFileExistInternal(const std::string& strFilePath) const
 {
     bool ret = false;
     FILE * pf = 0;
@@ -150,7 +150,7 @@ bool CCFileUtilsWinRT::isFileExistInternal(const std::string& strFilePath) const
     return ret;
 }
 
-bool CCFileUtilsWinRT::isDirectoryExistInternal(const std::string& dirPath) const
+bool VirtualFileSystemWinRT::isDirectoryExistInternal(const std::string& dirPath) const
 {
     WIN32_FILE_ATTRIBUTE_DATA wfad;
     std::wstring wdirPath = StringUtf8ToWideChar(dirPath);
@@ -161,7 +161,7 @@ bool CCFileUtilsWinRT::isDirectoryExistInternal(const std::string& dirPath) cons
     return false;
 }
 
-bool CCFileUtilsWinRT::createDirectory(const std::string& path)
+bool VirtualFileSystemWinRT::createDirectory(const std::string& path)
 {
     CCASSERT(!path.empty(), "Invalid path");
 
@@ -215,7 +215,7 @@ bool CCFileUtilsWinRT::createDirectory(const std::string& path)
     return true;
 }
 
-bool CCFileUtilsWinRT::removeDirectory(const std::string& path)
+bool VirtualFileSystemWinRT::removeDirectory(const std::string& path)
 {
     std::wstring wpath = StringUtf8ToWideChar(path);
     std::wstring files = wpath + L"*.*";
@@ -253,7 +253,7 @@ bool CCFileUtilsWinRT::removeDirectory(const std::string& path)
     return false;
 }
 
-bool CCFileUtilsWinRT::isAbsolutePath(const std::string& strPath) const
+bool VirtualFileSystemWinRT::isAbsolutePath(const std::string& strPath) const
 {
     if (   strPath.length() > 2
         && ( (strPath[0] >= 'a' && strPath[0] <= 'z') || (strPath[0] >= 'A' && strPath[0] <= 'Z') )
@@ -264,7 +264,7 @@ bool CCFileUtilsWinRT::isAbsolutePath(const std::string& strPath) const
     return false;
 }
 
-bool CCFileUtilsWinRT::removeFile(const std::string &path)
+bool VirtualFileSystemWinRT::removeFile(const std::string &path)
 {
     std::wstring wpath = StringUtf8ToWideChar(path);
     if (DeleteFile(wpath.c_str()))
@@ -278,7 +278,7 @@ bool CCFileUtilsWinRT::removeFile(const std::string &path)
     }
 }
 
-bool CCFileUtilsWinRT::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
+bool VirtualFileSystemWinRT::renameFile(const std::string &oldfullpath, const std::string& newfullpath)
 {
     CCASSERT(!oldfullpath.empty(), "Invalid path");
     CCASSERT(!newfullpath.empty(), "Invalid path");
@@ -289,7 +289,7 @@ bool CCFileUtilsWinRT::renameFile(const std::string &oldfullpath, const std::str
 
     std::wstring _wNewfullpath = StringUtf8ToWideChar(_newfullpath);
 
-    if (FileUtils::getInstance()->isFileExist(_newfullpath))
+    if (VirtualFileSystem::getInstance()->isFileExist(_newfullpath))
     {
         if (!DeleteFile(_wNewfullpath.c_str()))
         {
@@ -309,7 +309,7 @@ bool CCFileUtilsWinRT::renameFile(const std::string &oldfullpath, const std::str
     }
 }
 
-bool CCFileUtilsWinRT::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
+bool VirtualFileSystemWinRT::renameFile(const std::string &path, const std::string &oldname, const std::string &name)
 {
     CCASSERT(!path.empty(), "Invalid path");
     std::string oldPath = path + oldname;
@@ -318,7 +318,7 @@ bool CCFileUtilsWinRT::renameFile(const std::string &path, const std::string &ol
     return renameFile(oldPath, newPath);
 }
 
-std::string CCFileUtilsWinRT::getStringFromFile(const std::string& filename)
+std::string VirtualFileSystemWinRT::getStringFromFile(const std::string& filename)
 {
     Data data = getDataFromFile(filename);
     if (data.isNull())
@@ -329,13 +329,13 @@ std::string CCFileUtilsWinRT::getStringFromFile(const std::string& filename)
     return ret;
 }
 
-string CCFileUtilsWinRT::getWritablePath() const
+string VirtualFileSystemWinRT::getWritablePath() const
 {
     auto localFolderPath = Windows::Storage::ApplicationData::Current->LocalFolder->Path;
     return convertPathFormatToUnixStyle(std::string(PlatformStringToString(localFolderPath)) + '\\');
 }
 
-string CCFileUtilsWinRT::getAppPath()
+string VirtualFileSystemWinRT::getAppPath()
 {
     Windows::ApplicationModel::Package^ package = Windows::ApplicationModel::Package::Current;
     return convertPathFormatToUnixStyle(std::string(PlatformStringToString(package->InstalledLocation->Path)));

@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <sys/time.h>
 #include <string>
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -120,10 +120,10 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         _resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
+    VirtualFileSystem* pVirtualFileSystem = VirtualFileSystem::getInstance();
+    std::vector<std::string> searchPaths = pVirtualFileSystem->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), _resourceRootPath);
-    pFileUtils->setSearchPaths(searchPaths);
+    pVirtualFileSystem->setSearchPaths(searchPaths);
 }
 
 const std::string& Application::getResourceRootPath(void)

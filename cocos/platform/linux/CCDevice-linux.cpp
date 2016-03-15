@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include <string>
 #include <sstream>
 #include <fontconfig/fontconfig.h>
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 #include "ft2build.h"
 #include FT_FREETYPE_H
@@ -334,7 +334,7 @@ public:
         std::string lowerCasePath = fontPath;
         std::transform(lowerCasePath.begin(), lowerCasePath.end(), lowerCasePath.begin(), ::tolower);
         if ( lowerCasePath.find(".ttf") != std::string::npos ) {
-            fontPath = cocos2d::FileUtils::getInstance()->fullPathForFilename(fontPath.c_str());
+            fontPath = cocos2d::VirtualFileSystem::getInstance()->fullPathForFilename(fontPath.c_str());
 
             FILE *f = fopen(fontPath.c_str(), "r");
             if ( f ) {

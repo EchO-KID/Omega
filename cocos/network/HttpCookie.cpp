@@ -23,13 +23,14 @@
  ****************************************************************************/
 
 #include "HttpCookie.h"
-#include "CCFileUtils.h"
+#include "VirtualFileSystem.h"
 #include <sstream>
 #include <stdio.h>
 
 void HttpCookie::readFile()
 {
-    std::string inString = cocos2d::FileUtils::getInstance()->getStringFromFile(_cookieFileName);
+    Data data = cocos2d::VirtualFileSystem::getInstance()->getFileData(_cookieFileName, true);
+    std::string inString((const char*)data.getByte(), data.getSize()); 
     if(inString.length() != 0)
     {
         std::vector<std::string> cookiesVec;

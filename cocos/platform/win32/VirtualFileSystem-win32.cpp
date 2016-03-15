@@ -159,7 +159,7 @@ VirtualFileSystem* VirtualFileSystem::getInstance()
         {
 			Delete VirtualFileSystem::ms_instance;
 			VirtualFileSystem::ms_instance = nullptr;
-          CCLOG("ERROR: Could not init CCVirtualFileSystemWin32");
+          CCLOG("ERROR: Could not init VirtualFileSystemWin32");
         }
     }
 	return VirtualFileSystem::ms_instance;

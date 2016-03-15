@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include <jni.h>
 #include <android/log.h>
 #include "jni/JniHelper.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 
 USING_NS_CC;
@@ -36,7 +36,7 @@ namespace CocosDenshion {
     namespace android {
         std::string getFullPathWithoutAssetsPrefix(const char* pszFilename) {
             // Changing file path to full path
-            std::string fullPath = cocos2d::FileUtils::getInstance()->fullPathForFilename(pszFilename);
+            std::string fullPath = cocos2d::VirtualFileSystem::getInstance()->fullPathForFilename(pszFilename);
             // Removing `assets` since it isn't needed for the API of playing sound.
             size_t pos = fullPath.find("assets/");
             if (pos == 0)

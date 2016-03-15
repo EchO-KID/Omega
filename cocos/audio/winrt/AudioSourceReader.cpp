@@ -18,7 +18,7 @@
 
 #include "base/ccMacros.h"
 #include "platform/CCPlatformConfig.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
@@ -92,7 +92,7 @@ bool WAVReader::initialize(const std::string& filePath)
     _filePath = filePath;
 
     do {
-        auto fileSize = FileUtils::getInstance()->getFileSize(_filePath);
+        auto fileSize = VirtualFileSystem::getInstance()->getFileSize(_filePath);
 
         if (fileSize <= 0)
             break;
@@ -348,7 +348,7 @@ HRESULT MP3Reader::readAudioData(IMFSourceReader* pReader)
 
         if (createMappedCacheFile(_filePath, _mappedWavFile, ".dat")) {
             _isStreaming = _largeFileSupport;
-            _audioSize = FileUtils::getInstance()->getFileSize(_mappedWavFile);
+            _audioSize = VirtualFileSystem::getInstance()->getFileSize(_mappedWavFile);
             if (!_largeFileSupport) {
                 buffer.resize(_audioSize);
                 readFromMappedWavFile(buffer.data(), 0, _audioSize, nullptr);
@@ -522,7 +522,7 @@ bool OGGReader::initialize(const std::string& filePath)
 
     do {
         _vorbisFd = std::make_unique<OggVorbis_File>();
-        if (ov_fopen(FileUtils::getInstance()->getSuitableFOpen(_filePath).c_str(), _vorbisFd.get())){
+        if (ov_fopen(VirtualFileSystem::getInstance()->getSuitableFOpen(_filePath).c_str(), _vorbisFd.get())){
             break;
         }
 

@@ -62,14 +62,15 @@ public:
     virtual std::string getWritablePath() const;
     virtual bool isAbsolutePath(const std::string& strPath) const;
 
-    
+    static void setassetmanager(AAssetManager* a);
+    static AAssetManager* getAssetManager() { return assetmanager; }
     
 private:
     Data getDataFromRealFile(const std::string& filename, bool forString);
     bool isFileExistInternal(const std::string& strFilePath) const ;
     bool isDirectoryExistInternal(const std::string& dirPath) const ;
     
-
+    static AAssetManager* assetmanager ;
 };
 
 // end of platform group

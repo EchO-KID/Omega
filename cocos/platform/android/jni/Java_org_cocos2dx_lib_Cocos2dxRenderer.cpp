@@ -4,7 +4,7 @@
 #include "base/CCEventCustom.h"
 #include "base/CCEventDispatcher.h"
 #include "../CCApplication.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "JniHelper.h"
 #include <jni.h>
 
@@ -51,6 +51,6 @@ extern "C" {
             return 0;
         }
         std::string pszText = cocos2d::IMEDispatcher::sharedDispatcher()->getContentText();
-        return cocos2d::StringUtils::newStringUTFJNI(env, pszText);
+        return env->NewStringUTF((const char*)pszText.c_str());
     }
 }

@@ -27,9 +27,8 @@ THE SOFTWARE.
 #include <android/log.h>
 #include <string>
 #include "JniHelper.h"
-#include "CCFileUtils-android.h"
+#include "VirtualFileSystem-android.h"
 #include "android/asset_manager_jni.h"
-#include "deprecated/CCString.h"
 #include "Java_org_cocos2dx_lib_Cocos2dxHelper.h"
 
 #include "base/ccUTF8.h"
@@ -56,7 +55,7 @@ extern "C" {
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxHelper_nativeSetContext(JNIEnv*  env, jobject thiz, jobject context, jobject assetManager) {
         JniHelper::setClassLoaderFrom(context);
-        FileUtilsAndroid::setassetmanager(AAssetManager_fromJava(env, assetManager));
+        VirtualFileSystemAndroid::setassetmanager(AAssetManager_fromJava(env, assetManager));
     }
 
     JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxHelper_nativeSetEditTextDialogResult(JNIEnv * env, jobject obj, jbyteArray text) {
@@ -496,7 +495,7 @@ void setTextEditBoxJNI(int index, const char* text)
     JniMethodInfo t;
 
     if (JniHelper::getStaticMethodInfo(t, EDITBOX_CLASS_NAME, "setText", "(ILjava/lang/String;)V")) {
-        jstring stringText = StringUtils::newStringUTFJNI(t.env,text);
+        jstring stringText = t.env->NewStringUTF(text);
         t.env->CallStaticVoidMethod(t.classID, t.methodID,index, stringText);
         t.env->DeleteLocalRef(stringText);
         t.env->DeleteLocalRef(t.classID);
@@ -508,7 +507,7 @@ void setFontEditBoxJNI(int index, const char* fontName, float fontSize)
     JniMethodInfo t;
 
     if (JniHelper::getStaticMethodInfo(t, EDITBOX_CLASS_NAME, "setFont", "(ILjava/lang/String;F)V")) {
-        jstring stringText = StringUtils::newStringUTFJNI(t.env,fontName);
+        jstring stringText = t.env->NewStringUTF(fontName);
         t.env->CallStaticVoidMethod(t.classID, t.methodID,index, stringText, fontSize);
 
         t.env->DeleteLocalRef(t.classID);
@@ -532,7 +531,7 @@ void setPlaceHolderTextEditBoxJNI(int index, const char* text)
     JniMethodInfo t;
 
     if (JniHelper::getStaticMethodInfo(t, EDITBOX_CLASS_NAME, "setPlaceHolderText", "(ILjava/lang/String;)V")) {
-        jstring stringText = StringUtils::newStringUTFJNI(t.env,text);
+        jstring stringText = t.env->NewStringUTF(text);
         t.env->CallStaticVoidMethod(t.classID, t.methodID,index, stringText);
 
         t.env->DeleteLocalRef(t.classID);

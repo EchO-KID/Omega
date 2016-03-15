@@ -35,7 +35,7 @@
 #import "network/HttpAsynConnection-apple.h"
 #include "network/HttpCookie.h"
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 NS_CC_BEGIN
 
@@ -346,11 +346,11 @@ void HttpClient::enableCookies(const char* cookieFile)
     if (cookieFile)
     {
         _cookieFilename = std::string(cookieFile);
-        _cookieFilename = FileUtils::getInstance()->fullPathForFilename(_cookieFilename);
+        _cookieFilename = VirtualFileSystem::getInstance()->fullPathForFilename(_cookieFilename);
     }
     else
     {
-        _cookieFilename = (FileUtils::getInstance()->getWritablePath() + "cookieFile.txt");
+        _cookieFilename = (VirtualFileSystem::getInstance()->getWritablePath() + "cookieFile.txt");
     }
     _cookieFileMutex.unlock();
     

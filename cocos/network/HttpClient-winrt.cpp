@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "HttpConnection-winrt.h"
 
 NS_CC_BEGIN
@@ -236,7 +236,7 @@ namespace network {
             s_cookieFilename = std::string(cookieFile);
         }
         else {
-            s_cookieFilename = (FileUtils::getInstance()->getWritablePath() + "cookieFile.txt");
+            s_cookieFilename = (VirtualFileSystem::getInstance()->getWritablePath() + "cookieFile.txt");
         }
     }
 

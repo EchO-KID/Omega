@@ -22,13 +22,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_WINRT_H__
-#define __CC_FILEUTILS_WINRT_H__
+#ifndef __CC_VirtualFileSystem_WINRT_H__
+#define __CC_VirtualFileSystem_WINRT_H__
 
 #include <string>
 #include <vector>
 
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/CCPlatformMacros.h"
 #include "base/ccTypes.h"
 
@@ -40,10 +40,10 @@ NS_CC_BEGIN
  */
 
 //! @brief  Helper class to handle file operations
-class CC_DLL CCFileUtilsWinRT : public FileUtils
+class CC_DLL VirtualFileSystemWinRT : public VirtualFileSystem
 {
-    friend class FileUtils;
-    CCFileUtilsWinRT();
+    friend class VirtualFileSystem;
+    VirtualFileSystemWinRT();
 public:
     /* override functions */
     bool init();
@@ -115,5 +115,5 @@ private:
 
 NS_CC_END
 
-#endif    // __CC_FILEUTILS_WINRT_H__
+#endif    // __CC_VirtualFileSystem_WINRT_H__
 

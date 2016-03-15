@@ -3,7 +3,7 @@ if(WINDOWS)
 
 set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/win32/CCStdC-win32.cpp
-  platform/win32/CCFileUtils-win32.cpp
+  platform/win32/VirtualFileSystem-win32.cpp
   platform/win32/CCCommon-win32.cpp
   platform/win32/CCApplication-win32.cpp
   platform/win32/CCDevice-win32.cpp
@@ -18,7 +18,7 @@ set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/mac/CCCommon-mac.mm
   platform/mac/CCDevice-mac.mm
   platform/apple/CCLock-apple.cpp
-  platform/apple/CCFileUtils-apple.mm
+  platform/apple/VirtualFileSystem-apple.mm
   platform/apple/CCThread-apple.mm
   platform/desktop/CCGLViewImpl-desktop.cpp
 )
@@ -33,7 +33,7 @@ elseif(LINUX)
 
 set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/linux/CCStdC-linux.cpp
-  platform/linux/CCFileUtils-linux.cpp
+  platform/linux/VirtualFileSystem-linux.cpp
   platform/linux/CCCommon-linux.cpp
   platform/linux/CCApplication-linux.cpp
   platform/linux/CCDevice-linux.cpp
@@ -47,7 +47,7 @@ set(COCOS_PLATFORM_SPECIFIC_SRC
   platform/android/CCCommon-android.cpp
   platform/android/CCDevice-android.cpp
   platform/android/CCGLViewImpl-android.cpp
-  platform/android/CCFileUtils-android.cpp
+  platform/android/VirtualFileSystem-android.cpp
   platform/android/javaactivity-android.cpp
   platform/android/jni/DPIJni.cpp
   platform/android/jni/IMEJni.cpp
@@ -78,7 +78,7 @@ set(COCOS_PLATFORM_SRC
   platform/CCSAXParser.cpp
   platform/CCThread.cpp
   platform/CCGLView.cpp
-  platform/CCFileUtils.cpp
+  platform/VirtualFileSystem.cpp
   platform/CCImage.cpp
   ../external/edtaa3func/edtaa3func.cpp
   ../external/ConvertUTF/ConvertUTFWrapper.cpp

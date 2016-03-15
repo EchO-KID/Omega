@@ -32,7 +32,7 @@ using namespace cocos2d::experimental::ui;
 #include "platform/ios/CCEAGLView-ios.h"
 #import <MediaPlayer/MediaPlayer.h>
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 
 @interface UIVideoViewWrapperIos : NSObject
 
@@ -287,7 +287,7 @@ VideoPlayer::~VideoPlayer()
 
 void VideoPlayer::setFileName(const std::string& fileName)
 {
-    _videoURL = FileUtils::getInstance()->fullPathForFilename(fileName);
+    _videoURL = VirtualFileSystem::getInstance()->fullPathForFilename(fileName);
     _videoSource = VideoPlayer::Source::FILENAME;
     [((UIVideoViewWrapperIos*)_videoView) setURL:(int)_videoSource :_videoURL];
 }
