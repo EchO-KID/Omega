@@ -86,7 +86,7 @@ extern "C"
 #include "base/ccUtils.h"
 #include "base/ZipUtils.h"
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#include "android/CCVirtualFileSystem-android.h"
+#include "android/VirtualFileSystem-android.h"
 #endif
 
 #define CC_GL_ATC_RGB_AMD                                          0x8C92

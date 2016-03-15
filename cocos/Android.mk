@@ -91,7 +91,7 @@ cocos2d.cpp \
 2d/CCAutoPolygon.cpp \
 3d/CCFrustum.cpp \
 3d/CCPlane.cpp \
-platform/CCFileUtils.cpp \
+platform/VirtualFileSystem.cpp \
 platform/CCGLView.cpp \
 platform/CCImage.cpp \
 platform/CCSAXParser.cpp \
@@ -114,7 +114,6 @@ base/CCConsole.cpp \
 base/CCController-android.cpp \
 base/CCController.cpp \
 base/CCData.cpp \
-base/CCDataVisitor.cpp \
 base/CCDirector.cpp \
 base/CCEvent.cpp \
 base/CCEventAcceleration.cpp \
@@ -189,12 +188,6 @@ renderer/CCVertexIndexData.cpp \
 renderer/ccGLStateCache.cpp \
 renderer/CCFrameBuffer.cpp \
 renderer/ccShaders.cpp \
-deprecated/CCArray.cpp \
-deprecated/CCDeprecated.cpp \
-deprecated/CCDictionary.cpp \
-deprecated/CCNotificationCenter.cpp \
-deprecated/CCSet.cpp \
-deprecated/CCString.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \
 physics/CCPhysicsJoint.cpp \
@@ -311,9 +304,9 @@ $(call import-module,webp/prebuilt/android)
 $(call import-module,chipmunk/prebuilt/android)
 $(call import-module,3d)
 $(call import-module,audio/android)
-$(call import-module,editor-support/cocosbuilder)
-$(call import-module,editor-support/cocostudio)
-$(call import-module,editor-support/spine)
+#$(call import-module,editor-support/cocosbuilder)
+#$(call import-module,editor-support/cocostudio)
+#$(call import-module,editor-support/spine)
 $(call import-module,network)
 $(call import-module,ui)
 $(call import-module,extensions)

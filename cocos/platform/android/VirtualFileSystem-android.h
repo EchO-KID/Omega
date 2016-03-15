@@ -66,8 +66,8 @@ public:
     
 private:
     Data getDataFromRealFile(const std::string& filename, bool forString);
-    virtual bool isFileExistInternal(const std::string& strFilePath) const override;
-    virtual bool isDirectoryExistInternal(const std::string& dirPath) const override;
+    bool isFileExistInternal(const std::string& strFilePath) const ;
+    bool isDirectoryExistInternal(const std::string& dirPath) const ;
     
 
 };

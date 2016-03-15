@@ -37,8 +37,7 @@
 #include "audio/include/AudioEngine.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
-#include "platform/android/CCFileUtils-android.h"
-#include "platform/android/jni/CocosPlayClient.h"
+#include "platform/android/VirtualFileSystem-android.h"
 
 using namespace cocos2d;
 using namespace cocos2d::experimental;
@@ -116,21 +115,21 @@ bool AudioPlayer::init(SLEngineItf engineEngine, SLObjectItf outputMixObject,con
                 relativePath += fileFullPath;
             }
 
-            auto asset = AAssetManager_open(cocos2d::FileUtilsAndroid::getAssetManager(), relativePath.c_str(), AASSET_MODE_UNKNOWN);
+            // auto asset = AAssetManager_open(cocos2d::VirtualFileSystemAndroid::getAssetManager(), relativePath.c_str(), AASSET_MODE_UNKNOWN);
 
-            // open asset as file descriptor
-            off_t start, length;
-            _assetFd = AAsset_openFileDescriptor(asset, &start, &length);
-            if (_assetFd <= 0){
-                AAsset_close(asset);
-                break;
-            }
-            AAsset_close(asset);
+            // // open asset as file descriptor
+            // off_t start, length;
+            // _assetFd = AAsset_openFileDescriptor(asset, &start, &length);
+            // if (_assetFd <= 0){
+            //     AAsset_close(asset);
+            //     break;
+            // }
+            // AAsset_close(asset);
 
-            // configure audio source
-            loc_fd = {SL_DATALOCATOR_ANDROIDFD, _assetFd, start, length};
+            // // configure audio source
+            // loc_fd = {SL_DATALOCATOR_ANDROIDFD, _assetFd, start, length};
 
-            audioSrc.pLocator = &loc_fd;
+            // audioSrc.pLocator = &loc_fd;
         }
         else{
             loc_uri = {SL_DATALOCATOR_URI , (SLchar*)fileFullPath.c_str()};
@@ -248,15 +247,15 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
             break;
 
         auto& player = _audioPlayers[currentAudioID];
-        auto fullPath = FileUtils::getInstance()->fullPathForFilename(filePath);
-        cocosplay::updateAssets(fullPath);
+        auto fullPath = VirtualFileSystem::getInstance()->fullPathForFilename(filePath);
+        
         auto initPlayer = player.init(_engineEngine, _outputMixObject, fullPath, volume, loop);
         if (!initPlayer){
             _audioPlayers.erase(currentAudioID);
             log("%s,%d message:create player for %s fail", __func__, __LINE__, filePath.c_str());
             break;
         }
-        cocosplay::notifyFileLoaded(fullPath);
+        
 
         audioId = currentAudioID++;
         player._audioID = audioId;

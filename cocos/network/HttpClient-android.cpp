@@ -35,7 +35,7 @@
 #include <errno.h>
 
 #include "base/CCDirector.h"
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "platform/android/jni/JniHelper.h"
 
 #include "base/ccUTF8.h"
@@ -253,7 +253,7 @@ public:
         
         if (_cookieFileName.empty())
         {
-            _cookieFileName = FileUtils::getInstance()->getWritablePath() + "cookieFile.txt";
+            _cookieFileName = VirtualFileSystem::getInstance()->getWritablePath() + "cookieFile.txt";
         }
         
         FILE* fp = fopen(_cookieFileName.c_str(), "w");
@@ -442,9 +442,10 @@ private:
             return;
         }
         
-        _cookieFileName = FileUtils::getInstance()->fullPathForFilename(_client->getCookieFilename());
+        _cookieFileName = VirtualFileSystem::getInstance()->fullPathForFilename(_client->getCookieFilename());
         
-        std::string cookiesInfo = FileUtils::getInstance()->getStringFromFile(_cookieFileName);
+        Data data = VirtualFileSystem::getInstance()->getFileData(_cookieFileName, true);
+        std::string cookiesInfo((const char*)data.getBytes(), data.getSize());
         
         if (cookiesInfo.empty())
             return;
@@ -543,7 +544,7 @@ private:
         if(_client->getSSLVerification().empty())
             return;
 
-        std::string fullpath = FileUtils::getInstance()->fullPathForFilename(_client->getSSLVerification());
+        std::string fullpath = VirtualFileSystem::getInstance()->fullPathForFilename(_client->getSSLVerification());
 
         JniMethodInfo methodInfo;
         if (JniHelper::getStaticMethodInfo(methodInfo,
@@ -866,7 +867,7 @@ void HttpClient::enableCookies(const char* cookieFile)
     }
     else
     {
-        _cookieFilename = (FileUtils::getInstance()->getWritablePath() + "cookieFile.txt");
+        _cookieFilename = (VirtualFileSystem::getInstance()->getWritablePath() + "cookieFile.txt");
     }
 }
     

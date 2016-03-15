@@ -39,7 +39,7 @@ THE SOFTWARE.
 #define XML_FILE_NAME "UserDefault.xml"
 
 #ifdef KEEP_COMPATABILITY
-#include "platform/CCFileUtils.h"
+#include "platform/VirtualFileSystem.h"
 #include "tinyxml2.h"
 #endif
 
@@ -78,8 +78,8 @@ static tinyxml2::XMLElement* getXMLNodeForKey(const char* pKey, tinyxml2::XMLDoc
         *doc = xmlDoc;
         ssize_t size;
 
-        std::string xmlBuffer = FileUtils::getInstance()->getStringFromFile(UserDefault::getInstance()->getXMLFilePath().c_str());
-
+        Data data = VirtualFileSystem::getInstance()->getFileData(UserDefault::getInstance()->getXMLFilePath().c_str(), true);
+        std::string xmlBuffer((const char*)data.getBytes(), data.getSize());
         if (xmlBuffer.empty())
         {
             CCLOG("can not read xml file");
@@ -489,7 +489,7 @@ UserDefault* UserDefault::getInstance()
 
 bool UserDefault::isXMLFileExist()
 {
-    return FileUtils::getInstance()->isFileExist(_filePath);
+    return VirtualFileSystem::getInstance()->isFileExist(_filePath);
 }
 
 void UserDefault::initXMLFilePath()
