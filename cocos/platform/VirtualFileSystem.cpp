@@ -550,9 +550,9 @@ bool VirtualFileSystem::addZipFile(const std::string& zipPath, const std::string
 		s_zipfileLst.push_back(file);
 
 		Data* pData = New Data();
-		
-		pData->fastSet(data.getBytes(), data.getSize());
-		data.fastSet(nullptr, 0);
+		*pData = std::move(data);
+		//! pData->fastSet(data.getBytes(), data.getSize());
+		//! data.fastSet(nullptr, 0);
 		s_zipDataList.push_back(pData);
 	}
 		
