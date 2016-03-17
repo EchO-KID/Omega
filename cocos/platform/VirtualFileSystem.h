@@ -18,7 +18,7 @@ public:
 	static VirtualFileSystem* getInstance();
 	static void destroyInstance();
 	~VirtualFileSystem();
-	bool init();
+	virtual bool init();
 
 	ValueMap getValueMapFromFile(const std::string& file);
 
