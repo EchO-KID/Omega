@@ -584,22 +584,38 @@ Data VirtualFileSystem::getFileData(const std::string& path, bool forString)
 
 bool VirtualFileSystem::isFileExistInZipFile(const std::string& path) const
 {
+	std::string newPath = path;
+	size_t pos = path.find(_defaultResRootPath);
+	if (pos != std::string::npos)
+		newPath = path.substr(pos+_defaultResRootPath.length(), path.length());
+	
+	bool bRet = false;
 	for (std::vector<unzFile>::iterator iter = s_zipfileLst.begin(); iter != s_zipfileLst.end(); ++iter)
 	{
 		unzFile file = *iter;
 #ifdef MINIZIP_FROM_SYSTEM
-		int ret = unzLocateFile(file, filename.c_str(), NULL);
+		int ret = unzLocateFile(file, newPath.c_str(), NULL);
 #else
-		int ret = unzLocateFile(file, path.c_str(), 1);
+		int ret = unzLocateFile(file, newPath.c_str(), 1);
 #endif
 		if (UNZ_OK == ret)
-			return true;
+		{
+			bRet = true;
+			break;
+		}
 	}
-	return false;
+	//! CCLOG("android: isFileExistInZipFile %s, %s %s %s", path.c_str(), newPath.c_str(), _defaultResRootPath.c_str(), bRet?"true":"false");
+	return bRet;
 }
 
 Data VirtualFileSystem::getFileDataFromZipFile(const std::string& path, bool bForString)
 {
+	std::string newPath = path;
+	size_t pos = path.find(_defaultResRootPath);
+	if (pos != std::string::npos)
+		newPath = path.substr(pos + _defaultResRootPath.length(), path.length());
+	
+
 	Data retData = Data::Null;
 	unsigned char * buffer = nullptr;
 	unzFile file = nullptr;
@@ -610,9 +626,9 @@ Data VirtualFileSystem::getFileDataFromZipFile(const std::string& path, bool bFo
 
 		// FIXME: Other platforms should use upstream minizip like mingw-w64
 #ifdef MINIZIP_FROM_SYSTEM
-		int ret = unzLocateFile(file, filename.c_str(), NULL);
+		int ret = unzLocateFile(file, newPath.c_str(), NULL);
 #else
-		int ret = unzLocateFile(file, path.c_str(), 1);
+		int ret = unzLocateFile(file, newPath.c_str(), 1);
 #endif
 		if (UNZ_OK != ret)
 			continue;
