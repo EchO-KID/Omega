@@ -25,5 +25,20 @@ package org.cocos2dx.cpp_empty_test;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 
+import com.firebase.client.Firebase;
+
+import android.os.Bundle;
+
 public class AppActivity extends Cocos2dxActivity {
+	 @Override
+	 protected void onCreate(final Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        
+	        Firebase.setAndroidContext(this);
+	        
+	        Firebase firebase = new Firebase("https://blazing-heat-2615.firebaseio.com/");
+	        
+	   
+	        
+	 }
 }
