@@ -615,7 +615,6 @@ Data VirtualFileSystem::getFileDataFromZipFile(const std::string& path, bool bFo
 	if (pos != std::string::npos)
 		newPath = path.substr(pos + _defaultResRootPath.length(), path.length());
 	
-
 	Data retData = Data::Null;
 	unsigned char * buffer = nullptr;
 	unzFile file = nullptr;
