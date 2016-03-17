@@ -75,8 +75,8 @@
     </PreBuildEvent>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\include;$(EngineRoot)external\box2d;$(EngineRoot)external\sqlite3\include;$(EngineRoot)external\unzip;$(EngineRoot)external\edtaa3func;$(EngineRoot)external\tinyxml2;$(EngineRoot)external\png\include\win32;$(EngineRoot)external\jpeg\include\win32;$(EngineRoot)external\tiff\include\win32;$(EngineRoot)external\webp\include\win32;$(EngineRoot)external\freetype2\include\win32;$(EngineRoot)external\win32-specific\OpenalSoft\include;$(EngineRoot)external\win32-specific\MP3Decoder\include;$(EngineRoot)external\win32-specific\OggDecoder\include;$(EngineRoot)external\win32-specific\icon\include;$(EngineRoot)external\win32-specific\zlib\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)external\xxhash;$(EngineRoot)external\ConvertUTF;$(EngineRoot)external\curl\include\win32;$(EngineRoot)external\websockets\include\win32;$(EngineRoot)external\poly2tri\common;$(EngineRoot)external\poly2tri\sweep;$(EngineRoot)external\poly2tri;$(EngineRoot)external\ccpformat;$(EngineRoot)external;$(EngineRoot)cocos;$(EngineRoot)cocos\editor-support;$(EngineRoot)cocos\audio\include;$(EngineRoot)extensions;$(EngineRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;COCOS2DXWIN32_EXPORTS;GL_GLEXT_PROTOTYPES;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USE3DDLL;_EXPORT_DLL_;_USRSTUDIODLL;_USREXDLL;_USEGUIDLL;CC_ENABLE_CHIPMUNK_INTEGRATION=1;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\include;$(EngineRoot)external\box2d;$(EngineRoot)external\sqlite3\include;$(EngineRoot)external\unzip;$(EngineRoot)external\edtaa3func;$(EngineRoot)external\tinyxml2;$(EngineRoot)external\png\include\win32;$(EngineRoot)external\jpeg\include\win32;$(EngineRoot)external\tiff\include\win32;$(EngineRoot)external\webp\include\win32;$(EngineRoot)external\freetype2\include\win32;$(EngineRoot)external\win32-specific\OpenalSoft\include;$(EngineRoot)external\win32-specific\MP3Decoder\include;$(EngineRoot)external\win32-specific\OggDecoder\include;$(EngineRoot)external\win32-specific\icon\include;$(EngineRoot)external\win32-specific\zlib\include;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)external\xxhash;$(EngineRoot)external\ConvertUTF;$(EngineRoot)external\curl\include\win32;$(EngineRoot)external\websockets\include\win32;$(EngineRoot)external\poly2tri\common;$(EngineRoot)external\poly2tri\sweep;$(EngineRoot)external\poly2tri;$(EngineRoot)external\ccpformat;$(EngineRoot)external\tinygettext\include;$(EngineRoot)external\tinygettext\src\win32;$(EngineRoot)external;$(EngineRoot)cocos;$(EngineRoot)cocos\editor-support;$(EngineRoot)cocos\audio\include;$(EngineRoot)extensions;$(EngineRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_USRDLL;_DEBUG;_WINDOWS;_LIB;COCOS2DXWIN32_EXPORTS;GL_GLEXT_PROTOTYPES;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;_USE3DDLL;_EXPORT_DLL_;_USRSTUDIODLL;_USREXDLL;_USEGUIDLL;CC_ENABLE_CHIPMUNK_INTEGRATION=1;PROTOBUF_USE_DLLS;LIBPROTOBUF_EXPORTS;HAVE_ICONV_CONST;ICONV_CONST=const;LIBICONV_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -359,6 +359,16 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\..\external\poly2tri\sweep\cdt.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\sweep.cc" />
     <ClCompile Include="..\..\external\poly2tri\sweep\sweep_context.cc" />
+    <ClCompile Include="..\..\external\tinygettext\src\dictionary.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\dictionary_manager.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\iconv.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\language.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\log.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\plural_forms.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\po_parser.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\tinygettext.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\unix_file_system.cpp" />
+    <ClCompile Include="..\..\external\tinygettext\src\win32\dirent.c" />
     <ClCompile Include="..\..\external\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="..\..\external\unzip\ioapi_mem.cpp" />
     <ClCompile Include="..\..\external\unzip\ioapi.cpp" />
@@ -798,6 +808,18 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\..\external\poly2tri\sweep\cdt.h" />
     <ClInclude Include="..\..\external\poly2tri\sweep\sweep.h" />
     <ClInclude Include="..\..\external\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\dictionary.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\dictionary_manager.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\file_system.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\iconv.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\language.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\log.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\log_stream.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\plural_forms.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\po_parser.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\tinygettext.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\unix_file_system.hpp" />
+    <ClInclude Include="..\..\external\tinygettext\src\win32\dirent.h" />
     <ClInclude Include="..\..\external\tinyxml2\tinyxml2.h" />
     <ClInclude Include="..\..\external\unzip\ioapi_mem.h" />
     <ClInclude Include="..\..\external\unzip\ioapi.h" />

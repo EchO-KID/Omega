@@ -409,7 +409,7 @@ void VirtualFileSystem::addSearchPath(const std::string &searchpath, const bool 
 	}
 }
 
-std::string VirtualFileSystem::getSuitableFOpen(const std::string& filenameUtf8) const   //! 是否要做转换
+std::string VirtualFileSystem::getSuitableFOpen(const std::string& filenameUtf8) const   //! 鏄惁瑕佸仛杞崲
 {
 	return filenameUtf8;
 }

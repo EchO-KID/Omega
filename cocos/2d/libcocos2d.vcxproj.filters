@@ -139,6 +139,9 @@
     <Filter Include="external\cppformat">
       <UniqueIdentifier>{df3eb7c3-4657-4fb1-a459-d46713a2e8ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\tinygettext">
+      <UniqueIdentifier>{d1432b63-3fab-4216-86b8-2855e139fbe8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -1431,6 +1434,36 @@
     </ClCompile>
     <ClCompile Include="..\platform\win32\VirtualFileSystem-win32.cpp">
       <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\dictionary.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\dictionary_manager.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\iconv.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\language.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\log.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\plural_forms.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\po_parser.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\tinygettext.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\unix_file_system.cpp">
+      <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\tinygettext\src\win32\dirent.c">
+      <Filter>external\tinygettext</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2838,6 +2871,42 @@
     </ClInclude>
     <ClInclude Include="..\platform\win32\VirtualFileSystem-win32.h">
       <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\dictionary.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\dictionary_manager.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\file_system.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\iconv.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\language.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\log.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\log_stream.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\plural_forms.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\po_parser.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\tinygettext.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\include\tinygettext\unix_file_system.hpp">
+      <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\external\tinygettext\src\win32\dirent.h">
+      <Filter>external\tinygettext</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

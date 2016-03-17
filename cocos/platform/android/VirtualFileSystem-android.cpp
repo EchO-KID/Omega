@@ -218,7 +218,7 @@ Data VirtualFileSystemAndroid::getDataFromRealFile(const std::string& filename, 
                                relativePath.c_str(),
                                AASSET_MODE_UNKNOWN);
         if (nullptr == asset) {
-            LOGD("asset is nullptr");
+            LOGD("asset is nullptr, relativePath:%s, filename:%s", relativePath.c_str(), filename.c_str());
             return Data::Null;
         }
 

@@ -221,7 +221,16 @@ navmesh/CCNavMeshUtils.cpp \
 ../external/poly2tri/sweep/sweep_context.cc \
 ../external/poly2tri/sweep/sweep.cc \
 ../external/clipper/clipper.cpp \
-../external/cppformat/format.cc
+../external/cppformat/format.cc \
+../external/tinygettext/src/dictionary.cpp \
+../external/tinygettext/src/dictionary_manager.cpp \
+../external/tinygettext/src/iconv.cpp \
+../external/tinygettext/src/language.cpp \
+../external/tinygettext/src/log.cpp \
+../external/tinygettext/src/plural_forms.cpp \
+../external/tinygettext/src/po_parser.cpp \
+../external/tinygettext/src/tinygettext.cpp \
+../external/tinygettext/src/unix_file_system.cpp
 
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
@@ -238,7 +247,9 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/../external/poly2tri \
                     $(LOCAL_PATH)/../external/poly2tri/common \
                     $(LOCAL_PATH)/../external/poly2tri/sweep \
-                    $(LOCAL_PATH)/../external/clipper
+                    $(LOCAL_PATH)/../external/clipper \
+                    $(LOCAL_PATH)/../external/tinygettext/include \
+                    $(LOCAL_PATH)/../external/iconv/include 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/platform \
@@ -253,11 +264,14 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH) \
                     $(LOCAL_PATH)/../external/poly2tri \
                     $(LOCAL_PATH)/../external/poly2tri/common \
                     $(LOCAL_PATH)/../external/poly2tri/sweep \
-                    $(LOCAL_PATH)/../external/clipper
+                    $(LOCAL_PATH)/../external/clipper \
+                    $(LOCAL_PATH)/../external/tinygettext/include \
+                    $(LOCAL_PATH)/../external/iconv/include 
 
 LOCAL_EXPORT_LDLIBS := -lGLESv2 \
                        -llog \
                        -landroid
+                       -l$(LOCAL_PATH)/../external/iconv/prebuilt/libiconv.a
 
 LOCAL_STATIC_LIBRARIES := cocos_freetype2_static
 LOCAL_STATIC_LIBRARIES += cocos_png_static
@@ -274,7 +288,7 @@ LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dxandroid_static
 # define the macro to compile through support/zip_support/ioapi.c
 LOCAL_CFLAGS   :=  -DUSE_FILE32API
 LOCAL_CFLAGS   +=  -fexceptions
-LOCAL_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
+LOCAL_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat 
 LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
 LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations -Wno-extern-c-compat
 
