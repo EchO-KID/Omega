@@ -35,10 +35,10 @@ public class AppActivity extends Cocos2dxActivity {
 	        super.onCreate(savedInstanceState);
 	        
 	        Firebase.setAndroidContext(this);
-	        
 	        Firebase firebase = new Firebase("https://blazing-heat-2615.firebaseio.com/");
+	        firebase.child("user").orderByChild("");
 	        
-	   
+	        
 	        
 	 }
 }

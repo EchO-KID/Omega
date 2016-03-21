@@ -142,6 +142,9 @@
     <Filter Include="external\tinygettext">
       <UniqueIdentifier>{d1432b63-3fab-4216-86b8-2855e139fbe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="i18n">
+      <UniqueIdentifier>{fdfc5f51-141e-47a3-a6fb-8f0e9b407c09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -1464,6 +1467,9 @@
     </ClCompile>
     <ClCompile Include="..\..\external\tinygettext\src\win32\dirent.c">
       <Filter>external\tinygettext</Filter>
+    </ClCompile>
+    <ClCompile Include="..\i18n\L10n.cpp">
+      <Filter>i18n</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2907,6 +2913,9 @@
     </ClInclude>
     <ClInclude Include="..\..\external\tinygettext\src\win32\dirent.h">
       <Filter>external\tinygettext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\i18n\L10n.h">
+      <Filter>i18n</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
