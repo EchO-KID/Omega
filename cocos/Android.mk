@@ -230,7 +230,8 @@ navmesh/CCNavMeshUtils.cpp \
 ../external/tinygettext/src/plural_forms.cpp \
 ../external/tinygettext/src/po_parser.cpp \
 ../external/tinygettext/src/tinygettext.cpp \
-../external/tinygettext/src/unix_file_system.cpp
+../external/tinygettext/src/unix_file_system.cpp \
+i18n/L10n.cpp
 
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH) \
@@ -307,7 +308,6 @@ LOCAL_STATIC_LIBRARIES += cocos3d_static
 LOCAL_STATIC_LIBRARIES += spine_static
 LOCAL_STATIC_LIBRARIES += cocos_network_static
 LOCAL_STATIC_LIBRARIES += audioengine_static
-LOCAL_STATIC_LIBRARIES += i18n_static
 
 include $(BUILD_STATIC_LIBRARY)
 #==============================================================
@@ -324,7 +324,6 @@ $(call import-module,audio/android)
 #$(call import-module,editor-support/cocosbuilder)
 #$(call import-module,editor-support/cocostudio)
 #$(call import-module,editor-support/spine)
-$(call import-module,i18n)
 $(call import-module,network)
 $(call import-module,ui)
 $(call import-module,extensions)
